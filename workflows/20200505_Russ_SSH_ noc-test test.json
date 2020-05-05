@@ -1,0 +1,201 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01FCHEVPPI43I0YMBYjYMj4PV30PsMes4p2",
+    "name": "Russ:SSH: noc-test test",
+    "title": "Russ:SSH: noc-test test",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "hostname",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FCHK5895OIU70FyqAERngnefMaUMQqpz3",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Russ:SSH: noc-test test",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "terminal.unix_linux_endpoint",
+        "target_id": "definition_target_01FCHETJNY0XQ3FKHJhzAMfVfA7X5zVLFi5",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01FCHEZABR7P35itep9eXtq8yFOTHvhDjba",
+        "name": "Execute Linux/Unix SSH Command",
+        "title": "Get K8S API Token",
+        "type": "terminal.ssh_command",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "command": "/usr/bin/kubectl -n kube-system describe secret default | /usr/bin/awk '$1==\"token:\"{print $2}'",
+          "command_timeout": 60,
+          "continue_on_failure": false,
+          "display_name": "Get K8S API Token",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCHK88TXXHV0FtnVywKH1n9XyMzLKYkFW",
+        "name": "Set Variables",
+        "title": "Set Variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01FCHEVPPI43I0YMBYjYMj4PV30PsMes4p2.output.variable_workflow_01FCHK5895OIU70FyqAERngnefMaUMQqpz3$",
+              "variable_value_new": "$activity.definition_activity_01FCHEZABR7P35itep9eXtq8yFOTHvhDjba.output.response_body$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FEVQUJQZ07F0eHEfP4Se34qVH4sQQWiEF",
+        "name": "Execute Linux/Unix SSH Command",
+        "title": "Get Grafana Ingress IP",
+        "type": "terminal.ssh_command",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "command": "/usr/bin/kubectl -n ccp get svc nginx-ingress-controller -o=jsonpath='{.spec.loadBalancerIP}'",
+          "command_timeout": 60,
+          "continue_on_failure": false,
+          "display_name": "Get Grafana Ingress IP",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FEVSQ9F5IAY3FCOcsz2rL5olyYjMnRfo1",
+        "name": "Execute Linux/Unix SSH Command",
+        "title": "Get Grafana Username",
+        "type": "terminal.ssh_command",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "command": "/usr/bin/kubectl -n ccp get secret ccp-monitor-grafana -o=jsonpath='{.data.admin-user}' | base64 -d",
+          "command_timeout": 60,
+          "continue_on_failure": false,
+          "display_name": "Get Grafana Username",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FEVTNCVZJRA37EtUyS1xe4TVX88p3lW7J",
+        "name": "Execute Linux/Unix SSH Command",
+        "title": "Get Grafana Password",
+        "type": "terminal.ssh_command",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "command": "/usr/bin/kubectl -n ccp get secret ccp-monitor-grafana -o=jsonpath='{.data.admin-password}' | base64 -d",
+          "command_timeout": 60,
+          "continue_on_failure": false,
+          "display_name": "Get Grafana Password",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01FCHETJNY0XQ3FKHJhzAMfVfA7X5zVLFi5": {
+      "unique_name": "definition_target_01FCHETJNY0XQ3FKHJhzAMfVfA7X5zVLFi5",
+      "name": "NOC-SSH",
+      "title": "NOC-SSH",
+      "type": "terminal.unix_linux_endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "bash_shell": "/bin/bash",
+        "default_runtime_user_id": "definition_runtime_user_01FCHDT1PR6DA5fYmJvkV0yoxa0aGmtAzD7",
+        "display_name": "NOC-SSH",
+        "host": "10.237.99.118",
+        "port": 22
+      }
+    }
+  },
+  "runtime_users": {
+    "definition_runtime_user_01FCHDT1PR6DA5fYmJvkV0yoxa0aGmtAzD7": {
+      "unique_name": "definition_runtime_user_01FCHDT1PR6DA5fYmJvkV0yoxa0aGmtAzD7",
+      "name": "NOC-ACCOUNT",
+      "title": "NOC-ACCOUNT",
+      "type": "runtime_user.terminal_key_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "display_name": "NOC-ACCOUNT",
+        "key": "*****",
+        "user": "*****"
+      }
+    }
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EY9968RWGQG5nZmvRdmX1gOkRZVtqjHxN",
+    "name": "GRAFANA: Add Grafana Datasource",
+    "title": "GRAFANA: Add Grafana Datasource",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "IP",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EY9968JGIXP3a3qPJZaH8IsAmPdOS7pSS",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Port",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EY9968JGM827Mg2Ge87ZIYbj0ieUJWZgZ",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "GRAFANA: Add Grafana Datasource",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EY996LKYPOE4u54HHLknk4oOKzlJt1X6b",
+        "name": "HTTP Request",
+        "title": "POST to Create Datasource",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n\t\"name\": \"InfluxDB\",\n\t\"type\": \"influxdb\",\n\t\"access\": \"proxy\",\n\t\"isDefault\": false\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Basic YWRtaW46cGpJaUt1dGtmY3k3aU1zd2dpT0hzcXlGbGlaOGdCdEhBcEp0U2FVSQ=="
+            }
+          ],
+          "display_name": "POST to Create Datasource",
+          "method": "POST",
+          "relative_url": "/api/datasources",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EX6EBQG975K6oJ2Pso4yf6iQhbN2R6R1z"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EY996Q9RRTD0yrVNUEaFuSdPflQJt68KY",
+        "name": "JSONPath Query",
+        "title": "Get DatasourceID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Get DatasourceID",
+          "input_json": "$activity.definition_activity_01EY996LKYPOE4u54HHLknk4oOKzlJt1X6b.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.datasource.id",
+              "jsonpath_query_name": "id",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EY996V69KB36Y23wFUA7pXXPpA0SY0e16",
+        "name": "HTTP Request",
+        "title": "PUT To Update Datasource",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"id\": $activity.definition_activity_01EY996Q9RRTD0yrVNUEaFuSdPflQJt68KY.output.jsonpath_queries.id$,\n\t\"name\": \"InfluxDB\",\n\t\"type\": \"influxdb\",\n\t\"access\": \"proxy\",\n\t\"url\": \"http://$workflow.definition_workflow_01EY9968RWGQG5nZmvRdmX1gOkRZVtqjHxN.input.variable_workflow_01EY9968JGIXP3a3qPJZaH8IsAmPdOS7pSS$:$workflow.definition_workflow_01EY9968RWGQG5nZmvRdmX1gOkRZVtqjHxN.input.variable_workflow_01EY9968JGM827Mg2Ge87ZIYbj0ieUJWZgZ$\",\n\t\"password\": \"\",\n\t\"user\": \"\",\n\t\"database\": \"pvt\",\n\t\"basicAuth\": false,\n\t\"basicAuthUser\": \"\",\n\t\"basicAuthPassword\": \"\",\n\t\"withCredentials\": false,\n\t\"isDefault\": false,\n\t\"secureJsonFields\": {},\n\t\"version\": 1,\n\t\"readOnly\": false\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Basic YWRtaW46cGpJaUt1dGtmY3k3aU1zd2dpT0hzcXlGbGlaOGdCdEhBcEp0U2FVSQ=="
+            }
+          ],
+          "display_name": "PUT To Update Datasource",
+          "method": "PUT",
+          "relative_url": "/api/datasources/$activity.definition_activity_01EY996Q9RRTD0yrVNUEaFuSdPflQJt68KY.output.jsonpath_queries.id$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EX6EBQG975K6oJ2Pso4yf6iQhbN2R6R1z"
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01F8HOOA7IYXN4F8crCp3jHnGQzngfi6ELA"
+    ]
+  },
+  "categories": {
+    "category_01F8HOOA7IYXN4F8crCp3jHnGQzngfi6ELA": {
+      "unique_name": "category_01F8HOOA7IYXN4F8crCp3jHnGQzngfi6ELA",
+      "name": "Grafana",
+      "title": "Grafana",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_01EX6EBQG975K6oJ2Pso4yf6iQhbN2R6R1z": {
+      "unique_name": "definition_target_01EX6EBQG975K6oJ2Pso4yf6iQhbN2R6R1z",
+      "name": "Grafana",
+      "title": "Grafana",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "Grafana",
+        "host": "10.30.1.121",
+        "no_runtime_user": true,
+        "path": "/grafana/",
+        "port": 443,
+        "protocol": "https"
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EZ4M0PNFZK369JNqRRFagHOSJy9MAKEfY",
+    "name": "RabbitMQ Publish Message",
+    "title": "RabbitMQ Publish Message",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": null,
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "RabbitMQ Publish Message",
+      "target": {
+        "target_type": "amqp.endpoint",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EZQ8OFA8R0T3GkIEu7lm6NngvPtMPfKfZ",
+        "name": " Declare AMQP Queue",
+        "title": " Declare AMQP Queue",
+        "type": "amqp.declare_queue",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "auto_delete": false,
+          "continue_on_failure": false,
+          "display_name": " Declare AMQP Queue",
+          "durable": false,
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

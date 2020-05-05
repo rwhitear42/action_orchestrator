@@ -1,0 +1,1043 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV",
+    "name": "INFLUXDB: Deploy InfluxDB on K8S",
+    "title": "INFLUXDB: Deploy InfluxDB on K8S",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Target IP ID",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EZJZ3JZ05O80NbK6C70g6YTTN7SvcNXhz",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "eyJhbGciOiJSUzI1NiIsImtpZCI6Il80T1lVRUt3ZVQ3NEgxZU9uU3JBZXVjaWhWN1J5TU9VSmo1eEVNdUNVMm8ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkZWZhdWx0LXRva2VuLWJ6aG5nIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImRlZmF1bHQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJhOTNhMzcyMS1kNTY2LTQwYTktOGJiZS0wOWJkY2Q4NTU2N2UiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06ZGVmYXVsdCJ9.lvRRaHeo1G8tSpeNmnocZIkoWREjAJF_7lIhCX6PXVw0mY3pRmEggHDEH4DPIO1asz4TzhnRw0V9Vlyq7GCSP9qKvIhb19WWAvDuDb_kSEcAsGgL-J3g7je7SLXm4HkL4VcJnx8-j9x6QCFILmdCVF3VriwJHcyOKdbpQS3aTUFV9_nwuOp_8IaI-eT2kjn9CKg0PPreN8ozdwj4MZ70o9joNNT7oXnTOMf6rEtzUi19CongtQBzz5Nvh13qldAPvSSR9Qy9RpvIp_jodVl7pkU7QIkccT0i9W9j7pMW9CeuLm9N6FP1zJmnl99FO1gV7km8rPkbwz6reVfKbmZYpg",
+          "scope": "local",
+          "name": "K8S TOKEN",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EZ16H4JS4WS2NhCiSuYNjCqPL8MqBsBxF",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "Installs InfluxDB into a Kubernetes environment, along with the PVC, and LoadBalancer type service",
+      "display_name": "INFLUXDB: Deploy InfluxDB on K8S",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01F6S2NLV38EQ4Zg5hiMeg0qdvbpQsyHRRp",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EZ12O3VT5V92jS4TabCX79G7L0jQppo7R",
+        "name": "HTTP Request",
+        "title": "Create InfluxDB K8S Credentials",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"apiVersion\": \"v1\",\n  \"data\": {\n    \"INFLUXDB_DATABASE\": \"VEVTVERCCg==\",\n    \"INFLUXDB_HOST\": \"aW5mbHV4REIK\",\n    \"INFLUXDB_PASSWORD\": \"Q3BpbmcgMTAuNTIuMjA2LjY1Y28xMjMK\",\n    \"INFLUXDB_USERNAME\": \"YWRtaW4K\"\n  },\n  \"kind\": \"Secret\",\n  \"metadata\": {\n    \"creationTimestamp\": \"2020-04-09T08:17:26Z\",\n    \"name\": \"influxdb-creds\",\n    \"namespace\": \"default\",\n    \"selfLink\": \"/api/v1/namespaces/default/secrets/influxdb-creds\",\n    \"uid\": \"0945b660-000e-4d09-8ab6-42d5830e5f39\"\n  },\n  \"type\": \"Opaque\"\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV.local.variable_workflow_01EZ16H4JS4WS2NhCiSuYNjCqPL8MqBsBxF$"
+            }
+          ],
+          "display_name": "Create InfluxDB K8S Credentials",
+          "method": "POST",
+          "relative_url": "/api/v1/namespaces/default/secrets?dryRun=All",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6SUZBIZ15W20NZQgVz1EvogPO5b6YoJt",
+        "name": "Condition Block",
+        "title": "Check HTTP STATUS CODE",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check HTTP STATUS CODE",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01F6SUZDH8RF14KlTBvg6Ws5rEowdbYogBS",
+            "name": "Condition Branch",
+            "title": "EQUALS 201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01EZ12O3VT5V92jS4TabCX79G7L0jQppo7R.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01F6SVJJLJ5FX5231zMmsDCwUcy233oCE7Y",
+                "name": "HTTP Request",
+                "title": "Create InfluxDB K8S Credentials",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "body": "{\n  \"apiVersion\": \"v1\",\n  \"data\": {\n    \"INFLUXDB_DATABASE\": \"VEVTVERCCg==\",\n    \"INFLUXDB_HOST\": \"aW5mbHV4REIK\",\n    \"INFLUXDB_PASSWORD\": \"Q3BpbmcgMTAuNTIuMjA2LjY1Y28xMjMK\",\n    \"INFLUXDB_USERNAME\": \"YWRtaW4K\"\n  },\n  \"kind\": \"Secret\",\n  \"metadata\": {\n    \"creationTimestamp\": \"2020-04-09T08:17:26Z\",\n    \"name\": \"influxdb-creds\",\n    \"namespace\": \"default\",\n    \"selfLink\": \"/api/v1/namespaces/default/secrets/influxdb-creds\",\n    \"uid\": \"0945b660-000e-4d09-8ab6-42d5830e5f39\"\n  },\n  \"type\": \"Opaque\"\n}",
+                  "content_type": "application/json",
+                  "continue_on_error_status_code": true,
+                  "continue_on_failure": false,
+                  "custom_headers": [
+                    {
+                      "name": "Authorization",
+                      "value": "Bearer $workflow.definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV.local.variable_workflow_01EZ16H4JS4WS2NhCiSuYNjCqPL8MqBsBxF$"
+                    }
+                  ],
+                  "display_name": "Create InfluxDB K8S Credentials",
+                  "method": "POST",
+                  "relative_url": "/api/v1/namespaces/default/secrets",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "use_workflow_target": true
+                  }
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01F8H1IF2U9716pEd29qY8splWIOd5U4ZQd",
+            "name": "Condition Branch",
+            "title": "EQUALS 409",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01EZ12O3VT5V92jS4TabCX79G7L0jQppo7R.output.status_code$",
+                "operator": "eq",
+                "right_operand": 409
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 409",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01F8H1O1B9JHR5FjtwTiYB9TNnoian5n5i3",
+            "name": "Condition Branch",
+            "title": "ELSE FAIL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01EZ12O3VT5V92jS4TabCX79G7L0jQppo7R.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 201
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01EZ12O3VT5V92jS4TabCX79G7L0jQppo7R.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 409
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "ELSE FAIL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01F8H21KE96WD799wJKcqbiQa92NZvOTLJo",
+                "name": "Failed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "display_name": "Failed",
+                  "result_message": "Error"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01EZKWF1Y6POT3OEyQgAKho5F4rQ749Ac7G",
+        "name": "HTTP Request",
+        "title": "Create PVC",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"apiVersion\": \"v1\",\n  \"kind\": \"PersistentVolumeClaim\",\n  \"metadata\": {\n    \"labels\": {\n      \"app\": \"influxdb\"\n    },\n    \"name\": \"influxdb\"\n  },\n  \"spec\": {\n    \"accessModes\": [\n      \"ReadWriteOnce\"\n    ],\n    \"resources\": {\n      \"requests\": {\n        \"storage\": \"1Gi\"\n      }\n    }\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV.local.variable_workflow_01EZ16H4JS4WS2NhCiSuYNjCqPL8MqBsBxF$"
+            }
+          ],
+          "display_name": "Create PVC",
+          "method": "POST",
+          "relative_url": "/api/v1/namespaces/default/persistentvolumeclaims?dryRun=All",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6T1FUB09U47knlK0Q8UF2ZwObKauNRHt",
+        "name": "Condition Block",
+        "title": "Check HTTP STATUS CODE",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check HTTP STATUS CODE",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01F6T1FV6N90Z2mSj0raA00WUUbMwcw75yC",
+            "name": "Condition Branch",
+            "title": "EQUALS 201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01EZKWF1Y6POT3OEyQgAKho5F4rQ749Ac7G.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01F6T6S2RAQQS389ISXswQwqtAhB4cMajcr",
+                "name": "HTTP Request",
+                "title": "Create PVC",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "body": "{\n  \"apiVersion\": \"v1\",\n  \"kind\": \"PersistentVolumeClaim\",\n  \"metadata\": {\n    \"labels\": {\n      \"app\": \"influxdb\"\n    },\n    \"name\": \"influxdb\"\n  },\n  \"spec\": {\n    \"accessModes\": [\n      \"ReadWriteOnce\"\n    ],\n    \"resources\": {\n      \"requests\": {\n        \"storage\": \"1Gi\"\n      }\n    }\n  }\n}",
+                  "content_type": "application/json",
+                  "continue_on_error_status_code": false,
+                  "continue_on_failure": false,
+                  "custom_headers": [
+                    {
+                      "name": "Authorization",
+                      "value": "Bearer $workflow.definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV.local.variable_workflow_01EZ16H4JS4WS2NhCiSuYNjCqPL8MqBsBxF$"
+                    }
+                  ],
+                  "display_name": "Create PVC",
+                  "method": "POST",
+                  "relative_url": "/api/v1/namespaces/default/persistentvolumeclaims",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "use_workflow_target": true
+                  }
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01F8H2D9NBUMD3NT9bXZWtQtj0QuPwkJY6m",
+            "name": "Condition Branch",
+            "title": "EQUALS 409",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01EZKWF1Y6POT3OEyQgAKho5F4rQ749Ac7G.output.status_code$",
+                "operator": "eq",
+                "right_operand": 409
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 409",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01F8H2I9W711O7KbFn6dHDYQrbCkcV8d7fA",
+            "name": "Condition Branch",
+            "title": "ELSE FAIL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01EZKWF1Y6POT3OEyQgAKho5F4rQ749Ac7G.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 201
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01EZKWF1Y6POT3OEyQgAKho5F4rQ749Ac7G.output.status_code$",
+                  "operator": "eq",
+                  "right_operand": 409
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "ELSE FAIL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01F8H2RVF07E06tHS1DTCrXWUEYIYhKoHA8",
+                "name": "Failed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "display_name": "Failed",
+                  "result_message": "Error"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01EZ43P4XPN4I0U5lmcBBWQVo1rGNASbrRi",
+        "name": "HTTP Request",
+        "title": "Create Deployment",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"apiVersion\": \"apps/v1\",\n  \"kind\": \"Deployment\",\n  \"metadata\": {\n    \"namespace\": \"default\",\n    \"annotations\": null,\n    \"creationTimestamp\": null,\n    \"generation\": 1,\n    \"labels\": {\n      \"app\": \"influxdb\"\n    },\n    \"name\": \"influxdb\"\n  },\n  \"spec\": {\n    \"progressDeadlineSeconds\": 600,\n    \"replicas\": 1,\n    \"revisionHistoryLimit\": 10,\n    \"selector\": {\n      \"matchLabels\": {\n        \"app\": \"influxdb\"\n      }\n    },\n    \"strategy\": {\n      \"rollingUpdate\": {\n        \"maxSurge\": \"25%\",\n        \"maxUnavailable\": \"25%\"\n      },\n      \"type\": \"RollingUpdate\"\n    },\n    \"template\": {\n      \"metadata\": {\n        \"creationTimestamp\": null,\n        \"labels\": {\n          \"app\": \"influxdb\"\n        }\n      },\n      \"spec\": {\n        \"containers\": [\n          {\n            \"envFrom\": [\n              {\n                \"secretRef\": {\n                  \"name\": \"influxdb-creds\"\n                }\n              }\n            ],\n            \"image\": \"docker.io/influxdb:1.6.4\",\n            \"imagePullPolicy\": \"IfNotPresent\",\n            \"name\": \"influxdb\",\n            \"resources\": {},\n            \"terminationMessagePath\": \"/dev/termination-log\",\n            \"terminationMessagePolicy\": \"File\",\n            \"volumeMounts\": [\n              {\n                \"mountPath\": \"/var/lib/influxdb\",\n                \"name\": \"var-lib-influxdb\"\n              }\n            ]\n          }\n        ],\n        \"dnsPolicy\": \"ClusterFirst\",\n        \"restartPolicy\": \"Always\",\n        \"schedulerName\": \"default-scheduler\",\n        \"securityContext\": {},\n        \"terminationGracePeriodSeconds\": 30,\n        \"volumes\": [\n          {\n            \"name\": \"var-lib-influxdb\",\n            \"persistentVolumeClaim\": {\n              \"claimName\": \"influxdb\"\n            }\n          }\n        ]\n      }\n    }\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV.local.variable_workflow_01EZ16H4JS4WS2NhCiSuYNjCqPL8MqBsBxF$"
+            }
+          ],
+          "display_name": "Create Deployment",
+          "method": "POST",
+          "relative_url": "/apis/apps/v1/namespaces/default/deployments?dryRun=All",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6T771ZSEBP0YY9q8DF9THad6PjPE5gH2",
+        "name": "Condition Block",
+        "title": "Check HTTP STATUS CODE",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check HTTP STATUS CODE",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01F6T772YKKVM6um08nAZrofHgUlCOAJPnS",
+            "name": "Condition Branch",
+            "title": "EQUALS 201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01EZ43P4XPN4I0U5lmcBBWQVo1rGNASbrRi.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01F6T7E26BVRN1aDnVoZy6WY4uGQZY7LYSE",
+                "name": "HTTP Request",
+                "title": "Create Deployment",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "body": "{\n  \"apiVersion\": \"apps/v1\",\n  \"kind\": \"Deployment\",\n  \"metadata\": {\n    \"namespace\": \"default\",\n    \"annotations\": null,\n    \"creationTimestamp\": null,\n    \"generation\": 1,\n    \"labels\": {\n      \"app\": \"influxdb\"\n    },\n    \"name\": \"influxdb\"\n  },\n  \"spec\": {\n    \"progressDeadlineSeconds\": 600,\n    \"replicas\": 1,\n    \"revisionHistoryLimit\": 10,\n    \"selector\": {\n      \"matchLabels\": {\n        \"app\": \"influxdb\"\n      }\n    },\n    \"strategy\": {\n      \"rollingUpdate\": {\n        \"maxSurge\": \"25%\",\n        \"maxUnavailable\": \"25%\"\n      },\n      \"type\": \"RollingUpdate\"\n    },\n    \"template\": {\n      \"metadata\": {\n        \"creationTimestamp\": null,\n        \"labels\": {\n          \"app\": \"influxdb\"\n        }\n      },\n      \"spec\": {\n        \"containers\": [\n          {\n            \"envFrom\": [\n              {\n                \"secretRef\": {\n                  \"name\": \"influxdb-creds\"\n                }\n              }\n            ],\n            \"image\": \"docker.io/influxdb:1.6.4\",\n            \"imagePullPolicy\": \"IfNotPresent\",\n            \"name\": \"influxdb\",\n            \"resources\": {},\n            \"terminationMessagePath\": \"/dev/termination-log\",\n            \"terminationMessagePolicy\": \"File\",\n            \"volumeMounts\": [\n              {\n                \"mountPath\": \"/var/lib/influxdb\",\n                \"name\": \"var-lib-influxdb\"\n              }\n            ]\n          }\n        ],\n        \"dnsPolicy\": \"ClusterFirst\",\n        \"restartPolicy\": \"Always\",\n        \"schedulerName\": \"default-scheduler\",\n        \"securityContext\": {},\n        \"terminationGracePeriodSeconds\": 30,\n        \"volumes\": [\n          {\n            \"name\": \"var-lib-influxdb\",\n            \"persistentVolumeClaim\": {\n              \"claimName\": \"influxdb\"\n            }\n          }\n        ]\n      }\n    }\n  }\n}",
+                  "content_type": "application/json",
+                  "continue_on_error_status_code": false,
+                  "continue_on_failure": false,
+                  "custom_headers": [
+                    {
+                      "name": "Authorization",
+                      "value": "Bearer $workflow.definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV.local.variable_workflow_01EZ16H4JS4WS2NhCiSuYNjCqPL8MqBsBxF$"
+                    }
+                  ],
+                  "display_name": "Create Deployment",
+                  "method": "POST",
+                  "relative_url": "/apis/apps/v1/namespaces/default/deployments",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "use_workflow_target": true
+                  }
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01F8H318F3WDR3BEL2kVUIeL4vdPqQNiBba",
+            "name": "Condition Branch",
+            "title": "EQUALS 409",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01EZ43P4XPN4I0U5lmcBBWQVo1rGNASbrRi.output.status_code$",
+                "operator": "eq",
+                "right_operand": 409
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 409",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01F8H391CJYGS0LRCuYGynr87k4z7OnRaNK",
+            "name": "Condition Branch",
+            "title": "ELSE FAIL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01EZ43P4XPN4I0U5lmcBBWQVo1rGNASbrRi.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 201
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01EZ43P4XPN4I0U5lmcBBWQVo1rGNASbrRi.output.status_code$",
+                  "operator": "eq",
+                  "right_operand": 409
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "ELSE FAIL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01EZIQOMDX9ZZ1vk6yHy2FSXCBxTmAfR3cW",
+        "name": "HTTP Request",
+        "title": "Create Service",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"apiVersion\": \"v1\",\n  \"kind\": \"Service\",\n  \"metadata\": {\n    \"labels\": {\n      \"app\": \"influxdb\"\n    },\n    \"name\": \"influxdb\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"ports\": [\n      {\n        \"port\": 8086,\n\"targetPort\": 8086\n      }\n    ],\n    \"selector\": {\n      \"app\": \"influxdb\"\n    },\n    \"type\": \"LoadBalancer\"\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV.local.variable_workflow_01EZ16H4JS4WS2NhCiSuYNjCqPL8MqBsBxF$"
+            }
+          ],
+          "display_name": "Create Service",
+          "method": "POST",
+          "relative_url": "/api/v1/namespaces/default/services?dryRun=All",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6T7Y60046R6V3nXpSLBVBiZZuWv06U3P",
+        "name": "Condition Block",
+        "title": "Check HTTP STATUS CODE",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check HTTP STATUS CODE",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01F6T7Y7274WM5DQAnhi6z9agatU8pjDVtu",
+            "name": "Condition Branch",
+            "title": "EQUALS 201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01EZIQOMDX9ZZ1vk6yHy2FSXCBxTmAfR3cW.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01F6T81IL8TPD7c5o1zrcVM5wmghIM8NpVH",
+                "name": "HTTP Request",
+                "title": "Create Service",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "body": "{\n  \"apiVersion\": \"v1\",\n  \"kind\": \"Service\",\n  \"metadata\": {\n    \"labels\": {\n      \"app\": \"influxdb\"\n    },\n    \"name\": \"influxdb\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"ports\": [\n      {\n        \"port\": 8086,\n\"targetPort\": 8086\n      }\n    ],\n    \"selector\": {\n      \"app\": \"influxdb\"\n    },\n    \"type\": \"LoadBalancer\"\n  }\n}",
+                  "content_type": "application/json",
+                  "continue_on_error_status_code": false,
+                  "continue_on_failure": false,
+                  "custom_headers": [
+                    {
+                      "name": "Authorization",
+                      "value": "Bearer $workflow.definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV.local.variable_workflow_01EZ16H4JS4WS2NhCiSuYNjCqPL8MqBsBxF$"
+                    }
+                  ],
+                  "display_name": "Create Service",
+                  "method": "POST",
+                  "relative_url": "/api/v1/namespaces/default/services",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "use_workflow_target": true
+                  }
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01F8H3MVUFR2N45cA6OFTWPMuuEH9LHVroC",
+            "name": "Condition Branch",
+            "title": "EQUALS 409",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01EZIQOMDX9ZZ1vk6yHy2FSXCBxTmAfR3cW.output.status_code$",
+                "operator": "eq",
+                "right_operand": 409
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 409",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01F8H3WC0EV5K6lzZTM0I5cxNKnrhIbAw4R",
+            "name": "Condition Branch",
+            "title": "ELSE FAIL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01EZIQOMDX9ZZ1vk6yHy2FSXCBxTmAfR3cW.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 201
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01EZIQOMDX9ZZ1vk6yHy2FSXCBxTmAfR3cW.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 409
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "ELSE FAIL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01F8H3ZPAFKBI6UvNDmo4AptNh8OWt6KMPi",
+                "name": "Failed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "display_name": "Failed",
+                  "result_message": "Error"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01EZIYBH2SYRX2FCj3VxeW5UcG64HWyJWOy",
+        "name": "HTTP Request",
+        "title": "Get Service IP",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV.local.variable_workflow_01EZ16H4JS4WS2NhCiSuYNjCqPL8MqBsBxF$"
+            }
+          ],
+          "display_name": "Get Service IP",
+          "method": "GET",
+          "relative_url": "/api/v1/namespaces/default/services/influxdb",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZJ4XEA31ZX7M1UHijZtonteKeiKmp6vo",
+        "name": "JSONPath Query",
+        "title": "Get LoadBalancer IP",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Get LoadBalancer IP",
+          "input_json": "$activity.definition_activity_01EZIYBH2SYRX2FCj3VxeW5UcG64HWyJWOy.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.status.loadBalancer.ingress[0].ip",
+              "jsonpath_query_name": "ip",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZJRU0IRHHV5xLQ6hb8maSwj38I5oy7Jv",
+        "name": "Generic CCS API Request",
+        "title": "Get CCS Targets",
+        "type": "ccs.api_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "api_call_method": "GET",
+          "continue_on_failure": false,
+          "display_name": "Get CCS Targets",
+          "relative_url": "/be-console/api/v1/targets",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01f9IQgvQRJv3tvlqwR145Bbrye0toH0Q"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZJX5JJA9FY4oDpEyjI86pSVTbJiG4tQj",
+        "name": "Convert Json to Xml",
+        "title": "Convert CCS Targets Output to Xml",
+        "type": "core.json2xml",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Convert CCS Targets Output to Xml",
+          "input_json": "$activity.definition_activity_01EZJRU0IRHHV5xLQ6hb8maSwj38I5oy7Jv.output.response_body$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZJXPCWTUST5e8Idz1hw2qI6XKmVJXSoS",
+        "name": "XSL Transform",
+        "title": "Parse Target IP ID from XML",
+        "type": "core.xsl_transform",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Parse Target IP ID from XML",
+          "document": "$activity.definition_activity_01EZJX5JJA9FY4oDpEyjI86pSVTbJiG4tQj.output.output_xml$",
+          "skip_execution": false,
+          "stylesheet": "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">\n\n\t<xsl:output method=\"html\" indent=\"yes\"/>\n  \n  <xsl:template match=\"/\">\n      <xsl:for-each select=\"root/object\" >\n         <xsl:if test=\"name='InfluxDB Placeholder'\">\n           <xsl:value-of select=\"id\"/>    \n         </xsl:if>    \n      </xsl:for-each>\n    \n\t</xsl:template>\n</xsl:stylesheet>"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZJZ828Z7S933iSf42EYROn0Z1LqLXjrw",
+        "name": "Set Variables",
+        "title": "Save Target IP ID",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Save Target IP ID",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV.local.variable_workflow_01EZJZ3JZ05O80NbK6C70g6YTTN7SvcNXhz$",
+              "variable_value_new": "$activity.definition_activity_01EZJXPCWTUST5e8Idz1hw2qI6XKmVJXSoS.output.output_document$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZK2BVLQD1G7ADikt40GdqjhTjec7Gu5d",
+        "name": "Generic CCS API Request",
+        "title": "Update InfluxDB  AO Target with LoadBalancer IP",
+        "type": "ccs.api_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "api_body": "{\n  \"properties\": {\n\t\t\"disable_certificate_validation\": true,\n\t\t\"display_name\": \"InfluxDB Placeholder\",\n\t\t\"host\": \"$activity.definition_activity_01EZJ4XEA31ZX7M1UHijZtonteKeiKmp6vo.output.jsonpath_queries.ip$\",\n\t\t\"no_runtime_user\": true,\n\t\t\"port\": 8086,\n\t\t\"protocol\": \"http\"\n\t}\n}",
+          "api_call_method": "PUT",
+          "continue_on_failure": false,
+          "display_name": "Update InfluxDB  AO Target with LoadBalancer IP",
+          "relative_url": "/be-console/api/v1/targets/$workflow.definition_workflow_01EZ12CSE9V641S71Fx4bf2qFUz3UbcElXV.local.variable_workflow_01EZJZ3JZ05O80NbK6C70g6YTTN7SvcNXhz$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01f9IQgvQRJv3tvlqwR145Bbrye0toH0Q"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZK9JCNUTKS3arqp8qPdega7oHa7dDVMu",
+        "name": "Sleep",
+        "title": "Short Pause to give InfluxDB time to Breathe",
+        "type": "core.sleep",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Short Pause to give InfluxDB time to Breathe",
+          "skip_execution": false,
+          "sleep_interval": 60
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZL6IQPAKLK3g9QohQDM1FU3QMsosGjtR",
+        "name": "HTTP Request",
+        "title": "Create InfluxDB Database",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "q=CREATE DATABASE \"ACI\"",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Create InfluxDB Database",
+          "method": "POST",
+          "relative_url": "/query",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01EY7DW88LY3I4mccck7HwHrfWFdjrM8s7z",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZUP2QVIY2I6Nr7my0A9SLlYcdSDmF9Ya",
+        "name": "HTTP Request",
+        "title": "Add InfluxDB Datasource to Grafana",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n\t\"name\": \"InfluxDB\",\n\t\"type\": \"influxdb\",\n\t\"access\": \"proxy\",\n\t\"isDefault\": false\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            ""
+          ],
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Basic YWRtaW46QzhBTWRzTG5udjloWXJ4VUV2cG5XTlpMWjdpcHBNaXBZdVhScXBwbA=="
+            }
+          ],
+          "display_name": "Add InfluxDB Datasource to Grafana",
+          "method": "POST",
+          "relative_url": "/grafana/api/datasources",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01EZUNKVIZ2T12NeKpjHfBUFRGLdjnqmhjM",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZURU41D5M052Yw6L639ZB71ZgsoepsI4",
+        "name": "JSONPath Query",
+        "title": "Get New Datasource ID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Get New Datasource ID",
+          "input_json": "$activity.definition_activity_01EZUP2QVIY2I6Nr7my0A9SLlYcdSDmF9Ya.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.datasource.id",
+              "jsonpath_query_name": "id",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZUTFX9MX1J58YENV3OMPpvZ6uvsbjZ2o",
+        "name": "HTTP Request",
+        "title": "Update Datasource",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"id\": $activity.definition_activity_01EZURU41D5M052Yw6L639ZB71ZgsoepsI4.output.jsonpath_queries.id$,\n\t\"name\": \"InfluxDB\",\n\t\"type\": \"influxdb\",\n\t\"access\": \"proxy\",\n\t\"url\": \"http://10.237.99.19:8086\",\n\t\"password\": \"\",\n\t\"user\": \"\",\n\t\"database\": \"ACI\",\n\t\"basicAuth\": false,\n\t\"basicAuthUser\": \"\",\n\t\"basicAuthPassword\": \"\",\n\t\"withCredentials\": false,\n\t\"isDefault\": false,\n\t\"secureJsonFields\": {},\n\t\"version\": 1,\n\t\"readOnly\": false\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Basic YWRtaW46QzhBTWRzTG5udjloWXJ4VUV2cG5XTlpMWjdpcHBNaXBZdVhScXBwbA=="
+            }
+          ],
+          "display_name": "Update Datasource",
+          "method": "PUT",
+          "relative_url": "/grafana/api/datasources/$activity.definition_activity_01EZURU41D5M052Yw6L639ZB71ZgsoepsI4.output.jsonpath_queries.id$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01EZUNKVIZ2T12NeKpjHfBUFRGLdjnqmhjM",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn"
+    ]
+  },
+  "categories": {
+    "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn": {
+      "unique_name": "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn",
+      "name": "InfluxDB",
+      "title": "InfluxDB",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_01EY7DW88LY3I4mccck7HwHrfWFdjrM8s7z": {
+      "unique_name": "definition_target_01EY7DW88LY3I4mccck7HwHrfWFdjrM8s7z",
+      "name": "InfluxDB Placeholder",
+      "title": "InfluxDB Placeholder",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "InfluxDB Placeholder",
+        "host": "10.237.99.105",
+        "no_runtime_user": true,
+        "port": 8086,
+        "protocol": "http"
+      }
+    },
+    "definition_target_01EZUNKVIZ2T12NeKpjHfBUFRGLdjnqmhjM": {
+      "unique_name": "definition_target_01EZUNKVIZ2T12NeKpjHfBUFRGLdjnqmhjM",
+      "name": "influx-grafana",
+      "title": "influx-grafana",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "influx-grafana",
+        "host": "10.237.99.25",
+        "no_runtime_user": true,
+        "port": 443,
+        "protocol": "https"
+      }
+    },
+    "definition_target_01F6S2NLV38EQ4Zg5hiMeg0qdvbpQsyHRRp": {
+      "unique_name": "definition_target_01F6S2NLV38EQ4Zg5hiMeg0qdvbpQsyHRRp",
+      "name": "K8s-RabbitMQ",
+      "title": "K8s-RabbitMQ",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "K8s-RabbitMQ",
+        "host": "10.237.99.111",
+        "no_runtime_user": true,
+        "port": 6443,
+        "protocol": "https"
+      }
+    }
+  }
+}

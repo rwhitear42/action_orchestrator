@@ -1,0 +1,486 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EV7E7CR0R115ubhar03tPu7nZsltgd8kg",
+    "name": "ACI:InfluxDB:  Get Fabric Healthscore",
+    "title": "ACI:InfluxDB:  Get Fabric Healthscore",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "aci_fabric_health",
+          "scope": "local",
+          "name": "ACI Fabric Health",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EVA7XXI7RAX4TgOcT0jUkDzB8meyi3iYN",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "UKTME",
+          "scope": "local",
+          "name": "influxDB Table Name",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EXV7BL90LB95C2HtT2kYDMODkLK8mIERg",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "tabletype_01EV9J38C3J7E4B9WrfpvlyC93KrxOX7Qil",
+        "properties": {
+          "scope": "local",
+          "name": "InfluxDB Commands",
+          "type": "datatype.table",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EV9JJ6HCO2H28OpTvVCwVq2FdBchEnkCc",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": true,
+      "display_name": "ACI:InfluxDB:  Get Fabric Healthscore",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EVAH842U1GE12MCfOTb76DGEH3Bs5OJyR",
+        "name": "Authenticate to ACI",
+        "title": "Authenticate to ACI",
+        "type": "workflow.sub_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "display_name": "Authenticate to ACI",
+          "input": {
+            "variable_workflow_01ERYXKVGLXS75rsMovzwMAalAE7XgvqPs5": "admin",
+            "variable_workflow_01ERYY5UI5E0X1pmyX21Yaotno4QsjZJOjN": "*****"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "target": {
+            "no_target": true
+          },
+          "workflow_id": "definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EVAHMPG37DL4yC34NHNxwHEhUgzOdC101",
+        "name": "HTTP Request",
+        "title": "Get ACI Spine/Leaf Health",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            "APIC-Cookie=$activity.definition_activity_01EVAH842U1GE12MCfOTb76DGEH3Bs5OJyR.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$"
+          ],
+          "display_name": "Get ACI Spine/Leaf Health",
+          "method": "GET",
+          "relative_url": "/api/node/class/topSystem.json?query-target-filter=not(wcard(topSystem.dn,\"__ui_\"))&rsp-subtree-include=health,required",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EV9ZSSXAHT55ORnnAN9953NmXoETEEfqj",
+        "name": "Convert Json to Xml",
+        "title": "Convert Json to Xml",
+        "type": "core.json2xml",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Convert Json to Xml",
+          "input_json": "$activity.definition_activity_01EVAHMPG37DL4yC34NHNxwHEhUgzOdC101.output.response_body$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EV990SQZEYM0RMXSEMM4BdUtuFeajTD27",
+        "name": "XSL Transform",
+        "title": "XSL Transform",
+        "type": "core.xsl_transform",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "XSL Transform",
+          "document": "$activity.definition_activity_01EV9ZSSXAHT55ORnnAN9953NmXoETEEfqj.output.output_xml$",
+          "skip_execution": false,
+          "stylesheet": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">\n\n<xsl:template match=\"/doc\">\n<commands>\n  <xsl:for-each select=\"imdata/topSystem\">\n        <influxCmd>\n            <Cmd>$workflow.definition_workflow_01EV7E7CR0R115ubhar03tPu7nZsltgd8kg.local.variable_workflow_01EVA7XXI7RAX4TgOcT0jUkDzB8meyi3iYN$,name=<xsl:value-of select=\"attributes/name\"/> healthscore=<xsl:value-of select=\"children/healthInst/attributes/cur\"/></Cmd>\n        </influxCmd>\n  </xsl:for-each>\n</commands>\n</xsl:template>\n</xsl:stylesheet>"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EV9WJ9QSO0I776ydWJ7Ry7lgzlgAeFtZh",
+        "name": "Read Table from XML",
+        "title": "Read Table from XML",
+        "type": "corejava.read_table_from_xml",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Read Table from XML",
+          "input_xml": "$activity.definition_activity_01EV990SQZEYM0RMXSEMM4BdUtuFeajTD27.output.output_document$",
+          "persist_output": false,
+          "populate_columns": false,
+          "skip_execution": false,
+          "table_columns": [
+            {
+              "column_name": "Cmd",
+              "column_type": "string"
+            }
+          ],
+          "xmlpath_query": "/commands/influxCmd"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EXUO74XZEQD5gsKnrantRlMYk3FXPUDww",
+        "name": "For Each",
+        "title": "For Each",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For Each",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01EV9WJ9QSO0I776ydWJ7Ry7lgzlgAeFtZh.output.read_table_from_xml$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01EXV7GWH1UAE7doV9HjKcsTQXzN300Cufu",
+            "name": "HTTP Request",
+            "title": "Write Data to InfluxDB",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "accept": "*/*",
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "body": "$activity.definition_activity_01EXUO74XZEQD5gsKnrantRlMYk3FXPUDww.input.source_array[@].Cmd$",
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "custom_headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/x-www-form-urlencoded"
+                }
+              ],
+              "display_name": "Write Data to InfluxDB",
+              "method": "POST",
+              "relative_url": "/write?db=$workflow.definition_workflow_01EV7E7CR0R115ubhar03tPu7nZsltgd8kg.local.variable_workflow_01EXV7BL90LB95C2HtT2kYDMODkLK8mIERg$&precision=s",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": true,
+                "target_id": "definition_target_01EXAQEXOF5AV1u7LFzUlshsHkR16SQbtik"
+              }
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "triggers": {
+    "triggerschedule_01EXWE12X24SH700AwKaorWony4bD17va2f": {
+      "workflow_id": "definition_workflow_01EV7E7CR0R115ubhar03tPu7nZsltgd8kg",
+      "name": "Run Every 6 Minutes",
+      "title": "",
+      "lowercase_name": "schedule.run_every_6_minutes",
+      "type": "schedule",
+      "base_type": "trigger",
+      "ref_id": "schedule_01EXWC2SOWZV04bQU2TMNZg8EsJAukntewA",
+      "version": "",
+      "disabled": true,
+      "unique_name": "triggerschedule_01EXWE12X24SH700AwKaorWony4bD17va2f",
+      "object_type": "triggerschedule"
+    },
+    "triggerschedule_01F0EU6PF1KEK5xYJ01NDvNG0Rh5cyUaOYl": {
+      "workflow_id": "definition_workflow_01EV7E7CR0R115ubhar03tPu7nZsltgd8kg",
+      "name": "Every 6 Mins 24 Hrs per Day",
+      "title": "",
+      "lowercase_name": "schedule.every_6_mins_24_hrs_per_day",
+      "type": "schedule",
+      "base_type": "trigger",
+      "ref_id": "schedule_01EZRWIU52GSU5qKDLQ8XNMF9v9qqEbjhjQ",
+      "version": "1.0.0",
+      "disabled": false,
+      "unique_name": "triggerschedule_01F0EU6PF1KEK5xYJ01NDvNG0Rh5cyUaOYl",
+      "object_type": "triggerschedule"
+    }
+  },
+  "schedules": {
+    "schedule_01EXWC2SOWZV04bQU2TMNZg8EsJAukntewA": {
+      "unique_name": "schedule_01EXWC2SOWZV04bQU2TMNZg8EsJAukntewA",
+      "name": "ACI Fabric Health Score",
+      "type": "basic.schedule",
+      "base_type": "schedule",
+      "properties": {
+        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+        "timezone": "Etc/GMT+0",
+        "starttime": "08:10",
+        "interval_hours": 0,
+        "interval_minutes": 6,
+        "number_of_times": 155,
+        "display_name": "ACI Fabric Health Score",
+        "description": ""
+      },
+      "version": "1.0.0",
+      "object_type": "schedule"
+    },
+    "schedule_01EZRWIU52GSU5qKDLQ8XNMF9v9qqEbjhjQ": {
+      "unique_name": "schedule_01EZRWIU52GSU5qKDLQ8XNMF9v9qqEbjhjQ",
+      "name": "6 Minute Intervals 24 Hours per Day",
+      "type": "basic.schedule",
+      "base_type": "schedule",
+      "properties": {
+        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+        "timezone": "Etc/GMT+0",
+        "starttime": "00:00",
+        "interval_hours": 0,
+        "interval_minutes": 6,
+        "number_of_times": 240,
+        "display_name": "6 Minute Intervals 24 Hours per Day",
+        "description": ""
+      },
+      "version": "1.0.0",
+      "object_type": "schedule"
+    }
+  },
+  "targets": {
+    "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ": {
+      "unique_name": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+      "name": "ACI-01",
+      "title": "ACI-01",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "ACI-01",
+        "host": "10.237.96.201",
+        "no_runtime_user": true,
+        "port": 443,
+        "protocol": "https"
+      }
+    },
+    "definition_target_01EXAQEXOF5AV1u7LFzUlshsHkR16SQbtik": {
+      "unique_name": "definition_target_01EXAQEXOF5AV1u7LFzUlshsHkR16SQbtik",
+      "name": "InfluxDB",
+      "title": "InfluxDB",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "InfluxDB",
+        "host": "10.237.97.143",
+        "no_runtime_user": true,
+        "port": 8086,
+        "protocol": "http"
+      }
+    }
+  },
+  "table_types": {
+    "tabletype_01EV9J38C3J7E4B9WrfpvlyC93KrxOX7Qil": {
+      "unique_name": "tabletype_01EV9J38C3J7E4B9WrfpvlyC93KrxOX7Qil",
+      "data_type": "datatype.tabletype",
+      "display_name": "InfluxDB Commands",
+      "columns": [
+        {
+          "is_required": true,
+          "name": "Command",
+          "title": "InfluxDB Command",
+          "type": "string"
+        }
+      ],
+      "base_type": "datatype",
+      "object_type": "tabletype"
+    }
+  },
+  "subworkflows": [
+    {
+      "workflow": {
+        "unique_name": "definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr",
+        "name": "Authenticate to ACI",
+        "title": "Authenticate to ACI",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+          {
+            "schema_id": "datatype.secure_string",
+            "properties": {
+              "value": "*****",
+              "scope": "input",
+              "name": "password",
+              "type": "datatype.secure_string",
+              "is_required": false
+            },
+            "unique_name": "variable_workflow_01ERYY5UI5E0X1pmyX21Yaotno4QsjZJOjN",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.secure_string",
+            "properties": {
+              "value": "",
+              "scope": "output",
+              "name": "access_token",
+              "type": "datatype.secure_string",
+              "is_required": false
+            },
+            "unique_name": "variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "admin",
+              "scope": "input",
+              "name": "username",
+              "type": "datatype.string",
+              "is_required": false
+            },
+            "unique_name": "variable_workflow_01ERYXKVGLXS75rsMovzwMAalAE7XgvqPs5",
+            "object_type": "variable_workflow"
+          }
+        ],
+        "properties": {
+          "atomic": {
+            "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "display_name": "Authenticate to ACI",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "specify_on_workflow_start": false,
+            "target_default": true
+          },
+          "target": {
+            "execute_on_target_group": false,
+            "execute_on_workflow_target": false,
+            "no_target": true,
+            "specify_on_workflow_start": false
+          }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01ERYYO3EYNZT5RjjInRPBi3QvWD1e3UjFA",
+            "name": "HTTP Request",
+            "title": "Authenticate",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "body": "{\n  \"aaaUser\":{\n    \"attributes\":{ \n      \"name\":\"$workflow.definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr.input.variable_workflow_01ERYXKVGLXS75rsMovzwMAalAE7XgvqPs5$\",\n      \"pwd\":\"$workflow.definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr.input.variable_workflow_01ERYY5UI5E0X1pmyX21Yaotno4QsjZJOjN$\"\n    }\n  }\n}",
+              "content_type": "application/json",
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "display_name": "Authenticate",
+              "method": "POST",
+              "relative_url": "/api/aaaLogin.json",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": true,
+                "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ"
+              }
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01ERZ0WZWIBL33TFPAqad84UxrEKBnFnTzw",
+            "name": "JSONPath Query",
+            "title": "JSONPath Query",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "JSONPath Query",
+              "input_json": "$activity.definition_activity_01ERYYO3EYNZT5RjjInRPBi3QvWD1e3UjFA.output.response_body$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.imdata[0].aaaLogin.attributes.token",
+                  "jsonpath_query_name": "access_token",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01ERZ2DKTU8QB04tNTka8ih9GH3NeUT5rEP",
+            "name": "Set Variables",
+            "title": "Set Variables",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Set Variables",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$",
+                  "variable_value_new": "$activity.definition_activity_01ERZ0WZWIBL33TFPAqad84UxrEKBnFnTzw.output.jsonpath_queries.access_token$"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ],
+        "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,922 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2",
+    "name": "CCP: Deploy K8S Cluster On-Prem w/Add-Ons",
+    "title": "CCP: Deploy K8S Cluster On-Prem w/Add-Ons",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Target Host and Port",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ES4LL453KHM3DsFDx1lX4qL2aqBVztyZO",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "clusterStatus",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ES39PV6KIRQ65hFO6isuRVEHi63auAggg",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "        {\n            \"network_plugin_profile\": {\n                \"name\": \"calico\",\n                \"details\": {\n                    \"pod_cidr\": \"192.168.0.0/16\"\n                }\n            },\n            \"vsphere_infra\": {\n                \"datacenter\": \"###DATACENTER###\",\n                \"datastore\": \"###DATASTORE###\",\n                \"networks\": [\"###NETWORKS###\"],\n                \"cluster\": \"###CLUSTER###\",\n                \"resource_pool\": \"###RESOURCE_POOL###\"\n            },\n            \"load_balancer_num\": 3,\n            \"subnet_id\": \"###SUBNET_ID###\",\n            \"node_groups\": [{\n                \"name\": \"node-group\",\n                \"size\": 1,\n                \"vcpus\": 2,\n                \"memory_mb\": 16384,\n                \"gpus\": [],\n                \"template\": \"ccp-tenant-image-1.16.3-ubuntu18-6.0.0\",\n                \"kubernetes_version\": \"1.16.3\",\n                \"ssh_user\": \"admin\",\n                \"ssh_key\": \"###SSH_KEY###\"\n            }],\n            \"master_group\": {\n                \"name\": \"master-group\",\n                \"size\": 1,\n                \"vcpus\": 2,\n                \"memory_mb\": 16384,\n                \"gpus\": [],\n                \"template\": \"ccp-tenant-image-1.16.3-ubuntu18-6.0.0\",\n                \"kubernetes_version\": \"1.16.3\",\n                \"ssh_user\": \"admin\",\n                \"ssh_key\": \"###SSH_KEY###\"\n            },\n            \"kubernetes_version\": \"1.16.3\",\n            \"insecure_registries\": [],\n            \"root_ca_registries\": [],\n            \"ntp_servers\": [],\n            \"ntp_pools\": [],\n            \"ip_allocation_method\": \"ccpnet\",\n            \"provider\": \"###PROVIDER###\",\n            \"name\": \"###CLUSTER_NAME###\",\n            \"type\": \"vsphere\"\n        }",
+          "scope": "local",
+          "name": "ccpCluster.json",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES39PV6KSPL7EMn4cmingwpNjrRoy92zV",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "hx-prod",
+          "scope": "input",
+          "name": "Cluster",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES39PV6KP3B35YeeLybAiYqm27jmstg20",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "UKTME",
+          "scope": "input",
+          "name": "Datacenter",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES39PV6KEPM4I3hSXA5jcyHZJ67UMvDtZ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "production",
+          "scope": "input",
+          "name": "Datastore",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES39PV6KBXJ67qWIKjIgbepYewAnLxWdX",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Resource Pool",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ES39PV6KMMO1drlFUyDB9o34sxKPHsAm5",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "10.237.99.96_27_rwhitear-ccp-tenants",
+          "scope": "input",
+          "name": "Networks",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES39PV6KRIM4kmmvD2s8qn9wyuvSKWHQy",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDkv0NtOeR4250oodCQ1LjCcmQjEt5Wc7mfMuexgPDu/ rwhitear@russ0ubuntu",
+          "scope": "input",
+          "name": "SSH Key",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES39PV6KQAJ3yfv2uWf5qfhx5KRr0IeLi",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Token",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ES39PV6KG3C7GBCuGJdHRKHrV0h1vyX5L",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "CCP Cluster Name",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES39PV6KL6U206IZcOQ1fv5vzpSDcpQ9F",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "4812d8d5-4029-4a03-919f-f5d75b53c552",
+          "scope": "local",
+          "name": "Subnet Id",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES39PV6K8IU3zyBI4zdmMtJsu9PvXAg11",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.boolean",
+        "properties": {
+          "value": true,
+          "scope": "input",
+          "name": "Install Grafana Add-On",
+          "type": "datatype.boolean",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EXT3GKCJIVX30kVOV4LsqJNaa1Ge4NmTo",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "admin",
+          "scope": "local",
+          "name": "CCP Username",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES39PV6KK0K6gQ5hUenfHcta9NVuzxuZ7",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "tabletype_01D4FRY7RW3FS5CvkrFf1qUf7SVNfySuBUO",
+        "properties": {
+          "scope": "local",
+          "name": "CCP Headers",
+          "type": "datatype.table",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ES39PV6KHIF48F9IccG231PmM5dF8onIQ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.boolean",
+        "properties": {
+          "value": false,
+          "scope": "input",
+          "name": "Install Dashboard Add-On",
+          "type": "datatype.boolean",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EXT3V7QDWYX3SBrkefthzc6bGFnZ8Pq9G",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "local",
+          "name": "CCP Password",
+          "type": "datatype.secure_string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES39PV6KNWH2WWOzQJtHVfkUnrVVAbQtl",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "7cf2eae2-ee0f-4ac0-8e6e-126075bd5674",
+          "scope": "local",
+          "name": "Provider",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES39PV6KDE12pUs0WtNX77bs2OoZCXXFs",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "CCP: Deploy K8S Cluster On-Prem w/Add-Ons",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01ES39QF9R2JV3gwRR2cb4HlJiWWvOzNRgY",
+        "name": "HTTP Request",
+        "title": "CCP Login",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\"username\":\"$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KK0K6gQ5hUenfHcta9NVuzxuZ7$\",\"password\":\"$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KNWH2WWOzQJtHVfkUnrVVAbQtl$\"}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "display_name": "CCP Login",
+          "method": "POST",
+          "relative_url": "/v3/system/login",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ES4K4D7Y3NN3ab33nr6VcpIRNlVEBePn9",
+        "name": "JSONPath Query",
+        "title": "JSONPath Query",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "JSONPath Query",
+          "input_json": "$activity.definition_activity_01ES39QF9R2JV3gwRR2cb4HlJiWWvOzNRgY.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.to_host",
+              "jsonpath_query_name": "target-host-port",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ES4LSDMYK9Z7Zqyezwf8Ukuuv4V5tgDEB",
+        "name": "Set Variables",
+        "title": "Set Variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES4LL453KHM3DsFDx1lX4qL2aqBVztyZO$",
+              "variable_value_new": "$activity.definition_activity_01ES4K4D7Y3NN3ab33nr6VcpIRNlVEBePn9.output.jsonpath_queries.target-host-port$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ES39QI1SE3U3dPNsXYHzSmKSRfQLqj5IJ",
+        "name": "For Each",
+        "title": "Retrieve Token",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Retrieve Token",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01ES39QF9R2JV3gwRR2cb4HlJiWWvOzNRgY.output.response_headers$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01ES39QMDQ0IC7YY0ug5VH8Xq18zdkUeRu9",
+            "name": "Condition Block",
+            "title": "Condition Block",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Condition Block",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01ES39QOL0ISU3t3RIKDa16kTVRTegJbwGM",
+                "name": "Condition Branch",
+                "title": "Condition Branch",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01ES39QI1SE3U3dPNsXYHzSmKSRfQLqj5IJ.input.source_array[@].name$",
+                    "operator": "eq",
+                    "right_operand": "X-Auth-Token"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Condition Branch",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01ES39QRCGNPO0uBNF5ICW49Mz67x42A7oA",
+                    "name": "Set Variables",
+                    "title": "Retrieve X-Auth-Token",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Retrieve X-Auth-Token",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KG3C7GBCuGJdHRKHrV0h1vyX5L$",
+                          "variable_value_new": "$activity.definition_activity_01ES39QI1SE3U3dPNsXYHzSmKSRfQLqj5IJ.input.source_array[@].value$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01ES39QUB1ZC24XlXgUee46IxgcnfSZiBGZ",
+        "name": "Condition Block",
+        "title": "Condition Block",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Condition Block",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01ES39QWF2YJ04si8THjVqXqJNQJPmLFeHB",
+            "name": "Condition Branch",
+            "title": "Condition Branch",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KG3C7GBCuGJdHRKHrV0h1vyX5L$",
+                "operator": "ne",
+                "right_operand": "\"\""
+              },
+              "continue_on_failure": false,
+              "display_name": "Condition Branch",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01ES39QZQX0HG1HR8pcctO184hJkZ9JlSEc",
+                "name": "Replace String",
+                "title": "Update ccpCluster JSON",
+                "type": "core.replacestring",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Update ccpCluster JSON",
+                  "input_string": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KSPL7EMn4cmingwpNjrRoy92zV$",
+                  "replace_list": [
+                    {
+                      "replaced_string": "###DATACENTER###",
+                      "replacement_string": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.input.variable_workflow_01ES39PV6KEPM4I3hSXA5jcyHZJ67UMvDtZ$"
+                    },
+                    {
+                      "replaced_string": "###DATASTORE###",
+                      "replacement_string": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.input.variable_workflow_01ES39PV6KBXJ67qWIKjIgbepYewAnLxWdX$"
+                    },
+                    {
+                      "replaced_string": "###CLUSTER###",
+                      "replacement_string": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.input.variable_workflow_01ES39PV6KP3B35YeeLybAiYqm27jmstg20$"
+                    },
+                    {
+                      "replaced_string": "###CLUSTER_NAME###",
+                      "replacement_string": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.input.variable_workflow_01ES39PV6KL6U206IZcOQ1fv5vzpSDcpQ9F$"
+                    },
+                    {
+                      "replaced_string": "###NETWORKS###",
+                      "replacement_string": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.input.variable_workflow_01ES39PV6KRIM4kmmvD2s8qn9wyuvSKWHQy$"
+                    },
+                    {
+                      "replaced_string": "###PROVIDER###",
+                      "replacement_string": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KDE12pUs0WtNX77bs2OoZCXXFs$"
+                    },
+                    {
+                      "replaced_string": "###SSH_KEY###",
+                      "replacement_string": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.input.variable_workflow_01ES39PV6KQAJ3yfv2uWf5qfhx5KRr0IeLi$"
+                    },
+                    {
+                      "replaced_string": "###SUBNET_ID###",
+                      "replacement_string": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6K8IU3zyBI4zdmMtJsu9PvXAg11$"
+                    },
+                    {
+                      "replaced_string": "###RESOURCE_POOL###",
+                      "replacement_string": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.input.variable_workflow_01ES39PV6KMMO1drlFUyDB9o34sxKPHsAm5$"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01ES39R3K5KMT4Xk41XktOgq7JQhpJMGRap",
+                "name": "HTTP Request",
+                "title": "CCP Create Cluster",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "body": "$activity.definition_activity_01ES39QZQX0HG1HR8pcctO184hJkZ9JlSEc.output.result_string$",
+                  "content_type": "application/json",
+                  "continue_on_error_status_code": false,
+                  "continue_on_failure": false,
+                  "custom_headers": [
+                    {
+                      "name": "x-auth-token",
+                      "value": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KG3C7GBCuGJdHRKHrV0h1vyX5L$"
+                    }
+                  ],
+                  "display_name": "CCP Create Cluster",
+                  "method": "POST",
+                  "relative_url": "/v3/clusters/",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target": true,
+                    "target_id": "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO"
+                  }
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01ES39R7RTYYI5Ib7dA1pQZhMXjPKHIWDD3",
+                "name": "JSONPath Query",
+                "title": "Retrieve Cluster Id",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Retrieve Cluster Id",
+                  "input_json": "$activity.definition_activity_01ES39R3K5KMT4Xk41XktOgq7JQhpJMGRap.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.id",
+                      "jsonpath_query_name": "clusterid",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01ES39RC6QCR46Cc9WS8pPOIH5ArQyPI8A1",
+                "name": "HTTP Request",
+                "title": "Query CCP Cluster  Creation Status",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "content_type": "application/json",
+                  "continue_on_error_status_code": false,
+                  "continue_on_failure": false,
+                  "custom_headers": [
+                    {
+                      "name": "x-auth-token",
+                      "value": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KG3C7GBCuGJdHRKHrV0h1vyX5L$"
+                    }
+                  ],
+                  "display_name": "Query CCP Cluster  Creation Status",
+                  "method": "GET",
+                  "relative_url": "/v3/clusters/$activity.definition_activity_01ES39R7RTYYI5Ib7dA1pQZhMXjPKHIWDD3.output.jsonpath_queries.clusterid$",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target": true,
+                    "target_id": "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO"
+                  }
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01ES39RGMLBNM2Wi0EkOJUD4UPGEkN2jwIx",
+                "name": "JSONPath Query",
+                "title": "JSONPath Query",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "JSONPath Query",
+                  "input_json": "$activity.definition_activity_01ES39RC6QCR46Cc9WS8pPOIH5ArQyPI8A1.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.status",
+                      "jsonpath_query_name": "status",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01ES39RJPNCEY27xXeN9710fs8du65GI8IZ",
+                "name": "Set Variables",
+                "title": "Set Variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set Variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KIRQ65hFO6isuRVEHi63auAggg$",
+                      "variable_value_new": "$activity.definition_activity_01ES39RGMLBNM2Wi0EkOJUD4UPGEkN2jwIx.output.jsonpath_queries.status$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01ES39RMPZWJX6Qz24GlNeDU5BynaH5aacX",
+                "name": "While Loop",
+                "title": "While Loop",
+                "type": "logic.while",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "While Loop",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01ES39ROQFLPP0MIZjmbT47KM215RUNR46Z",
+                    "name": "Condition Branch",
+                    "title": "Condition Branch",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KIRQ65hFO6isuRVEHi63auAggg$",
+                        "operator": "ne",
+                        "right_operand": "READY"
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Condition Branch",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01ES39RSMC8GO1PZQ2SCvbFvgYx6Jgh2zWn",
+                        "name": "HTTP Request",
+                        "title": "Query CCP Cluster  Creation Status",
+                        "type": "web-service.http_request",
+                        "base_type": "activity",
+                        "properties": {
+                          "action_timeout": 180,
+                          "allow_auto_redirect": true,
+                          "content_type": "application/json",
+                          "continue_on_error_status_code": false,
+                          "continue_on_failure": false,
+                          "custom_headers": [
+                            {
+                              "name": "x-auth-token",
+                              "value": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KG3C7GBCuGJdHRKHrV0h1vyX5L$"
+                            }
+                          ],
+                          "display_name": "Query CCP Cluster  Creation Status",
+                          "method": "GET",
+                          "relative_url": "/v3/clusters/$activity.definition_activity_01ES39R7RTYYI5Ib7dA1pQZhMXjPKHIWDD3.output.jsonpath_queries.clusterid$",
+                          "runtime_user": {
+                            "override_target_runtime_user": false,
+                            "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                            "override_workflow_target": true,
+                            "target_id": "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO"
+                          }
+                        },
+                        "object_type": "definition_activity"
+                      },
+                      {
+                        "unique_name": "definition_activity_01ES39RX2L7270XYJm4WCaryc7I2wjZH3OK",
+                        "name": "JSONPath Query",
+                        "title": "JSONPath Query",
+                        "type": "corejava.jsonpathquery",
+                        "base_type": "activity",
+                        "properties": {
+                          "action_timeout": 180,
+                          "continue_on_failure": false,
+                          "display_name": "JSONPath Query",
+                          "input_json": "$activity.definition_activity_01ES39RSMC8GO1PZQ2SCvbFvgYx6Jgh2zWn.output.response_body$",
+                          "jsonpath_queries": [
+                            {
+                              "jsonpath_query": "$.status",
+                              "jsonpath_query_name": "status",
+                              "jsonpath_query_type": "string"
+                            }
+                          ],
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      },
+                      {
+                        "unique_name": "definition_activity_01ES39S0BVVXV745yulkvE9Q31KaF9bo0jf",
+                        "name": "Set Variables",
+                        "title": "Set Variables",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Set Variables",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                            {
+                              "variable_to_update": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KIRQ65hFO6isuRVEHi63auAggg$",
+                              "variable_value_new": "$activity.definition_activity_01ES39RX2L7270XYJm4WCaryc7I2wjZH3OK.output.jsonpath_queries.status$"
+                            }
+                          ]
+                        },
+                        "object_type": "definition_activity"
+                      },
+                      {
+                        "unique_name": "definition_activity_01ES39S3PMUAO5a7H8gR8KFYz27cHqHTY3p",
+                        "name": "Sleep",
+                        "title": "Sleep",
+                        "type": "core.sleep",
+                        "base_type": "activity",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Sleep",
+                          "skip_execution": false,
+                          "sleep_interval": 30
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01EXT40KMRS6D3HZ1IyQCa3eTxXqjMDqQhO",
+                "name": "Condition Block",
+                "title": "Install Grafana Add-On?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Install Grafana Add-On?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01EXT40MCMH84072XN0a4hP1HEI9nlgJnYL",
+                    "name": "Condition Branch",
+                    "title": "Check User Input",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.input.variable_workflow_01EXT3GKCJIVX30kVOV4LsqJNaa1Ge4NmTo$",
+                        "operator": "eq",
+                        "right_operand": true
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Check User Input",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01ES3KBFK1U002jV36onan1fhBIDbZZQ7hE",
+                        "name": "HTTP Request",
+                        "title": "Install Grafana Add-On",
+                        "type": "web-service.http_request",
+                        "base_type": "activity",
+                        "properties": {
+                          "accept": "*/*",
+                          "action_timeout": 180,
+                          "allow_auto_redirect": false,
+                          "body": "{\n  \"displayName\": \"Monitoring\",\n  \"name\": \"ccp-monitor\",\n  \"namespace\": \"ccp\",\n  \"description\": \"Monitoring\",\n  \"url\": \"/opt/ccp/charts/ccp-monitor.tgz\"\n}",
+                          "content_type": "application/json",
+                          "continue_on_error_status_code": false,
+                          "continue_on_failure": false,
+                          "custom_headers": [
+                            {
+                              "name": "x-auth-token",
+                              "value": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KG3C7GBCuGJdHRKHrV0h1vyX5L$"
+                            }
+                          ],
+                          "display_name": "Install Grafana Add-On",
+                          "method": "POST",
+                          "relative_url": "/v3/clusters/$activity.definition_activity_01ES39R7RTYYI5Ib7dA1pQZhMXjPKHIWDD3.output.jsonpath_queries.clusterid$/addons/",
+                          "runtime_user": {
+                            "override_target_runtime_user": false,
+                            "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                            "override_workflow_target": true,
+                            "target_id": "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO"
+                          }
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "unique_name": "definition_activity_01EXT50Z012AH5SvnQSBWgWDilUkNjAfSLw",
+                "name": "Condition Block",
+                "title": "Install Dashboard Add-On?",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Install Dashboard Add-On?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01EXT50ZTQAI33X9qaHC0PJy0PTBPdmVmUY",
+                    "name": "Condition Branch",
+                    "title": "Check User Input",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.input.variable_workflow_01EXT3V7QDWYX3SBrkefthzc6bGFnZ8Pq9G$",
+                        "operator": "eq",
+                        "right_operand": true
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Check User Input",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01ES7UIKHZY8L4WOiOwaOPWw68DbOhCWrwN",
+                        "name": "HTTP Request",
+                        "title": "Install K8S Dashboard Add-On",
+                        "type": "web-service.http_request",
+                        "base_type": "activity",
+                        "properties": {
+                          "accept": "*/*",
+                          "action_timeout": 180,
+                          "allow_auto_redirect": false,
+                          "body": "{\n  \"displayName\": \"Dashboard\",\n  \"name\": \"kubernetes-dashboard\",\n  \"namespace\": \"ccp\",\n  \"description\": \"Dashboard\",\n  \"url\": \"/opt/ccp/charts/kubernetes-dashboard.tgz\",\n  \"overrideFiles\": [\n    \"/opt/ccp/charts/kubernetes-dashboard.yaml\"\n  ]\n}",
+                          "content_type": "application/json",
+                          "continue_on_error_status_code": false,
+                          "continue_on_failure": false,
+                          "custom_headers": [
+                            {
+                              "name": "x-auth-token",
+                              "value": "$workflow.definition_workflow_01ES39PVBQIAS2WkEKmkhouczWRX9erXMp2.local.variable_workflow_01ES39PV6KG3C7GBCuGJdHRKHrV0h1vyX5L$"
+                            }
+                          ],
+                          "display_name": "Install K8S Dashboard Add-On",
+                          "method": "POST",
+                          "relative_url": "/v3/clusters/$activity.definition_activity_01ES39R7RTYYI5Ib7dA1pQZhMXjPKHIWDD3.output.jsonpath_queries.clusterid$/addons/",
+                          "runtime_user": {
+                            "override_target_runtime_user": false,
+                            "target_default": true
+                          },
+                          "skip_execution": false,
+                          "target": {
+                            "override_workflow_target": true,
+                            "target_id": "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO"
+                          }
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01F6QZ9YKW68B0KKdSUSQqKLh9BeLJyugL0"
+    ]
+  },
+  "categories": {
+    "category_01F6QZ9YKW68B0KKdSUSQqKLh9BeLJyugL0": {
+      "unique_name": "category_01F6QZ9YKW68B0KKdSUSQqKLh9BeLJyugL0",
+      "name": "CCP",
+      "title": "CCP",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO": {
+      "unique_name": "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO",
+      "name": "CCP",
+      "title": "CCP",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "CCP",
+        "host": "10.237.99.68",
+        "no_runtime_user": true,
+        "path": "/",
+        "port": 443,
+        "protocol": "https"
+      }
+    }
+  },
+  "table_types": {
+    "tabletype_01D4FRY7RW3FS5CvkrFf1qUf7SVNfySuBUO": {
+      "unique_name": "tabletype_01D4FRY7RW3FS5CvkrFf1qUf7SVNfySuBUO",
+      "data_type": "datatype.tabletype",
+      "display_name": "CCP Headers",
+      "columns": [
+        {
+          "is_required": true,
+          "name": "Name",
+          "title": "Name",
+          "type": "string"
+        },
+        {
+          "is_required": true,
+          "name": "Value",
+          "title": "Value",
+          "type": "string"
+        }
+      ],
+      "base_type": "datatype",
+      "object_type": "tabletype"
+    }
+  }
+}

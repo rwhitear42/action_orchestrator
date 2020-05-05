@@ -1,0 +1,282 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01ES5TA8A5XUR0aT255clxl1M872AHcPf54",
+    "name": "CCP: Install CCP Addon",
+    "title": "CCP: Install CCP Addon",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "cba6dbcb-ca61-4bed-8514-00cbcbbf111a",
+          "scope": "input",
+          "name": "ClusterID",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES5X2EBTFUN1SNA13ozEFQapwoOjy1XgV",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "input",
+          "name": "CCP Password",
+          "type": "datatype.secure_string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES5TA84M9B819yqR7HVLqtWgCdIzDemV4",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Token",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ES5TA84MCXD3JBQGvgt9XqmxFCtrtMgeW",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "tabletype_01D4FRY7RW3FS5CvkrFf1qUf7SVNfySuBUO",
+        "properties": {
+          "scope": "local",
+          "name": "CCP Headers",
+          "type": "datatype.table",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ES5TA84M8321jXs863F56AgNYdMvoKbpb",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "admin",
+          "scope": "input",
+          "name": "CCP Username",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ES5TA84LXIV0MBwoCt7IHyqWFXoSTmvVP",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "CCP: Install CCP Addon",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01ES5TASJDCMS15YNu36fOiY6zBgkIx5qYo",
+        "name": "HTTP Request",
+        "title": "CCP Login",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\"username\":\"$workflow.definition_workflow_01ES5TA8A5XUR0aT255clxl1M872AHcPf54.input.variable_workflow_01ES5TA84LXIV0MBwoCt7IHyqWFXoSTmvVP$\",\"password\":\"$workflow.definition_workflow_01ES5TA8A5XUR0aT255clxl1M872AHcPf54.input.variable_workflow_01ES5TA84M9B819yqR7HVLqtWgCdIzDemV4$\"}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "display_name": "CCP Login",
+          "method": "POST",
+          "relative_url": "/v3/system/login",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ES5TAVG761T3TGcuNyHruWACBeRm6ZYWV",
+        "name": "For Each",
+        "title": "Retrieve Token",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Retrieve Token",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01ES5TASJDCMS15YNu36fOiY6zBgkIx5qYo.output.response_headers$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01ES5TAZIRJLQ1fUoV80xHnMh3t9QK0iqRZ",
+            "name": "Condition Block",
+            "title": "Condition Block",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Condition Block",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_01ES5TB1SQ9CD2H75FPbW0CJJR7hqkiiXns",
+                "name": "Condition Branch",
+                "title": "Condition Branch",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_01ES5TAVG761T3TGcuNyHruWACBeRm6ZYWV.input.source_array[@].name$",
+                    "operator": "eq",
+                    "right_operand": "X-Auth-Token"
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Condition Branch",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_01ES5TB4QG7KR02aqgtaSsPLkPUe5ax3uFQ",
+                    "name": "Set Variables",
+                    "title": "Retrieve X-Auth-Token",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Retrieve X-Auth-Token",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_01ES5TA8A5XUR0aT255clxl1M872AHcPf54.local.variable_workflow_01ES5TA84MCXD3JBQGvgt9XqmxFCtrtMgeW$",
+                          "variable_value_new": "$activity.definition_activity_01ES5TAVG761T3TGcuNyHruWACBeRm6ZYWV.input.source_array[@].value$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01ES5TW1XQCK54SCqu1pORUSl4mZr7ZvCG6",
+        "name": "HTTP Request",
+        "title": "Install Addon",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"displayName\": \"Monitoring\",\n  \"name\": \"ccp-monitor\",\n  \"namespace\": \"ccp\",\n  \"description\": \"Monitoring\",\n  \"url\": \"/opt/ccp/charts/ccp-monitor.tgz\"\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "X-Auth-Token",
+              "value": "$workflow.definition_workflow_01ES5TA8A5XUR0aT255clxl1M872AHcPf54.local.variable_workflow_01ES5TA84MCXD3JBQGvgt9XqmxFCtrtMgeW$"
+            }
+          ],
+          "display_name": "Install Addon",
+          "method": "POST",
+          "relative_url": "/v3/clusters/$workflow.definition_workflow_01ES5TA8A5XUR0aT255clxl1M872AHcPf54.input.variable_workflow_01ES5X2EBTFUN1SNA13ozEFQapwoOjy1XgV$/addons/",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01F6QZ9YKW68B0KKdSUSQqKLh9BeLJyugL0"
+    ]
+  },
+  "categories": {
+    "category_01F6QZ9YKW68B0KKdSUSQqKLh9BeLJyugL0": {
+      "unique_name": "category_01F6QZ9YKW68B0KKdSUSQqKLh9BeLJyugL0",
+      "name": "CCP",
+      "title": "CCP",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO": {
+      "unique_name": "definition_target_01D4FHZ2VK0XE14XNtkOVMgM28k4hA4hTYO",
+      "name": "CCP",
+      "title": "CCP",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "CCP",
+        "host": "10.237.99.68",
+        "no_runtime_user": true,
+        "path": "/",
+        "port": 443,
+        "protocol": "https"
+      }
+    }
+  },
+  "table_types": {
+    "tabletype_01D4FRY7RW3FS5CvkrFf1qUf7SVNfySuBUO": {
+      "unique_name": "tabletype_01D4FRY7RW3FS5CvkrFf1qUf7SVNfySuBUO",
+      "data_type": "datatype.tabletype",
+      "display_name": "CCP Headers",
+      "columns": [
+        {
+          "is_required": true,
+          "name": "Name",
+          "title": "Name",
+          "type": "string"
+        },
+        {
+          "is_required": true,
+          "name": "Value",
+          "title": "Value",
+          "type": "string"
+        }
+      ],
+      "base_type": "datatype",
+      "object_type": "tabletype"
+    }
+  }
+}

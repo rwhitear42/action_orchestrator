@@ -1,0 +1,201 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01FEGGZL7URZN6OYAeHOEYBhet6nmpjHh38",
+    "name": "RABBITMQ - Exchange ",
+    "title": "RABBITMQ - Exchange ",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "local",
+          "name": "Counter",
+          "type": "datatype.integer",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FEGIZOYV1GW3hIVp2jx7p4Snt2WFAiHfw",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "RABBITMQ - Exchange ",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "amqp.endpoint",
+        "target_id": "definition_target_01F8GPUB2AV7G5TQcsWqqgFmuTw48s6ydef",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01FEGHAX5M72D7FIvImYk9SD6gVC6nfKNjp",
+        "name": "Bind AMQP Queue",
+        "title": "Bind AMQP Queue",
+        "type": "amqp.bind_queue",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Bind AMQP Queue",
+          "exchange_name": "aocli",
+          "name": "aocli",
+          "routing_key": "aocli",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FEGIQNG3TLU4XKJQDAEvqc7orzGxgtOu7",
+        "name": "While Loop",
+        "title": "While Loop",
+        "type": "logic.while",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "While Loop",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FEGIQP8MZKT2ErrZpVHsb5FRRweHdH05K",
+            "name": "Condition Branch",
+            "title": "Condition Branch",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01FEGGZL7URZN6OYAeHOEYBhet6nmpjHh38.local.variable_workflow_01FEGIZOYV1GW3hIVp2jx7p4Snt2WFAiHfw$",
+                "operator": "lt",
+                "right_operand": 100
+              },
+              "continue_on_failure": false,
+              "display_name": "Condition Branch",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01FEGHJXNE64W4AotZ0tJJxZuJx1il5ibVW",
+                "name": " Get AMQP Message",
+                "title": " Get AMQP Message",
+                "type": "amqp.get_message",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": " Get AMQP Message",
+                  "name": "aocli",
+                  "noack": false,
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target": false,
+                    "override_workflow_target_group_criteria": false,
+                    "use_workflow_target": true,
+                    "use_workflow_target_group": false
+                  }
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01FEGJFYH3JBG6dxkKHmOC2KnffDVXQnndm",
+                "name": "Sleep",
+                "title": "Sleep",
+                "type": "core.sleep",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Sleep",
+                  "skip_execution": false,
+                  "sleep_interval": 5
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01FEGJM1051HH4L6LW5IGZY4kmyGCpPjCj6",
+                "name": "Set Variables",
+                "title": "Set Variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set Variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01FEGGZL7URZN6OYAeHOEYBhet6nmpjHh38.local.variable_workflow_01FEGIZOYV1GW3hIVp2jx7p4Snt2WFAiHfw$",
+                      "variable_value_new": "$workflow.definition_workflow_01FEGGZL7URZN6OYAeHOEYBhet6nmpjHh38.local.variable_workflow_01FEGIZOYV1GW3hIVp2jx7p4Snt2WFAiHfw$ + 1"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01F8GPUB2AV7G5TQcsWqqgFmuTw48s6ydef": {
+      "unique_name": "definition_target_01F8GPUB2AV7G5TQcsWqqgFmuTw48s6ydef",
+      "name": "RabbitMQ",
+      "title": "RabbitMQ",
+      "type": "amqp.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_01F8GPPIA71UB7mVuVnydTNSmE5GA29P5Bx",
+        "display_name": "RabbitMQ",
+        "host": "10.237.99.117",
+        "ignore_certificate_errors": true,
+        "port": 5672,
+        "ssl_enabled": false,
+        "vhost": "/"
+      }
+    }
+  },
+  "runtime_users": {
+    "definition_runtime_user_01F8GPPIA71UB7mVuVnydTNSmE5GA29P5Bx": {
+      "unique_name": "definition_runtime_user_01F8GPPIA71UB7mVuVnydTNSmE5GA29P5Bx",
+      "name": "RabbitMQ",
+      "title": "RabbitMQ",
+      "type": "runtime_user.amqp_password_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "display_name": "RabbitMQ",
+        "password": "*****",
+        "username": "*****"
+      }
+    }
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01FESYTRYQX8Z28chsImPNxSNO0DE9C8MSf",
+    "name": "Get Account Keys",
+    "title": "Get Account Keys",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": null,
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Get Account Keys",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01FESZ2OIIBFE34O4dq4Lu96Q1sPVFRYGim",
+        "name": "Generic CCS API Request",
+        "title": "Get CCS Account Keys",
+        "type": "ccs.api_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "api_call_method": "GET",
+          "continue_on_failure": false,
+          "display_name": "Get CCS Account Keys",
+          "relative_url": "/be-console/api/v1/runtime_users",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01f9IQgvQRJv3tvlqwR145Bbrye0toH0Q"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FET1UFMT7GG0uZukZqDKFY1Xkbhc0f6Vy",
+        "name": "Convert Json to Xml",
+        "title": "Convert CCS Account Keys Output to Xml",
+        "type": "core.json2xml",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Convert CCS Account Keys Output to Xml",
+          "input_json": "$activity.definition_activity_01FESZ2OIIBFE34O4dq4Lu96Q1sPVFRYGim.output.response_body$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FET2AYL20Q23Y994IEPFbNFtRkVk8ITVu",
+        "name": "XSL Transform",
+        "title": "Parse NOC-ACCOUNT ID from XML",
+        "type": "core.xsl_transform",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Parse NOC-ACCOUNT ID from XML",
+          "document": "$activity.definition_activity_01FET1UFMT7GG0uZukZqDKFY1Xkbhc0f6Vy.output.output_xml$",
+          "skip_execution": false,
+          "stylesheet": "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">\n\n\t<xsl:output method=\"html\" indent=\"yes\"/>\n  \n  <xsl:template match=\"/\">\n      <xsl:for-each select=\"root/object\" >\n         <xsl:if test=\"name='NOC-ACCOUNT'\">\n           <xsl:value-of select=\"id\"/>    \n         </xsl:if>    \n      </xsl:for-each>\n    \n\t</xsl:template>\n</xsl:stylesheet>"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FET5POSMD922sql2sOcTTcBqMsbRf6vNu",
+        "name": "Generic CCS API Request",
+        "title": "Modify NOC-ACCOUNT Details",
+        "type": "ccs.api_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "api_body": "{\n  \"name\": \"NOC-ACCOUNT\",\n  \"title\": \"NOC-ACCOUNT\",\n  \"properties\": {\n    \"display_name\": \"NOC-ACCOUNT\",\n    \"key\": \"blahblah\",\n    \"user\": \"wibble\"\n  }\n}",
+          "api_call_method": "PATCH",
+          "continue_on_failure": false,
+          "display_name": "Modify NOC-ACCOUNT Details",
+          "relative_url": "/be-console/api/v1/runtime_users/$activity.definition_activity_01FET2AYL20Q23Y994IEPFbNFtRkVk8ITVu.output.output_document$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01f9IQgvQRJv3tvlqwR145Bbrye0toH0Q"
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

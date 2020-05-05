@@ -1,0 +1,100 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EYA75MCWONN3QLqjCUHmG7KJV46NKayUK",
+    "name": "Base64 Encode",
+    "title": "Base64 Encode",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "String to be Encoded",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EYA7TSKR4VV5N7eGZRM4BllyqOxBw1kmd",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Encoded String",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EYAA7VOTWL36pA9oLSorEVoM18XFM8TGv",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Base64 Encode",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EYA7Z1772FI7eAIWDHfenDv0rcjLHQI5A",
+        "name": "Execute Python Script",
+        "title": "Base64 Encode",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Base64 Encode",
+          "script": "from base64 import b64encode\n\ndata = b64encode(b'$workflow.definition_workflow_01EYA75MCWONN3QLqjCUHmG7KJV46NKayUK.input.variable_workflow_01EYA7TSKR4VV5N7eGZRM4BllyqOxBw1kmd$').decode(\"utf-8\")",
+          "script_queries": [
+            {
+              "script_query": "data",
+              "script_query_name": "Encoded String",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EYA9ZK3OEKC2kjMH8sFcmegiZt4yd3iXK",
+        "name": "Set Variables",
+        "title": "Set Encoded Output Variable",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Encoded Output Variable",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01EYA75MCWONN3QLqjCUHmG7KJV46NKayUK.output.variable_workflow_01EYAA7VOTWL36pA9oLSorEVoM18XFM8TGv$",
+              "variable_value_new": "$activity.definition_activity_01EYA7Z1772FI7eAIWDHfenDv0rcjLHQI5A.output.script_queries.Encoded String$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

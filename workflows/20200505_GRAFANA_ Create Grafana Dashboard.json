@@ -1,0 +1,157 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EXXI828LTAT2eWatLuYc0yndRS3isAO9C",
+    "name": "GRAFANA: Create Grafana Dashboard",
+    "title": "GRAFANA: Create Grafana Dashboard",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "myNewDashboard",
+          "scope": "input",
+          "name": "New Dashboard Name",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EXXZQ78HU3R1MI6SFZxV2tt7K9XLP8hVL",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "admin",
+          "scope": "input",
+          "name": "Grafana Username",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EXXIR5R7W6639FCihia7Jc9Dnc0rjECHG",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "input",
+          "name": "Grafana Password",
+          "type": "datatype.secure_string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EXXJ19ARR337DKXJmGwoxu9m5iv2Kugk9",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "GRAFANA: Create Grafana Dashboard",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EYC55HTSZYR1CZVfVHJu2OT6WXIKH5Qi6",
+        "name": "Execute Python Script",
+        "title": "Base64 Encode Username/Password",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Base64 Encode Username/Password",
+          "script": "from base64 import b64encode\n\ndata = b64encode(b'$workflow.definition_workflow_01EXXI828LTAT2eWatLuYc0yndRS3isAO9C.input.variable_workflow_01EXXIR5R7W6639FCihia7Jc9Dnc0rjECHG$:$workflow.definition_workflow_01EXXI828LTAT2eWatLuYc0yndRS3isAO9C.input.variable_workflow_01EXXJ19ARR337DKXJmGwoxu9m5iv2Kugk9$').decode(\"utf-8\")",
+          "script_queries": [
+            {
+              "script_query": "data",
+              "script_query_name": "Encoded Auth Token",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EXXYIHPEJYJ63GBzy1lu52kjilImnuXrY",
+        "name": "HTTP Request",
+        "title": "Create New Dashboard",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"dashboard\": {\n    \"annotations\": {\n      \"list\": [\n        {\n          \"builtIn\": 1,\n          \"datasource\": \"-- Grafana --\",\n          \"enable\": true,\n          \"hide\": true,\n          \"iconColor\": \"rgba(0, 211, 255, 1)\",\n          \"name\": \"Annotations & Alerts\",\n          \"type\": \"dashboard\"\n        }\n      ]\n    },\n    \"editable\": true,\n    \"gnetId\": null,\n    \"graphTooltip\": 0,\n    \"id\": null,\n    \"links\": [],\n    \"panels\": [\n      {\n        \"aliasColors\": {},\n        \"bars\": false,\n        \"dashLength\": 10,\n        \"dashes\": false,\n        \"datasource\": \"InfluxDB\",\n        \"fill\": 1,\n        \"fillGradient\": 0,\n        \"gridPos\": {\n          \"h\": 9,\n          \"w\": 12,\n          \"x\": 0,\n          \"y\": 0\n        },\n        \"id\": 2,\n        \"legend\": {\n          \"avg\": false,\n          \"current\": false,\n          \"max\": false,\n          \"min\": false,\n          \"show\": true,\n          \"total\": false,\n          \"values\": false\n        },\n        \"lines\": true,\n        \"linewidth\": 1,\n        \"nullPointMode\": \"null\",\n        \"options\": {\n          \"dataLinks\": []\n        },\n        \"percentage\": false,\n        \"pointradius\": 2,\n        \"points\": false,\n        \"renderer\": \"flot\",\n        \"seriesOverrides\": [],\n        \"spaceLength\": 10,\n        \"stack\": false,\n        \"steppedLine\": false,\n        \"targets\": [\n          {\n            \"alias\": \"Leaf-101\",\n            \"groupBy\": [\n              {\n                \"params\": [\n                  \"$__interval\"\n                ],\n                \"type\": \"time\"\n              },\n              {\n                \"params\": [\n                  \"null\"\n                ],\n                \"type\": \"fill\"\n              }\n            ],\n            \"orderByTime\": \"ASC\",\n            \"policy\": \"default\",\n            \"query\": \"select healthscore FROM \\\"aci_fabric_health\\\" WHERE (\\\"name\\\" = 'Leaf-101')\",\n            \"rawQuery\": true,\n            \"refId\": \"A\",\n            \"resultFormat\": \"time_series\",\n            \"select\": [\n              [\n                {\n                  \"params\": [\n                    \"value\"\n                  ],\n                  \"type\": \"field\"\n                },\n                {\n                  \"params\": [],\n                  \"type\": \"mean\"\n                }\n              ]\n            ],\n            \"tags\": []\n          },\n          {\n            \"alias\": \"Leaf-102\",\n            \"groupBy\": [\n              {\n                \"params\": [\n                  \"$__interval\"\n                ],\n                \"type\": \"time\"\n              },\n              {\n                \"params\": [\n                  \"null\"\n                ],\n                \"type\": \"fill\"\n              }\n            ],\n            \"orderByTime\": \"ASC\",\n            \"policy\": \"default\",\n            \"query\": \"select healthscore FROM \\\"aci_fabric_health\\\" WHERE (\\\"name\\\" = 'Leaf-102')\",\n            \"rawQuery\": true,\n            \"refId\": \"B\",\n            \"resultFormat\": \"time_series\",\n            \"select\": [\n              [\n                {\n                  \"params\": [\n                    \"value\"\n                  ],\n                  \"type\": \"field\"\n                },\n                {\n                  \"params\": [],\n                  \"type\": \"mean\"\n                }\n              ]\n            ],\n            \"tags\": []\n          },\n          {\n            \"alias\": \"Leaf-103\",\n            \"groupBy\": [\n              {\n                \"params\": [\n                  \"$__interval\"\n                ],\n                \"type\": \"time\"\n              },\n              {\n                \"params\": [\n                  \"null\"\n                ],\n                \"type\": \"fill\"\n              }\n            ],\n            \"orderByTime\": \"ASC\",\n            \"policy\": \"default\",\n            \"query\": \"select healthscore FROM \\\"aci_fabric_health\\\" WHERE (\\\"name\\\" = 'Leaf-103')\",\n            \"rawQuery\": true,\n            \"refId\": \"C\",\n            \"resultFormat\": \"time_series\",\n            \"select\": [\n              [\n                {\n                  \"params\": [\n                    \"value\"\n                  ],\n                  \"type\": \"field\"\n                },\n                {\n                  \"params\": [],\n                  \"type\": \"mean\"\n                }\n              ]\n            ],\n            \"tags\": []\n          },\n          {\n            \"alias\": \"Leaf-104\",\n            \"groupBy\": [\n              {\n                \"params\": [\n                  \"$__interval\"\n                ],\n                \"type\": \"time\"\n              },\n              {\n                \"params\": [\n                  \"null\"\n                ],\n                \"type\": \"fill\"\n              }\n            ],\n            \"orderByTime\": \"ASC\",\n            \"policy\": \"default\",\n            \"query\": \"select healthscore FROM \\\"aci_fabric_health\\\" WHERE (\\\"name\\\" = 'Leaf-104')\",\n            \"rawQuery\": true,\n            \"refId\": \"D\",\n            \"resultFormat\": \"time_series\",\n            \"select\": [\n              [\n                {\n                  \"params\": [\n                    \"value\"\n                  ],\n                  \"type\": \"field\"\n                },\n                {\n                  \"params\": [],\n                  \"type\": \"mean\"\n                }\n              ]\n            ],\n            \"tags\": []\n          },\n          {\n            \"alias\": \"Spine-201\",\n            \"groupBy\": [\n              {\n                \"params\": [\n                  \"$__interval\"\n                ],\n                \"type\": \"time\"\n              },\n              {\n                \"params\": [\n                  \"null\"\n                ],\n                \"type\": \"fill\"\n              }\n            ],\n            \"orderByTime\": \"ASC\",\n            \"policy\": \"default\",\n            \"query\": \"select healthscore FROM \\\"aci_fabric_health\\\" WHERE (\\\"name\\\" = 'Spine-201')\",\n            \"rawQuery\": true,\n            \"refId\": \"E\",\n            \"resultFormat\": \"time_series\",\n            \"select\": [\n              [\n                {\n                  \"params\": [\n                    \"value\"\n                  ],\n                  \"type\": \"field\"\n                },\n                {\n                  \"params\": [],\n                  \"type\": \"mean\"\n                }\n              ]\n            ],\n            \"tags\": []\n          },\n          {\n            \"alias\": \"Spine-202\",\n            \"groupBy\": [\n              {\n                \"params\": [\n                  \"$__interval\"\n                ],\n                \"type\": \"time\"\n              },\n              {\n                \"params\": [\n                  \"null\"\n                ],\n                \"type\": \"fill\"\n              }\n            ],\n            \"orderByTime\": \"ASC\",\n            \"policy\": \"default\",\n            \"query\": \"select healthscore FROM \\\"aci_fabric_health\\\" WHERE (\\\"name\\\" = 'Spine-202')\",\n            \"rawQuery\": true,\n            \"refId\": \"F\",\n            \"resultFormat\": \"time_series\",\n            \"select\": [\n              [\n                {\n                  \"params\": [\n                    \"value\"\n                  ],\n                  \"type\": \"field\"\n                },\n                {\n                  \"params\": [],\n                  \"type\": \"mean\"\n                }\n              ]\n            ],\n            \"tags\": []\n          }\n        ],\n        \"thresholds\": [],\n        \"timeFrom\": null,\n        \"timeRegions\": [],\n        \"timeShift\": null,\n        \"title\": \"ACI Fabric Health Scores\",\n        \"tooltip\": {\n          \"shared\": true,\n          \"sort\": 0,\n          \"value_type\": \"individual\"\n        },\n        \"type\": \"graph\",\n        \"xaxis\": {\n          \"buckets\": null,\n          \"mode\": \"time\",\n          \"name\": null,\n          \"show\": true,\n          \"values\": []\n        },\n        \"yaxes\": [\n          {\n            \"format\": \"short\",\n            \"label\": null,\n            \"logBase\": 1,\n            \"max\": null,\n            \"min\": null,\n            \"show\": true\n          },\n          {\n            \"format\": \"short\",\n            \"label\": null,\n            \"logBase\": 1,\n            \"max\": null,\n            \"min\": null,\n            \"show\": true\n          }\n        ],\n        \"yaxis\": {\n          \"align\": false,\n          \"alignLevel\": null\n        }\n      }\n    ],\n    \"schemaVersion\": 19,\n    \"style\": \"dark\",\n    \"tags\": [],\n    \"templating\": {\n      \"list\": []\n    },\n    \"time\": {\n      \"from\": \"now-6h\",\n      \"to\": \"now\"\n    },\n    \"timepicker\": {},\n    \"timezone\": \"\",\n    \"title\": \"$workflow.definition_workflow_01EXXI828LTAT2eWatLuYc0yndRS3isAO9C.input.variable_workflow_01EXXZQ78HU3R1MI6SFZxV2tt7K9XLP8hVL$\",\n    \"uid\": \"\",\n    \"version\": 0,\n    \"hideControls\": false\n  },\n  \"folderId\": 0,\n  \"overwrite\": false,\n  \"message\": \"\"\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Basic $activity.definition_activity_01EYC55HTSZYR1CZVfVHJu2OT6WXIKH5Qi6.output.script_queries.Encoded Auth Token$"
+            }
+          ],
+          "display_name": "Create New Dashboard",
+          "method": "POST",
+          "relative_url": "/grafana/api/dashboards/db/",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EXXJW0PC1930ZgNhuKl1CPz7PyLjBkYKv"
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01F8HOOA7IYXN4F8crCp3jHnGQzngfi6ELA"
+    ]
+  },
+  "categories": {
+    "category_01F8HOOA7IYXN4F8crCp3jHnGQzngfi6ELA": {
+      "unique_name": "category_01F8HOOA7IYXN4F8crCp3jHnGQzngfi6ELA",
+      "name": "Grafana",
+      "title": "Grafana",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_01EXXJW0PC1930ZgNhuKl1CPz7PyLjBkYKv": {
+      "unique_name": "definition_target_01EXXJW0PC1930ZgNhuKl1CPz7PyLjBkYKv",
+      "name": "Grafana Russ",
+      "title": "Grafana Russ",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "Grafana Russ",
+        "host": "10.237.99.30",
+        "no_runtime_user": true,
+        "port": 443,
+        "protocol": "https"
+      }
+    }
+  }
+}

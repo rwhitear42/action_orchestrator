@@ -1,0 +1,131 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EZ3IK056GRF1PMQqmqJVMhcgbKiXMIBMA",
+    "name": "Get AO Target ID",
+    "title": "Get AO Target ID",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "targetID",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EZ3IJZZKVRO2aO0Wb6v8XWpIvkHFMUbe6",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "InfluxDB Placeholder",
+          "scope": "input",
+          "name": "targetName",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EZ3IJZZKT974S8dflliFR6QzOv4aXgoJR",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Get AO Target ID",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EZ3IKCIYLLU5G7HN5yMyY8k4arrAMaGXf",
+        "name": "Generic CCS API Request",
+        "title": "Generic CCS API Request",
+        "type": "ccs.api_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "api_call_method": "GET",
+          "continue_on_failure": false,
+          "display_name": "Generic CCS API Request",
+          "relative_url": "/be-console/api/v1/targets",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01f9IQgvQRJv3tvlqwR145Bbrye0toH0Q"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZ3IKGKSABL6noPBKiMHCisCvULi85VWg",
+        "name": "Convert Json to Xml",
+        "title": "Convert Json to Xml",
+        "type": "core.json2xml",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Convert Json to Xml",
+          "input_json": "$activity.definition_activity_01EZ3IKCIYLLU5G7HN5yMyY8k4arrAMaGXf.output.response_body$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZ3IKL6D50V7WKZnOEPO7zZTYbMtoC95l",
+        "name": "XSL Transform",
+        "title": "XSL Transform",
+        "type": "core.xsl_transform",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "XSL Transform",
+          "document": "$activity.definition_activity_01EZ3IKGKSABL6noPBKiMHCisCvULi85VWg.output.output_xml$",
+          "skip_execution": false,
+          "stylesheet": "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">\n\n\t<xsl:output method=\"html\" indent=\"yes\"/>\n  \n  <xsl:template match=\"/\">\n      <xsl:for-each select=\"root/object\" >\n         <xsl:if test=\"name='$workflow.definition_workflow_01EZ3IK056GRF1PMQqmqJVMhcgbKiXMIBMA.input.variable_workflow_01EZ3IJZZKT974S8dflliFR6QzOv4aXgoJR$'\">\n           <xsl:value-of select=\"id\"/>    \n         </xsl:if>    \n      </xsl:for-each>\n    \n\t</xsl:template>\n</xsl:stylesheet>"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZ3IKOXJ7Y921qW5CL5PKi8Zlr3fmpM1t",
+        "name": "Set Variables",
+        "title": "Set Variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01EZ3IK056GRF1PMQqmqJVMhcgbKiXMIBMA.output.variable_workflow_01EZ3IJZZKVRO2aO0Wb6v8XWpIvkHFMUbe6$",
+              "variable_value_new": "$activity.definition_activity_01EZ3IKL6D50V7WKZnOEPO7zZTYbMtoC95l.output.output_document$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

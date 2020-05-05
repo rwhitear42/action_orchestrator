@@ -1,0 +1,211 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01FBL0L9R4X2T3l0epKPJ5s14sh7qaftV47",
+    "name": "AO.General - Encode_Multipart_Form_Data",
+    "title": "AO.General - Encode_Multipart_Form_Data",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "some contents",
+          "scope": "input",
+          "name": "file_contents",
+          "type": "datatype.string",
+          "description": "Contents of the file itself.",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01FBL0L9LYHC70yTAyl2XmsnywYEBdh9y21",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "output_body_data",
+          "type": "datatype.string",
+          "description": "encoded body to be passed into API call",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FBL0L9LYIIU03ckFgp3IpAHYqF07i1Z6m",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "output_content_type_header",
+          "type": "datatype.string",
+          "description": "content type header for API",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FBL0L9LYJJY2d4m953rUT75YSeO2FPge3",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "output_content_length_header",
+          "type": "datatype.string",
+          "description": "content length header for API",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FBL0L9LYKNW2ltxIhVLeVC6XkRohJf2M7",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "file",
+          "scope": "input",
+          "name": "file_field",
+          "type": "datatype.string",
+          "description": "field name for the API call",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01FBL0L9LYCM61jlwGC0Llxv7Jkq2vmvQUY",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "myfile.txt",
+          "scope": "input",
+          "name": "file_name",
+          "type": "datatype.string",
+          "description": "name of the file with extension",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01FBL0L9LYG2D6JQg7N2iivAYIbX2pMiVj5",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This takes in a file name, field name for the file, and contents of the file and encodes it for API usage. You will get back the content-type and content-length headers as well as the encoded payload. ",
+      "display_name": "AO.General - Encode_Multipart_Form_Data",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01FBL0LMPIW0B5We16Lwr4m7Cp0KJT0uig3",
+        "name": "Execute Python Script",
+        "title": "Encode multipart",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Encode multipart",
+          "script": "import mimetypes\nimport random\nimport string\nimport sys\nimport json\n\n_BOUNDARY_CHARS = string.digits + string.ascii_letters\n\ndef encode_multipart(files, boundary=None):\n    def escape_quote(s):\n        return s.replace('\"', '\\\\\"')\n\n    if boundary is None:\n        boundary = ''.join(random.choice(_BOUNDARY_CHARS) for i in range(30))\n    lines = []\n    for name, value in files.items():\n        filename = value['filename']\n        if 'mimetype' in value:\n            mimetype = value['mimetype']\n        else:\n            mimetype = mimetypes.guess_type(filename)[0] or 'application/octet-stream'\n        lines.extend((\n            '--{0}'.format(boundary),\n            'Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"'.format(\n                    escape_quote(name), escape_quote(filename)),\n            'Content-Type: {0}'.format(mimetype),\n            '',\n            value['content'],\n        ))\n\n    lines.extend((\n        '--{0}--'.format(boundary),\n        '',\n    ))\n    body = '\\r\\n'.join((lines))\n\n    headers = {\n        'Content-Type': 'multipart/form-data; boundary={0}'.format(boundary),\n        'Content-Length': str(len(body)),\n    }\n\n    return (body, headers)\n\nfiles = {sys.argv[1]: {'filename':sys.argv[2], 'content':sys.argv[3]}}\ndata, headers = encode_multipart(files)",
+          "script_arguments": [
+            "$workflow.definition_workflow_01FBL0L9R4X2T3l0epKPJ5s14sh7qaftV47.input.variable_workflow_01FBL0L9LYCM61jlwGC0Llxv7Jkq2vmvQUY$",
+            "$workflow.definition_workflow_01FBL0L9R4X2T3l0epKPJ5s14sh7qaftV47.input.variable_workflow_01FBL0L9LYG2D6JQg7N2iivAYIbX2pMiVj5$",
+            "$workflow.definition_workflow_01FBL0L9R4X2T3l0epKPJ5s14sh7qaftV47.input.variable_workflow_01FBL0L9LYHC70yTAyl2XmsnywYEBdh9y21$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "data",
+              "script_query_name": "data",
+              "script_query_type": "string"
+            },
+            {
+              "script_query": "headers",
+              "script_query_name": "headers",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FBL0LQ567L97AiR7uHLfxH7MmR6xKoZK2",
+        "name": "JSONPath Query",
+        "title": "Get headers",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Get headers",
+          "input_json": "$activity.definition_activity_01FBL0LMPIW0B5We16Lwr4m7Cp0KJT0uig3.output.script_queries.headers$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$..Content-Type",
+              "jsonpath_query_name": "Content-Type",
+              "jsonpath_query_type": "string"
+            },
+            {
+              "jsonpath_query": "$..Content-Length",
+              "jsonpath_query_name": "Content-Length",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FBL0LTGBR5F2gknTxcaMtX1yOi5I9KQpF",
+        "name": "Set Variables",
+        "title": "Set Output",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Output",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01FBL0L9R4X2T3l0epKPJ5s14sh7qaftV47.output.variable_workflow_01FBL0L9LYIIU03ckFgp3IpAHYqF07i1Z6m$",
+              "variable_value_new": "$activity.definition_activity_01FBL0LMPIW0B5We16Lwr4m7Cp0KJT0uig3.output.script_queries.data$"
+            },
+            {
+              "variable_to_update": "$workflow.definition_workflow_01FBL0L9R4X2T3l0epKPJ5s14sh7qaftV47.output.variable_workflow_01FBL0L9LYKNW2ltxIhVLeVC6XkRohJf2M7$",
+              "variable_value_new": "$activity.definition_activity_01FBL0LQ567L97AiR7uHLfxH7MmR6xKoZK2.output.jsonpath_queries.Content-Length$"
+            },
+            {
+              "variable_to_update": "$workflow.definition_workflow_01FBL0L9R4X2T3l0epKPJ5s14sh7qaftV47.output.variable_workflow_01FBL0L9LYJJY2d4m953rUT75YSeO2FPge3$",
+              "variable_value_new": "$activity.definition_activity_01FBL0LQ567L97AiR7uHLfxH7MmR6xKoZK2.output.jsonpath_queries.Content-Type$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01APQ1SF3EVRH4WYM1c0JtOZbGDtxU0sJQd"
+    ]
+  },
+  "categories": {
+    "category_01APQ1SF3EVRH4WYM1c0JtOZbGDtxU0sJQd": {
+      "unique_name": "category_01APQ1SF3EVRH4WYM1c0JtOZbGDtxU0sJQd",
+      "name": "AO.General.Utilities",
+      "title": "AO.General.Utilities",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}

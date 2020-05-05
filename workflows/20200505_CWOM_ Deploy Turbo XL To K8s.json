@@ -1,0 +1,1171 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs",
+    "name": "CWOM: Deploy Turbo XL To K8s",
+    "title": "CWOM: Deploy Turbo XL To K8s",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImJ3V09WSTY3M1hiZkFBaERfNFRXVXZKbExlWUExMWJIeTZudXpWbm9NazgifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkZWZhdWx0LXRva2VuLTRsbG03Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImRlZmF1bHQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJiMjU5ZjI4MS1iOTYyLTRjZDUtOTlmOC04ZjMwZDFiMzYwMjYiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06ZGVmYXVsdCJ9.gpRjsFpusqeT_gicFhzitreXBSdcFLKShWhw3xKKFexa-1Gq53HJRjlSmxnxpf_ZxyvI3L2dtsb2oui91IoBPE6bCxIpFAA9kWeIxBNER3q5E1ZmEQdGg_ppXqQWGx_kGFas3TLLJFklwC0FGbFu89vgslb63GFBIaIjR1fxu2IyCX6tuw__idG9dSkHW18kqpREaN5FHqpXIfwMfeQTl_3id6b3ZwOf2eSlyxMxws4Lsrlbh4ldnLk2xlhJsDysSrDW39N4DnZPArFnWtt3ljX-WTnzjNSGCqVFyFIcTxetINOnqw9Xamp7W9B8rBwhN9qEK-z9OMPjEXxAMTm-pA",
+          "scope": "local",
+          "name": "K8S TOKEN",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FCQ2AE7R8435bmXySWDfT7DS99Ifn8P89",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.boolean",
+        "properties": {
+          "value": false,
+          "scope": "local",
+          "name": "Deployment Finished",
+          "type": "datatype.boolean",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FCSVMAYZJEI00UkO13XcGsFgfGaUuYd5o",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Target IP ID",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FCQ2AE7R4TT0WzC83Xhf2YPyy3jh0bket",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "Installs Turbonomic XL to a K8s cluster",
+      "display_name": "CWOM: Deploy Turbo XL To K8s",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01FCQEBQX2SL073wVH2Dti4LjihZVGK2omH",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01FCQ2AP1WRT03am3bbXEKpnJRKOaQTUcsO",
+        "name": "HTTP Request",
+        "title": "Create Turbonomic namespace",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"apiVersion\": \"v1\",\n  \"kind\": \"Namespace\",\n  \"metadata\": {\n    \"name\": \"turbonomic\"\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs.local.variable_workflow_01FCQ2AE7R8435bmXySWDfT7DS99Ifn8P89$"
+            }
+          ],
+          "display_name": "Create Turbonomic namespace",
+          "method": "POST",
+          "relative_url": "/api/v1/namespaces",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCQ2ARI0PJ35bi8IJJh4QkepDfPttvmdA",
+        "name": "Condition Block",
+        "title": "Check HTTP STATUS CODE",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check HTTP STATUS CODE",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FCQ2ATWXDB74xu0xBljynbFluk5ktTZ0y",
+            "name": "Condition Branch",
+            "title": "EQUALS 201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCQ2AP1WRT03am3bbXEKpnJRKOaQTUcsO.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCQ2B0A94UR4CHwow2QX8kY09JUdrTMEH",
+            "name": "Condition Branch",
+            "title": "EQUALS 409",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCQ2AP1WRT03am3bbXEKpnJRKOaQTUcsO.output.status_code$",
+                "operator": "eq",
+                "right_operand": 409
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 409",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCQ2B37J6ZF0smvvBTc6IpLvlnH7v4U3H",
+            "name": "Condition Branch",
+            "title": "ELSE FAIL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01FCQ2AP1WRT03am3bbXEKpnJRKOaQTUcsO.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 201
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01FCQ2AP1WRT03am3bbXEKpnJRKOaQTUcsO.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 409
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "ELSE FAIL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01FCQ2B5NRNR778hHER85YmFk2rUbtsdmIM",
+                "name": "Failed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "display_name": "Failed",
+                  "result_message": "Error"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FCQ2B8QO9JC40hXepaBgKu36jxGLhiyLd",
+        "name": "HTTP Request",
+        "title": "Create Service Account",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"apiVersion\": \"v1\",\n  \"kind\": \"ServiceAccount\",\n  \"metadata\": {\n    \"name\": \"t8c-operator\"\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs.local.variable_workflow_01FCQ2AE7R8435bmXySWDfT7DS99Ifn8P89$"
+            }
+          ],
+          "display_name": "Create Service Account",
+          "method": "POST",
+          "relative_url": "/api/v1/namespaces/turbonomic/serviceaccounts",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCQ2BBB4YYV0BYWnEmKwX6yJAUE5RtSPu",
+        "name": "Condition Block",
+        "title": "Check HTTP STATUS CODE",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check HTTP STATUS CODE",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FCQ2BDG26UF2cxHNLfeKa8S6vAEcSPxVn",
+            "name": "Condition Branch",
+            "title": "EQUALS 201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCQ2B8QO9JC40hXepaBgKu36jxGLhiyLd.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCQ2BJVEB621G8bg6geYJThlNYm2aW7S9",
+            "name": "Condition Branch",
+            "title": "EQUALS 409",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCQ2B8QO9JC40hXepaBgKu36jxGLhiyLd.output.status_code$",
+                "operator": "eq",
+                "right_operand": 409
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 409",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCQ2BN03C9G1G45N3XANCrVceN7FU0ae8",
+            "name": "Condition Branch",
+            "title": "ELSE FAIL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01FCQ2B8QO9JC40hXepaBgKu36jxGLhiyLd.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 201
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01FCQ2B8QO9JC40hXepaBgKu36jxGLhiyLd.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 409
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "ELSE FAIL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01FCQ2BPLWDIF2XD3EVL2k2lH6AX76P9hdm",
+                "name": "Failed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "display_name": "Failed",
+                  "result_message": "Error"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FCQ2BSNDVRA4zyZpgFwqYktEkCj3aD8Qv",
+        "name": "HTTP Request",
+        "title": "Create Role",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"apiVersion\": \"rbac.authorization.k8s.io/v1\",\n  \"kind\": \"Role\",\n  \"metadata\": {\n    \"creationTimestamp\": null,\n    \"name\": \"t8c-operator\"\n  },\n  \"rules\": [\n    {\n      \"apiGroups\": [\n        \"\"\n      ],\n      \"resources\": [\n        \"pods\",\n        \"services\",\n        \"endpoints\",\n        \"persistentvolumeclaims\",\n        \"events\",\n        \"configmaps\",\n        \"secrets\"\n      ],\n      \"verbs\": [\n        \"*\"\n      ]\n    },\n    {\n      \"apiGroups\": [\n        \"apps\"\n      ],\n      \"resources\": [\n        \"deployments\",\n        \"replicasets\"\n      ],\n      \"verbs\": [\n        \"*\"\n      ]\n    },\n    {\n      \"apiGroups\": [\n        \"apps\"\n      ],\n      \"resources\": [\n        \"deployments/finalizers\"\n      ],\n      \"verbs\": [\n        \"update\"\n      ]\n    },\n    {\n      \"apiGroups\": [\n        \"extensions\"\n      ],\n      \"resources\": [\n        \"deployments\"\n      ],\n      \"verbs\": [\n        \"*\"\n      ]\n    },\n    {\n      \"apiGroups\": [\n        \"\"\n      ],\n      \"resources\": [\n        \"namespaces\"\n      ],\n      \"verbs\": [\n        \"get\"\n      ]\n    },\n    {\n      \"apiGroups\": [\n        \"\"\n      ],\n      \"resources\": [\n        \"configmaps\",\n        \"secrets\"\n      ],\n      \"verbs\": [\n        \"*\"\n      ]\n    },\n    {\n      \"apiGroups\": [\n        \"charts.helm.k8s.io\"\n      ],\n      \"resources\": [\n        \"*\"\n      ],\n      \"verbs\": [\n        \"*\"\n      ]\n    },\n    {\n      \"apiGroups\": [\n        \"networking.istio.io\"\n      ],\n      \"resources\": [\n        \"gateways\",\n        \"virtualservices\"\n      ],\n      \"verbs\": [\n        \"*\"\n      ]\n    },\n    {\n      \"apiGroups\": [\n        \"cert-manager.io\"\n      ],\n      \"resources\": [\n        \"certificates\"\n      ],\n      \"verbs\": [\n        \"*\"\n      ]\n    }\n  ]\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs.local.variable_workflow_01FCQ2AE7R8435bmXySWDfT7DS99Ifn8P89$"
+            }
+          ],
+          "display_name": "Create Role",
+          "method": "POST",
+          "relative_url": "/apis/rbac.authorization.k8s.io/v1/namespaces/turbonomic/roles",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCQ2BV3CIV451B53vxYRWgb6PwKcK7JBf",
+        "name": "Condition Block",
+        "title": "Check HTTP STATUS CODE",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check HTTP STATUS CODE",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FCQ2BX8WW7D525BO9hOEoVimSQMLYelVD",
+            "name": "Condition Branch",
+            "title": "EQUALS 201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCQ2BSNDVRA4zyZpgFwqYktEkCj3aD8Qv.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCQ2C3XTPKU52eX6M7rnM1KmcjpDDIAvW",
+            "name": "Condition Branch",
+            "title": "EQUALS 409",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCQ2BSNDVRA4zyZpgFwqYktEkCj3aD8Qv.output.status_code$",
+                "operator": "eq",
+                "right_operand": 409
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 409",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCQ2C78D7X01oweCgfShym9lctv2ewQlF",
+            "name": "Condition Branch",
+            "title": "ELSE FAIL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01FCQ2BSNDVRA4zyZpgFwqYktEkCj3aD8Qv.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 201
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01FCQ2BSNDVRA4zyZpgFwqYktEkCj3aD8Qv.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 409
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "ELSE FAIL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FCQ2CBCLG5H1NnggVBVsxLDn1NGAFNHD8",
+        "name": "HTTP Request",
+        "title": "Create Role Binding",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"kind\": \"RoleBinding\",\n  \"apiVersion\": \"rbac.authorization.k8s.io/v1\",\n  \"metadata\": {\n    \"name\": \"t8c-operator\"\n  },\n  \"subjects\": [\n    {\n      \"kind\": \"ServiceAccount\",\n      \"name\": \"t8c-operator\"\n    }\n  ],\n  \"roleRef\": {\n    \"kind\": \"Role\",\n    \"name\": \"t8c-operator\",\n    \"apiGroup\": \"rbac.authorization.k8s.io\"\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs.local.variable_workflow_01FCQ2AE7R8435bmXySWDfT7DS99Ifn8P89$"
+            }
+          ],
+          "display_name": "Create Role Binding",
+          "method": "POST",
+          "relative_url": "/apis/rbac.authorization.k8s.io/v1/namespaces/turbonomic/rolebindings",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCQ2CE5CCRH5HusO3xiw3dG0GQOAuLZ0u",
+        "name": "Condition Block",
+        "title": "Check HTTP STATUS CODE",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check HTTP STATUS CODE",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FCQ2CGPX4PJ2eRKwnjZbGEwgAY7JZvhjV",
+            "name": "Condition Branch",
+            "title": "EQUALS 201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCQ2CBCLG5H1NnggVBVsxLDn1NGAFNHD8.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCQ2CNE1OBC7EVxeOYeunqimJMQRauRBc",
+            "name": "Condition Branch",
+            "title": "EQUALS 409",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCQ2CBCLG5H1NnggVBVsxLDn1NGAFNHD8.output.status_code$",
+                "operator": "eq",
+                "right_operand": 409
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 409",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCQ2CQG9S1K01CIdUFVC3phrb6lXK78cT",
+            "name": "Condition Branch",
+            "title": "ELSE FAIL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01FCQ2CBCLG5H1NnggVBVsxLDn1NGAFNHD8.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 201
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01FCQ2CBCLG5H1NnggVBVsxLDn1NGAFNHD8.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 409
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "ELSE FAIL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01FCQ2CSZLPAY3r2zLorjRAosmbKTWWpKhU",
+                "name": "Failed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "display_name": "Failed",
+                  "result_message": "Error"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FCQW5SY43LH5PWIQZtpXB1wRjDtt4gqIy",
+        "name": "HTTP Request",
+        "title": "Create CRD",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"apiVersion\": \"apiextensions.k8s.io/v1beta1\",\n  \"kind\": \"CustomResourceDefinition\",\n  \"metadata\": {\n    \"name\": \"xls.charts.helm.k8s.io\"\n  },\n  \"spec\": {\n    \"group\": \"charts.helm.k8s.io\",\n    \"names\": {\n      \"kind\": \"Xl\",\n      \"listKind\": \"XlList\",\n      \"plural\": \"xls\",\n      \"singular\": \"xl\"\n    },\n    \"scope\": \"Namespaced\",\n    \"subresources\": {\n      \"status\": {}\n    },\n    \"version\": \"v1alpha1\",\n    \"versions\": [\n      {\n        \"name\": \"v1alpha1\",\n        \"served\": true,\n        \"storage\": true\n      }\n    ]\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs.local.variable_workflow_01FCQ2AE7R8435bmXySWDfT7DS99Ifn8P89$"
+            }
+          ],
+          "display_name": "Create CRD",
+          "method": "POST",
+          "relative_url": "/apis/apiextensions.k8s.io/v1beta1/customresourcedefinitions",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCQW9LIRP6U32XZc3ZdWoCWwV3UMyB5O7",
+        "name": "Condition Block",
+        "title": "Check HTTP STATUS CODE",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check HTTP STATUS CODE",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FCQW9METJSK3doM3jmt0coTnPziYsnhfp",
+            "name": "Condition Branch",
+            "title": "EQUALS 201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCQW5SY43LH5PWIQZtpXB1wRjDtt4gqIy.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCQW9NHGPDD3G9BggvLVLewm8VsY3OPbD",
+            "name": "Condition Branch",
+            "title": "EQUALS 409",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCQW5SY43LH5PWIQZtpXB1wRjDtt4gqIy.output.status_code$",
+                "operator": "eq",
+                "right_operand": 409
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 409",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCQW9O478GI655bNM45eWzRIoLq32VmJI",
+            "name": "Condition Branch",
+            "title": "ELSE FAIL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01FCQW5SY43LH5PWIQZtpXB1wRjDtt4gqIy.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 201
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01FCQW5SY43LH5PWIQZtpXB1wRjDtt4gqIy.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 409
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "ELSE FAIL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01FCQW9OO3CU26YEqvF8ztKotY1CKyuAMj4",
+                "name": "Failed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "display_name": "Failed",
+                  "result_message": "Error"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FCR94JMEZQZ6nbuhzun7u3IzXccDk9w7E",
+        "name": "HTTP Request",
+        "title": "Create Operator",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"apiVersion\": \"apps/v1\",\n  \"kind\": \"Deployment\",\n  \"metadata\": {\n    \"name\": \"t8c-operator\",\n    \"labels\": {\n      \"app.kubernetes.io/name\": \"t8c-operator\",\n      \"app.kubernetes.io/instance\": \"t8c-operator\",\n      \"app.kubernetes.io/managed-by\": \"operator-life\"\n    }\n  },\n  \"spec\": {\n    \"replicas\": 1,\n    \"selector\": {\n      \"matchLabels\": {\n        \"name\": \"t8c-operator\"\n      }\n    },\n    \"template\": {\n      \"metadata\": {\n        \"labels\": {\n          \"name\": \"t8c-operator\"\n        }\n      },\n      \"spec\": {\n        \"serviceAccountName\": \"t8c-operator\",\n        \"containers\": [\n          {\n            \"name\": \"t8c-operator\",\n            \"image\": \"turbonomic/t8c-operator:7.17\",\n            \"imagePullPolicy\": \"Always\",\n            \"env\": [\n              {\n                \"name\": \"WATCH_NAMESPACE\",\n                \"valueFrom\": {\n                  \"fieldRef\": {\n                    \"fieldPath\": \"metadata.namespace\"\n                  }\n                }\n              },\n              {\n                \"name\": \"POD_NAME\",\n                \"valueFrom\": {\n                  \"fieldRef\": {\n                    \"fieldPath\": \"metadata.name\"\n                  }\n                }\n              },\n              {\n                \"name\": \"OPERATOR_NAME\",\n                \"value\": \"t8c-operator\"\n              }\n            ],\n            \"securityContext\": {\n              \"readOnlyRootFilesystem\": true,\n              \"capabilities\": {\n                \"drop\": [\n                  \"ALL\"\n                ]\n              }\n            },\n            \"volumeMounts\": [\n              {\n                \"mountPath\": \"/tmp\",\n                \"name\": \"operator-tmpfs0\"\n              }\n            ]\n          }\n        ],\n        \"volumes\": [\n          {\n            \"name\": \"operator-tmpfs0\",\n            \"emptyDir\": {}\n          }\n        ]\n      }\n    }\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs.local.variable_workflow_01FCQ2AE7R8435bmXySWDfT7DS99Ifn8P89$"
+            }
+          ],
+          "display_name": "Create Operator",
+          "method": "POST",
+          "relative_url": "/apis/apps/v1/namespaces/turbonomic/deployments",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCR95QPQFBP5ANsGOzBZNqIhk9zzA1Mxz",
+        "name": "Condition Block",
+        "title": "Check HTTP STATUS CODE",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check HTTP STATUS CODE",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FCR95RKOMKH34T1yrSQYT0hkh79jttXJM",
+            "name": "Condition Branch",
+            "title": "EQUALS 201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCR94JMEZQZ6nbuhzun7u3IzXccDk9w7E.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCR95SMJ9Y07h2bZZk6zdP7ecyXlzejs4",
+            "name": "Condition Branch",
+            "title": "EQUALS 409",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCR94JMEZQZ6nbuhzun7u3IzXccDk9w7E.output.status_code$",
+                "operator": "eq",
+                "right_operand": 409
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 409",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCR95T88H776JzrrryFVbDmpPSUsgsiTU",
+            "name": "Condition Branch",
+            "title": "ELSE FAIL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01FCR94JMEZQZ6nbuhzun7u3IzXccDk9w7E.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 201
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01FCR94JMEZQZ6nbuhzun7u3IzXccDk9w7E.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 409
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "ELSE FAIL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01FCR95TV92FE76ZnYOCw1mfB5tkucjZGTZ",
+                "name": "Failed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "display_name": "Failed",
+                  "result_message": "Error"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FCRVRWPJD5X1FcEqA9gevaZKvXYm82buf",
+        "name": "HTTP Request",
+        "title": "Create Custom Resource",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"apiVersion\": \"charts.helm.k8s.io/v1alpha1\",\n  \"kind\": \"Xl\",\n  \"metadata\": {\n    \"name\": \"xl-release\"\n  },\n  \"spec\": {\n    \"global\": {\n      \"repository\": \"turbonomic\",\n      \"tag\": \"7.17.9\"\n    },\n    \"vcenter\": {\n      \"enabled\": true\n    }\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs.local.variable_workflow_01FCQ2AE7R8435bmXySWDfT7DS99Ifn8P89$"
+            }
+          ],
+          "display_name": "Create Custom Resource",
+          "method": "POST",
+          "relative_url": "/apis/charts.helm.k8s.io/v1alpha1/namespaces/turbonomic/xls",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCRF1NXS1OH3wvN3m1UFjkhXESWYuAP4p",
+        "name": "Condition Block",
+        "title": "Check HTTP STATUS CODE",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check HTTP STATUS CODE",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FCRF1P3OHR55DM0TKRqPAclLaj8O0A118",
+            "name": "Condition Branch",
+            "title": "EQUALS 201",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCRVRWPJD5X1FcEqA9gevaZKvXYm82buf.output.status_code$",
+                "operator": "eq",
+                "right_operand": 201
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 201",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCRF1QC0PMV1f8PCJUCS7Jog1aCqcd5r8",
+            "name": "Condition Branch",
+            "title": "EQUALS 409",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01FCRVRWPJD5X1FcEqA9gevaZKvXYm82buf.output.status_code$",
+                "operator": "eq",
+                "right_operand": 409
+              },
+              "continue_on_failure": false,
+              "display_name": "EQUALS 409",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01FCRF1QZCNX441cCFnei7W4qiOOq7mVGrk",
+            "name": "Condition Branch",
+            "title": "ELSE FAIL",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_01FCRVRWPJD5X1FcEqA9gevaZKvXYm82buf.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 201
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_01FCRVRWPJD5X1FcEqA9gevaZKvXYm82buf.output.status_code$",
+                  "operator": "ne",
+                  "right_operand": 409
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "ELSE FAIL",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01FCRF1RNIOY50Azw11EIGtInSppGK78NJY",
+                "name": "Failed",
+                "title": "Completed",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "failed-completed",
+                  "display_name": "Failed",
+                  "result_message": "Error"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FCST2I5X9NZ6ku4mG0iRLoYeAIAXw5gkM",
+        "name": "Sleep",
+        "title": "Need time for deployment to start (30 seconds)",
+        "type": "core.sleep",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Need time for deployment to start (30 seconds)",
+          "skip_execution": false,
+          "sleep_interval": 30
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCSTYVVLMGB4o1CNqwxIRdLJFSQxHMlgW",
+        "name": "While Loop",
+        "title": "Monitor CWOM Deployment Until All Pods Are Running",
+        "type": "logic.while",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Monitor CWOM Deployment Until All Pods Are Running",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01FCSTYX3U7SI4P6uarSjLjE4nLcR4R48XC",
+            "name": "Condition Branch",
+            "title": "Check If Deployment Finished",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs.local.variable_workflow_01FCSVMAYZJEI00UkO13XcGsFgfGaUuYd5o$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "Check If Deployment Finished",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01FCQ2CW7APKO2IvXmH7FtpLfQA3Dlo5dqP",
+                "name": "HTTP Request",
+                "title": "Check CWOM Deployment Status",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "content_type": "application/json",
+                  "continue_on_error_status_code": false,
+                  "continue_on_failure": false,
+                  "custom_headers": [
+                    {
+                      "name": "Authorization",
+                      "value": "Bearer $workflow.definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs.local.variable_workflow_01FCQ2AE7R8435bmXySWDfT7DS99Ifn8P89$"
+                    }
+                  ],
+                  "display_name": "Check CWOM Deployment Status",
+                  "method": "GET",
+                  "relative_url": "/api/v1/namespaces/turbonomic/pods?fieldSelector=status%2Ephase%21%3DRunning",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "use_workflow_target": true
+                  }
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01FCSWKOUG3OL1IlMjIBNt3lZsJgKzvgjtZ",
+                "name": "JSONPath Query",
+                "title": "Get number of pods still deploying",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Get number of pods still deploying",
+                  "input_json": "$activity.definition_activity_01FCQ2CW7APKO2IvXmH7FtpLfQA3Dlo5dqP.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.items.length()",
+                      "jsonpath_query_name": "itemsLength",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01FCSZ0S22KIU7Xbw0T34bBc8RlewbYlQGh",
+                "name": "Condition Block",
+                "title": "If 0 pods returned then finish",
+                "type": "logic.if_else",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "If 0 pods returned then finish",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "blocks": [
+                  {
+                    "unique_name": "definition_activity_01FCSZ0TGPONK4VlDIMTFd6gK3g33oPsm14",
+                    "name": "Condition Branch",
+                    "title": "Condition Branch",
+                    "type": "logic.condition_block",
+                    "base_type": "activity",
+                    "properties": {
+                      "condition": {
+                        "left_operand": "$activity.definition_activity_01FCSWKOUG3OL1IlMjIBNt3lZsJgKzvgjtZ.output.jsonpath_queries.itemsLength$",
+                        "operator": "eq",
+                        "right_operand": "0"
+                      },
+                      "continue_on_failure": false,
+                      "display_name": "Condition Branch",
+                      "skip_execution": false
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_01FCSZJ93SOXE1VvN6wGi6CguPPj7sRdl2Z",
+                        "name": "Set Variables",
+                        "title": "Deployment Finished = true",
+                        "type": "core.set_multiple_variables",
+                        "base_type": "activity",
+                        "properties": {
+                          "continue_on_failure": false,
+                          "display_name": "Deployment Finished = true",
+                          "skip_execution": false,
+                          "variables_to_update": [
+                            {
+                              "variable_to_update": "$workflow.definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs.local.variable_workflow_01FCSVMAYZJEI00UkO13XcGsFgfGaUuYd5o$",
+                              "variable_value_new": true
+                            }
+                          ]
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01FCT32EK4HTP76sd6eOB6WZcfhaXw59o0t",
+        "name": "HTTP Request",
+        "title": "Get CWOM K8s Service (nginx)",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": true,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01FCQ2AECPZIJ7bTBO9x864TXAMHnuMtOHs.local.variable_workflow_01FCQ2AE7R8435bmXySWDfT7DS99Ifn8P89$"
+            }
+          ],
+          "display_name": "Get CWOM K8s Service (nginx)",
+          "method": "GET",
+          "relative_url": "/api/v1/namespaces/turbonomic/services/nginx",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCT3WGRDBRL3CA8V6q1r0kCSCGb3mlquP",
+        "name": "JSONPath Query",
+        "title": "Get LoadBalancer IP",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Get LoadBalancer IP",
+          "input_json": "$activity.definition_activity_01FCT32EK4HTP76sd6eOB6WZcfhaXw59o0t.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.status.loadBalancer.ingress[0].ip",
+              "jsonpath_query_name": "ip",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01FCQDHAWIP2W1OEAydTGLzJk9fuYieku5Q"
+    ]
+  },
+  "categories": {
+    "category_01FCQDHAWIP2W1OEAydTGLzJk9fuYieku5Q": {
+      "unique_name": "category_01FCQDHAWIP2W1OEAydTGLzJk9fuYieku5Q",
+      "name": "CWOM",
+      "title": "CWOM",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_01FCQEBQX2SL073wVH2Dti4LjihZVGK2omH": {
+      "unique_name": "definition_target_01FCQEBQX2SL073wVH2Dti4LjihZVGK2omH",
+      "name": "conmurph-turbo-k8s",
+      "title": "conmurph-turbo-k8s",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "conmurph-turbo-k8s",
+        "host": "10.237.99.116",
+        "no_runtime_user": true,
+        "port": 6443,
+        "protocol": "https"
+      }
+    }
+  }
+}

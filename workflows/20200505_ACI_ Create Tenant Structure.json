@@ -1,0 +1,600 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc",
+    "name": "ACI: Create Tenant Structure",
+    "title": "ACI: Create Tenant Structure",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "pvtTenant",
+          "scope": "input",
+          "name": "Tenant Name",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ERZ6VBONQCU1uXIkiH6aouZuD0gelQabo",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "10.237.99.x",
+          "scope": "input",
+          "name": "Bridge Domain Name",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ERZJIM35AMB7IHO7HAEiSEj8JXkoYr3IO",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "tcp",
+          "scope": "input",
+          "name": "Filter Protocol",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "admin",
+          "scope": "local",
+          "name": "ACI Username",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01F6CAR5GW1KJ0gV3KoeupSpiwhDycHNwr1",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "3306",
+          "scope": "input",
+          "name": "Filter Port",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ERZRPZ7UJYU2SWDJMVjEanfcITmcNFW83",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "local",
+          "name": "ACI Password",
+          "type": "datatype.secure_string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01F6CB1M0APW50w25z83yeB1hyRXzBeDAzG",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "DB",
+          "scope": "input",
+          "name": "DB EPG Name",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ERZL3DLFUB97cAZAy8onZnCA0QqAjBnTD",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Web",
+          "scope": "input",
+          "name": "Web EPG Name",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ERZH13VN0TL00I5PnTksuAyrIiNItE9iE",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "PVT",
+          "scope": "input",
+          "name": "Application Profile Name",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "ACI: Create Tenant Structure",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01F6CZVGT58LZ546jNtypeCDGOFkjTsrgyd",
+        "name": "Authenticate to ACI",
+        "title": "Authenticate to ACI",
+        "type": "workflow.sub_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Authenticate to ACI",
+          "input": {
+            "variable_workflow_01ERYXKVGLXS75rsMovzwMAalAE7XgvqPs5": "$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.local.variable_workflow_01F6CAR5GW1KJ0gV3KoeupSpiwhDycHNwr1$",
+            "variable_workflow_01ERYY5UI5E0X1pmyX21Yaotno4QsjZJOjN": "$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.local.variable_workflow_01F6CB1M0APW50w25z83yeB1hyRXzBeDAzG$"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "target_type": "01F6AZZCZQMYV5YD2s1AXuuoc1fiP4LLJEu",
+            "use_workflow_target": true
+          },
+          "workflow_id": "definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ERZ8KBFY8OE6OmNeRlQ7J9yixqKe1a2Gj",
+        "name": "HTTP Request",
+        "title": "Create Tenant",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"fvTenant\":{\n    \"attributes\":{\n      \"dn\":\"uni/tn-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZ6VBONQCU1uXIkiH6aouZuD0gelQabo$\",\n      \"name\":\"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZ6VBONQCU1uXIkiH6aouZuD0gelQabo$\",\n      \"rn\":\"tn-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZ6VBONQCU1uXIkiH6aouZuD0gelQabo$\",\n      \"status\":\"created,modified\"\n    }\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            "APIC-Cookie=$activity.definition_activity_01F6CZVGT58LZ546jNtypeCDGOFkjTsrgyd.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$"
+          ],
+          "display_name": "Create Tenant",
+          "method": "POST",
+          "relative_url": "/api/mo/.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ERZF1KZFI5B1KX90f3tVZ2PFPsU200sIf",
+        "name": "HTTP Request",
+        "title": "Create App Profile",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"fvAp\": {\n    \"attributes\": {\n      \"dn\": \"uni/tn-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZ6VBONQCU1uXIkiH6aouZuD0gelQabo$/ap-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$\",\n      \"name\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$\",\n      \"rn\": \"ap-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$\",\n      \"status\": \"created,modified\"\n    }\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            "APIC-Cookie=$activity.definition_activity_01F6CZVGT58LZ546jNtypeCDGOFkjTsrgyd.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$"
+          ],
+          "display_name": "Create App Profile",
+          "method": "POST",
+          "relative_url": "/api/mo/.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ERZGJ6DVYUD06ihaTemNNOrZ2Egu6HTUs",
+        "name": "HTTP Request",
+        "title": "Create Web EPG",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"fvAEPg\": {\n    \"attributes\": {\n      \"dn\": \"uni/tn-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZ6VBONQCU1uXIkiH6aouZuD0gelQabo$/ap-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$/epg-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZH13VN0TL00I5PnTksuAyrIiNItE9iE$\",\n      \"name\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZH13VN0TL00I5PnTksuAyrIiNItE9iE$\",\n      \"rn\": \"epg-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZH13VN0TL00I5PnTksuAyrIiNItE9iE$\",\n      \"status\": \"created,modified\"\n    },\n    \"children\": [\n      {\n        \"fvRsBd\": {\n          \"attributes\": {\n            \"tnFvBDName\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZJIM35AMB7IHO7HAEiSEj8JXkoYr3IO$\",\n            \"status\": \"created,modified\"\n          }\n        }\n      }\n    ]\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            "APIC-Cookie=$activity.definition_activity_01F6CZVGT58LZ546jNtypeCDGOFkjTsrgyd.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$"
+          ],
+          "display_name": "Create Web EPG",
+          "method": "POST",
+          "relative_url": "/api/mo/.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ERZKBQE8G3A1as0oqAMmSIC7l4EzQS9QR",
+        "name": "HTTP Request",
+        "title": "Create DB EPG",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"fvAEPg\": {\n    \"attributes\": {\n      \"dn\": \"uni/tn-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZ6VBONQCU1uXIkiH6aouZuD0gelQabo$/ap-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$/epg-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZL3DLFUB97cAZAy8onZnCA0QqAjBnTD$\",\n      \"name\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZL3DLFUB97cAZAy8onZnCA0QqAjBnTD$\",\n      \"rn\": \"epg-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZL3DLFUB97cAZAy8onZnCA0QqAjBnTD$\",\n      \"status\": \"created,modified\"\n    },\n    \"children\": [\n      {\n        \"fvRsBd\": {\n          \"attributes\": {\n            \"tnFvBDName\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZJIM35AMB7IHO7HAEiSEj8JXkoYr3IO$\",\n            \"status\": \"created,modified\"\n          }\n        }\n      }\n    ]\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            "APIC-Cookie=$activity.definition_activity_01F6CZVGT58LZ546jNtypeCDGOFkjTsrgyd.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$"
+          ],
+          "display_name": "Create DB EPG",
+          "method": "POST",
+          "relative_url": "/api/mo/.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ERZT99WRVQ07MEj8uENxTaUbxauo6uZNd",
+        "name": "HTTP Request",
+        "title": "Create Filter in Common Tenant",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"vzFilter\": {\n    \"attributes\": {\n      \"dn\": \"uni/tn-common/flt-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$_src_port_any_to_dst_port_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRPZ7UJYU2SWDJMVjEanfcITmcNFW83$\",\n      \"name\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$_src_port_any_to_dst_port_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRPZ7UJYU2SWDJMVjEanfcITmcNFW83$\",\n      \"rn\": \"flt-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$_src_port_any_to_dst_port_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRPZ7UJYU2SWDJMVjEanfcITmcNFW83$\",\n      \"status\": \"created,modified\"\n    },\n    \"children\": [\n      {\n        \"vzEntry\": {\n          \"attributes\": {\n            \"dn\": \"uni/tn-common/flt-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$_src_port_any_to_dst_port_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRPZ7UJYU2SWDJMVjEanfcITmcNFW83$/e-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$_src_port_any_to_dst_port_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRPZ7UJYU2SWDJMVjEanfcITmcNFW83$\",\n            \"name\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$_src_port_any_to_dst_port_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRPZ7UJYU2SWDJMVjEanfcITmcNFW83$\",\n            \"etherT\": \"ip\",\n            \"prot\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$\",\n            \"dFromPort\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRPZ7UJYU2SWDJMVjEanfcITmcNFW83$\",\n            \"dToPort\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRPZ7UJYU2SWDJMVjEanfcITmcNFW83$\",\n            \"rn\": \"e-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$_src_port_any_to_dst_port_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRPZ7UJYU2SWDJMVjEanfcITmcNFW83$\",\n            \"status\": \"created,modified\"\n          }\n        }\n      }\n    ]\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            "APIC-Cookie=$activity.definition_activity_01F6CZVGT58LZ546jNtypeCDGOFkjTsrgyd.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$"
+          ],
+          "display_name": "Create Filter in Common Tenant",
+          "method": "POST",
+          "relative_url": "/api/mo/.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ERZZCC4OU9R0LolAtcgpAT0mz60iJYRjN",
+        "name": "HTTP Request",
+        "title": "Create Tenant Contract",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"vzBrCP\": {\n    \"attributes\": {\n      \"dn\": \"uni/tn-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZ6VBONQCU1uXIkiH6aouZuD0gelQabo$/brc-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZH13VN0TL00I5PnTksuAyrIiNItE9iE$_to_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZL3DLFUB97cAZAy8onZnCA0QqAjBnTD$\",\n      \"name\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZH13VN0TL00I5PnTksuAyrIiNItE9iE$_to_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZL3DLFUB97cAZAy8onZnCA0QqAjBnTD$\",\n      \"rn\": \"brc-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZH13VN0TL00I5PnTksuAyrIiNItE9iE$_to_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZL3DLFUB97cAZAy8onZnCA0QqAjBnTD$\",\n      \"status\": \"created,modified\"\n    },\n    \"children\": [\n      {\n        \"vzSubj\": {\n          \"attributes\": {\n            \"dn\": \"uni/tn-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZ6VBONQCU1uXIkiH6aouZuD0gelQabo$/brc-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZH13VN0TL00I5PnTksuAyrIiNItE9iE$_to_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZL3DLFUB97cAZAy8onZnCA0QqAjBnTD$/subj-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$\",\n            \"name\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$\",\n            \"rn\": \"subj-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$\",\n            \"status\": \"created,modified\"\n          },\n          \"children\": [\n            {\n              \"vzRsSubjFiltAtt\": {\n                \"attributes\": {\n                  \"status\": \"created,modified\",\n                  \"tnVzFilterName\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRGDK5QEJ4yP4jjqcYgD4az2bPH9cqs$_src_port_any_to_dst_port_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZRPZ7UJYU2SWDJMVjEanfcITmcNFW83$\",\n                  \"directives\": \"none\"\n                }\n              }\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            "APIC-Cookie=$activity.definition_activity_01F6CZVGT58LZ546jNtypeCDGOFkjTsrgyd.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$"
+          ],
+          "display_name": "Create Tenant Contract",
+          "method": "POST",
+          "relative_url": "/api/mo/.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ES099KTJWZ36snphRYJoX6KuFI4oUk0Yf",
+        "name": "HTTP Request",
+        "title": "Create DB Provided Contract",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"fvRsProv\": {\n    \"attributes\": {\n      \"tnVzBrCPName\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZH13VN0TL00I5PnTksuAyrIiNItE9iE$_to_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZL3DLFUB97cAZAy8onZnCA0QqAjBnTD$\",\n      \"status\": \"created,modified\"\n    }\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            "APIC-Cookie=$activity.definition_activity_01F6CZVGT58LZ546jNtypeCDGOFkjTsrgyd.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$"
+          ],
+          "display_name": "Create DB Provided Contract",
+          "method": "POST",
+          "relative_url": "/api/node/mo/uni/tn-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZ6VBONQCU1uXIkiH6aouZuD0gelQabo$/ap-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$/epg-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZL3DLFUB97cAZAy8onZnCA0QqAjBnTD$.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ES0BA2IMIVP77dYU9U3A8IUjCPrZDgpEX",
+        "name": "HTTP Request",
+        "title": "Create Web Consumed Contract",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"fvRsCons\": {\n    \"attributes\": {\n      \"tnVzBrCPName\": \"$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZH13VN0TL00I5PnTksuAyrIiNItE9iE$_to_$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$:$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZL3DLFUB97cAZAy8onZnCA0QqAjBnTD$\",\n      \"status\": \"created,modified\"\n    }\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            "APIC-Cookie=$activity.definition_activity_01F6CZVGT58LZ546jNtypeCDGOFkjTsrgyd.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$"
+          ],
+          "display_name": "Create Web Consumed Contract",
+          "method": "POST",
+          "relative_url": "/api/node/mo/uni/tn-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZ6VBONQCU1uXIkiH6aouZuD0gelQabo$/ap-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZER00NY7N5piFVZ1SakWKmshUfUEr5M$/epg-$workflow.definition_workflow_01ERZ54BSPVQT2EBGFHRW7zE59HqaVe5Onc.input.variable_workflow_01ERZH13VN0TL00I5PnTksuAyrIiNItE9iE$.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN"
+    ]
+  },
+  "categories": {
+    "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN": {
+      "unique_name": "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN",
+      "name": "ACI",
+      "title": "ACI",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ": {
+      "unique_name": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+      "name": "ACI-01",
+      "title": "ACI-01",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "ACI-01",
+        "host": "10.237.96.201",
+        "no_runtime_user": true,
+        "port": 443,
+        "protocol": "https"
+      }
+    }
+  },
+  "subworkflows": [
+    {
+      "workflow": {
+        "unique_name": "definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr",
+        "name": "ACI: Authenticate to ACI",
+        "title": "ACI: Authenticate to ACI",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+          {
+            "schema_id": "datatype.secure_string",
+            "properties": {
+              "value": "",
+              "scope": "input",
+              "name": "password",
+              "type": "datatype.secure_string",
+              "is_required": true
+            },
+            "unique_name": "variable_workflow_01ERYY5UI5E0X1pmyX21Yaotno4QsjZJOjN",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.secure_string",
+            "properties": {
+              "value": "",
+              "scope": "output",
+              "name": "access_token",
+              "type": "datatype.secure_string",
+              "is_required": false
+            },
+            "unique_name": "variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "",
+              "scope": "input",
+              "name": "username",
+              "type": "datatype.string",
+              "is_required": true
+            },
+            "unique_name": "variable_workflow_01ERYXKVGLXS75rsMovzwMAalAE7XgvqPs5",
+            "object_type": "variable_workflow"
+          }
+        ],
+        "properties": {
+          "atomic": {
+            "is_atomic": false
+          },
+          "delete_workflow_instance": true,
+          "display_name": "ACI: Authenticate to ACI",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "specify_on_workflow_start": false,
+            "target_default": true
+          },
+          "target": {
+            "target_type": "web-service.endpoint",
+            "specify_on_workflow_start": true
+          }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01ERYYO3EYNZT5RjjInRPBi3QvWD1e3UjFA",
+            "name": "HTTP Request",
+            "title": "Authenticate",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "body": "{\n  \"aaaUser\":{\n    \"attributes\":{ \n      \"name\":\"$workflow.definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr.input.variable_workflow_01ERYXKVGLXS75rsMovzwMAalAE7XgvqPs5$\",\n      \"pwd\":\"$workflow.definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr.input.variable_workflow_01ERYY5UI5E0X1pmyX21Yaotno4QsjZJOjN$\"\n    }\n  }\n}",
+              "content_type": "application/json",
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "display_name": "Authenticate",
+              "method": "POST",
+              "relative_url": "/api/aaaLogin.json",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "use_workflow_target": true
+              }
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01ERZ0WZWIBL33TFPAqad84UxrEKBnFnTzw",
+            "name": "JSONPath Query",
+            "title": "JSONPath Query",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "JSONPath Query",
+              "input_json": "$activity.definition_activity_01ERYYO3EYNZT5RjjInRPBi3QvWD1e3UjFA.output.response_body$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.imdata[0].aaaLogin.attributes.token",
+                  "jsonpath_query_name": "access_token",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01ERZ2DKTU8QB04tNTka8ih9GH3NeUT5rEP",
+            "name": "Set Variables",
+            "title": "Set Variables",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Set Variables",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$",
+                  "variable_value_new": "$activity.definition_activity_01ERZ0WZWIBL33TFPAqad84UxrEKBnFnTzw.output.jsonpath_queries.access_token$"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ],
+        "categories": [
+          "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN"
+        ]
+      }
+    }
+  ]
+}

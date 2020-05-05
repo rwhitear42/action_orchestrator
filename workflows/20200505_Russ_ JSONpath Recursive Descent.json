@@ -1,0 +1,69 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EZS4FYUO03D7Y3kEF6rMSa8SDhuPvXLmX",
+    "name": "Russ: JSONpath Recursive Descent",
+    "title": "Russ: JSONpath Recursive Descent",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{\n  \"name\": \"Russ\",\n  \"branch\": [\n    {\n      \"name\": \"Conor\"\n    },\n    {\n      \"another branch\": [\n        {\n          \"name\": \"Stuart\"\n        }\n      ]\n    }\n  ]\n}",
+          "scope": "local",
+          "name": "Source JSON",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EZS573MJISP1dmquIMMh7QN3uXrphbOgj",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Russ: JSONpath Recursive Descent",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EZS59WQR8TG5pndRULWcZLNI3sGyDr5Bh",
+        "name": "JSONPath Query",
+        "title": "JSONPath Query",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "JSONPath Query",
+          "input_json": "$workflow.definition_workflow_01EZS4FYUO03D7Y3kEF6rMSa8SDhuPvXLmX.local.variable_workflow_01EZS573MJISP1dmquIMMh7QN3uXrphbOgj$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$..name",
+              "jsonpath_query_name": "name",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

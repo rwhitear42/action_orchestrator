@@ -1,0 +1,1002 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EY99625TH2H15izYF0RXhAtqvU6jLvj0z",
+    "name": "Conor: Deploy InfluxDB",
+    "title": "Conor: Deploy InfluxDB",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{\n  \"apiVersion\": \"v1\",\n  \"kind\": \"Service\",\n  \"metadata\": {\n    \"labels\": {\n      \"app\": \"influxdb\"\n    },\n    \"name\": \"influxdb\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"ports\": [\n      {\n        \"port\": 8086,\n\"targetPort\": 8086\n      }\n    ],\n    \"selector\": {\n      \"app\": \"influxdb\"\n    },\n    \"type\": \"LoadBalancer\"\n  }\n}",
+          "scope": "input",
+          "name": "Service",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EY99620NFE56T3hSne7BrUKDdq6flpdwu",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{\n  \"apiVersion\": \"v1\",\n  \"kind\": \"PersistentVolumeClaim\",\n  \"metadata\": {\n    \"labels\": {\n      \"app\": \"influxdb\"\n    },\n    \"name\": \"influxdb\"\n  },\n  \"spec\": {\n    \"accessModes\": [\n      \"ReadWriteOnce\"\n    ],\n    \"resources\": {\n      \"requests\": {\n        \"storage\": \"1Gi\"\n      }\n    }\n  }\n}",
+          "scope": "input",
+          "name": "PVC",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EY99620NH9L4YuOxTrfjP0HV1biMyNd1u",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "default",
+          "scope": "input",
+          "name": "Namespace",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EY99620NIL46DCwowBsepywH6OmQ3jgub",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "input",
+          "name": "K8s Token",
+          "type": "datatype.secure_string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EY99620N89E58umConGKOL4njoHdslBDx",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{\n  \"apiVersion\": \"apps/v1\",\n  \"kind\": \"Deployment\",\n  \"metadata\": {\n    \"namespace\": \"default\",\n    \"annotations\": null,\n    \"creationTimestamp\": null,\n    \"generation\": 1,\n    \"labels\": {\n      \"app\": \"influxdb\"\n    },\n    \"name\": \"influxdb\"\n  },\n  \"spec\": {\n    \"progressDeadlineSeconds\": 600,\n    \"replicas\": 1,\n    \"revisionHistoryLimit\": 10,\n    \"selector\": {\n      \"matchLabels\": {\n        \"app\": \"influxdb\"\n      }\n    },\n    \"strategy\": {\n      \"rollingUpdate\": {\n        \"maxSurge\": \"25%\",\n        \"maxUnavailable\": \"25%\"\n      },\n      \"type\": \"RollingUpdate\"\n    },\n    \"template\": {\n      \"metadata\": {\n        \"creationTimestamp\": null,\n        \"labels\": {\n          \"app\": \"influxdb\"\n        }\n      },\n      \"spec\": {\n        \"containers\": [\n          {\n            \"envFrom\": [\n              {\n                \"secretRef\": {\n                  \"name\": \"influxdb-creds\"\n                }\n              }\n            ],\n            \"image\": \"docker.io/influxdb:1.6.4\",\n            \"imagePullPolicy\": \"IfNotPresent\",\n            \"name\": \"influxdb\",\n            \"resources\": {},\n            \"terminationMessagePath\": \"/dev/termination-log\",\n            \"terminationMessagePolicy\": \"File\",\n            \"volumeMounts\": [\n              {\n                \"mountPath\": \"/var/lib/influxdb\",\n                \"name\": \"var-lib-influxdb\"\n              }\n            ]\n          }\n        ],\n        \"dnsPolicy\": \"ClusterFirst\",\n        \"restartPolicy\": \"Always\",\n        \"schedulerName\": \"default-scheduler\",\n        \"securityContext\": {},\n        \"terminationGracePeriodSeconds\": 30,\n        \"volumes\": [\n          {\n            \"name\": \"var-lib-influxdb\",\n            \"persistentVolumeClaim\": {\n              \"claimName\": \"influxdb\"\n            }\n          }\n        ]\n      }\n    }\n  }\n}",
+          "scope": "input",
+          "name": "Deployment",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EY99620NDBV3PRoBSqnS8hwEamrXs67Lh",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Conor: Deploy InfluxDB",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EY9970Z4FA06b6izRRxZ79XftjsBc25DB",
+        "name": "HTTP Request",
+        "title": "Create PVC",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$workflow.definition_workflow_01EY99625TH2H15izYF0RXhAtqvU6jLvj0z.input.variable_workflow_01EY99620NH9L4YuOxTrfjP0HV1biMyNd1u$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EY99625TH2H15izYF0RXhAtqvU6jLvj0z.input.variable_workflow_01EY99620N89E58umConGKOL4njoHdslBDx$"
+            }
+          ],
+          "display_name": "Create PVC",
+          "method": "POST",
+          "relative_url": "or ",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EXDVXC2Y3TM6QwPi8eCiuFWm15I1fuz9X"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EY9975O697I4iJNPqGiFqtQ5bSW24SJVN",
+        "name": "HTTP Request",
+        "title": "Create Deployment",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$workflow.definition_workflow_01EY99625TH2H15izYF0RXhAtqvU6jLvj0z.input.variable_workflow_01EY99620NDBV3PRoBSqnS8hwEamrXs67Lh$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EY99625TH2H15izYF0RXhAtqvU6jLvj0z.input.variable_workflow_01EY99620N89E58umConGKOL4njoHdslBDx$"
+            }
+          ],
+          "display_name": "Create Deployment",
+          "method": "POST",
+          "relative_url": "/apis/apps/v1/namespaces/$workflow.definition_workflow_01EY99625TH2H15izYF0RXhAtqvU6jLvj0z.input.variable_workflow_01EY99620NIL46DCwowBsepywH6OmQ3jgub$/deployments",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EXDVXC2Y3TM6QwPi8eCiuFWm15I1fuz9X"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EY997AH4YAZ7JAj0LUUEvxq2E4usZLsAI",
+        "name": "HTTP Request",
+        "title": "Create Service",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$workflow.definition_workflow_01EY99625TH2H15izYF0RXhAtqvU6jLvj0z.input.variable_workflow_01EY99620NFE56T3hSne7BrUKDdq6flpdwu$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EY99625TH2H15izYF0RXhAtqvU6jLvj0z.input.variable_workflow_01EY99620N89E58umConGKOL4njoHdslBDx$"
+            }
+          ],
+          "display_name": "Create Service",
+          "method": "POST",
+          "relative_url": "/api/v1/namespaces/$workflow.definition_workflow_01EY99625TH2H15izYF0RXhAtqvU6jLvj0z.input.variable_workflow_01EY99620NIL46DCwowBsepywH6OmQ3jgub$/services",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EXDVXC2Y3TM6QwPi8eCiuFWm15I1fuz9X"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EY997F6KB7Y72WA7MJmzzkoLGzuSjCu4A",
+        "name": "HTTP Request",
+        "title": "Get Service IP",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EY99625TH2H15izYF0RXhAtqvU6jLvj0z.input.variable_workflow_01EY99620N89E58umConGKOL4njoHdslBDx$"
+            }
+          ],
+          "display_name": "Get Service IP",
+          "method": "GET",
+          "relative_url": "/api/v1/namespaces/$workflow.definition_workflow_01EY99625TH2H15izYF0RXhAtqvU6jLvj0z.input.variable_workflow_01EY99620NIL46DCwowBsepywH6OmQ3jgub$/services/influxdb",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EXDVXC2Y3TM6QwPi8eCiuFWm15I1fuz9X"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EY997K0VRGI49E8wn67GG91cjvNx1YYn6",
+        "name": "JSONPath Query",
+        "title": "JSONPath Query",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "JSONPath Query",
+          "input_json": "$activity.definition_activity_01EY997F6KB7Y72WA7MJmzzkoLGzuSjCu4A.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.status.loadBalancer.ingress[0].ip",
+              "jsonpath_query_name": "ip",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EY997OFHDV24PxzLbnKFzsnFADejaubbh",
+        "name": "Update Target IP",
+        "title": "Update Target IP",
+        "type": "workflow.sub_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Update Target IP",
+          "input": {
+            "variable_workflow_01EY9969QCQDZ674q50L1MWXPnuhRnXel2X": "$activity.definition_activity_01EY997K0VRGI49E8wn67GG91cjvNx1YYn6.output.jsonpath_queries.ip$",
+            "variable_workflow_01EY9969QCTLU2E3gCmejgInj3aw12otfVf": "InfluxDB Placeholder"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "no_target": true
+          },
+          "workflow_id": "definition_workflow_01EY9969XQL667cwz1xKPXhHSnuws6pELA2"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EY997RMFNKA588mIndPVNSEKjdlgz9gQJ",
+        "name": "Sleep",
+        "title": "Sleep - InfluxDB needs time to startup",
+        "type": "core.sleep",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Sleep - InfluxDB needs time to startup",
+          "skip_execution": false,
+          "sleep_interval": 10
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EY997V2D5OC0Gx3wUbgce1S2UyQOkAOQI",
+        "name": "Create InfluxDB Database",
+        "title": "Create InfluxDB Database",
+        "type": "workflow.sub_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Create InfluxDB Database",
+          "input": {
+            "variable_workflow_01EY9967TVEQD3UHXKTApgyd8VHMdhdCwwR": "pvt"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "01EXFTWPMQF9W4eQktgNT1IjG1RRTuCCjpj",
+            "target_type": "01915TKRYOI001ZfxliRzDdF44eWNfORZTW"
+          },
+          "workflow_id": "definition_workflow_01EY9967YT9X33TBDmYCRDcuBlEYtDBkkEG"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EY997YDQOVD1tLuEgCCcGg9XiURFKBRPj",
+        "name": "Add Grafana Datasource",
+        "title": "Add Grafana Datasource",
+        "type": "workflow.sub_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Add Grafana Datasource",
+          "input": {
+            "variable_workflow_01EY9968JGIXP3a3qPJZaH8IsAmPdOS7pSS": "$activity.definition_activity_01EY997K0VRGI49E8wn67GG91cjvNx1YYn6.output.jsonpath_queries.ip$",
+            "variable_workflow_01EY9968JGM827Mg2Ge87ZIYbj0ieUJWZgZ": "8086"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "no_target": true
+          },
+          "workflow_id": "definition_workflow_01EY9968RWGQG5nZmvRdmX1gOkRZVtqjHxN"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EY99823TB7M4GS9rVKIJXhtVXQR1IRkYR",
+        "name": "Write to InfluxDB Database",
+        "title": "Write to InfluxDB Database",
+        "type": "workflow.sub_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Write to InfluxDB Database",
+          "input": {
+            "variable_workflow_01EY9968JGV3U0eDA6dFlu2LzBsTnYNMP4c": "pvt",
+            "variable_workflow_01EY9968JH2D64eEJumk6DzqPC8YYaLZfaM": "aci_fabric_health,name=Leaf-101 healthscore=78"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "01EXFTWPMQF9W4eQktgNT1IjG1RRTuCCjpj",
+            "target_type": "01915TKRYOI001ZfxliRzDdF44eWNfORZTW"
+          },
+          "workflow_id": "definition_workflow_01EY9968QPXRD55ooanNFF7fMoJa5ExsS6u"
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "categories": {
+    "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn": {
+      "unique_name": "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn",
+      "name": "InfluxDB",
+      "title": "InfluxDB",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_01EX6EBQG975K6oJ2Pso4yf6iQhbN2R6R1z": {
+      "unique_name": "definition_target_01EX6EBQG975K6oJ2Pso4yf6iQhbN2R6R1z",
+      "name": "Grafana",
+      "title": "Grafana",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "Grafana",
+        "host": "10.30.1.121",
+        "no_runtime_user": true,
+        "path": "/grafana/",
+        "port": 443,
+        "protocol": "https"
+      }
+    },
+    "definition_target_01EXDVXC2Y3TM6QwPi8eCiuFWm15I1fuz9X": {
+      "unique_name": "definition_target_01EXDVXC2Y3TM6QwPi8eCiuFWm15I1fuz9X",
+      "name": "conmurph-mla-kubernetes",
+      "title": "conmurph-mla-kubernetes",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "conmurph-mla-kubernetes",
+        "host": "10.30.1.202",
+        "no_runtime_user": true,
+        "port": 6443,
+        "protocol": "https"
+      }
+    }
+  },
+  "subworkflows": [
+    {
+      "workflow": {
+        "unique_name": "definition_workflow_01EY9967YT9X33TBDmYCRDcuBlEYtDBkkEG",
+        "name": "Create InfluxDB Database",
+        "title": "Create InfluxDB Database",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "",
+              "scope": "input",
+              "name": "Database Name",
+              "type": "datatype.string",
+              "is_required": true
+            },
+            "unique_name": "variable_workflow_01EY9967TVEQD3UHXKTApgyd8VHMdhdCwwR",
+            "object_type": "variable_workflow"
+          }
+        ],
+        "properties": {
+          "atomic": {
+            "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "display_name": "Create InfluxDB Database",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "specify_on_workflow_start": false,
+            "target_default": true
+          },
+          "target": {
+            "target_type": "web-service.endpoint",
+            "specify_on_workflow_start": true
+          }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01EY996KQNXD76DfQjosmf56U9BoCvDiRsh",
+            "name": "HTTP Request",
+            "title": "Create Influx Database",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "accept": "*/*",
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "body": "q=CREATE DATABASE \"$workflow.definition_workflow_01EY9967YT9X33TBDmYCRDcuBlEYtDBkkEG.input.variable_workflow_01EY9967TVEQD3UHXKTApgyd8VHMdhdCwwR$\"",
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "custom_headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/x-www-form-urlencoded"
+                }
+              ],
+              "display_name": "Create Influx Database",
+              "method": "POST",
+              "relative_url": "/query",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "use_workflow_target": true
+              }
+            },
+            "object_type": "definition_activity"
+          }
+        ],
+        "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+      }
+    },
+    {
+      "workflow": {
+        "unique_name": "definition_workflow_01EY9968QPXRD55ooanNFF7fMoJa5ExsS6u",
+        "name": "Write to InfluxDB Database",
+        "title": "Write to InfluxDB Database",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "aci_fabric_health,name=Leaf-101 healthscore=78",
+              "scope": "input",
+              "name": "Insert Data (Line Protocol Format)",
+              "type": "datatype.string",
+              "description": "Format as measurement,tag=tag1 field=field1",
+              "is_required": true
+            },
+            "unique_name": "variable_workflow_01EY9968JH2D64eEJumk6DzqPC8YYaLZfaM",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "",
+              "scope": "input",
+              "name": "Database Name",
+              "type": "datatype.string",
+              "is_required": true
+            },
+            "unique_name": "variable_workflow_01EY9968JGV3U0eDA6dFlu2LzBsTnYNMP4c",
+            "object_type": "variable_workflow"
+          }
+        ],
+        "properties": {
+          "atomic": {
+            "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "display_name": "Write to InfluxDB Database",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "specify_on_workflow_start": false,
+            "target_default": true
+          },
+          "target": {
+            "target_type": "web-service.endpoint",
+            "specify_on_workflow_start": true
+          }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01EY996NA3I6V5b1SNnkVQjvE848rPPfSP7",
+            "name": "HTTP Request",
+            "title": "Write Record to  Influx DB",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "accept": "*/*",
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "body": "$workflow.definition_workflow_01EY9968QPXRD55ooanNFF7fMoJa5ExsS6u.input.variable_workflow_01EY9968JH2D64eEJumk6DzqPC8YYaLZfaM$",
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "custom_headers": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/x-www-form-urlencoded"
+                }
+              ],
+              "display_name": "Write Record to  Influx DB",
+              "method": "POST",
+              "relative_url": "/write?db=$workflow.definition_workflow_01EY9968QPXRD55ooanNFF7fMoJa5ExsS6u.input.variable_workflow_01EY9968JGV3U0eDA6dFlu2LzBsTnYNMP4c$&precision=s",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "use_workflow_target": true
+              }
+            },
+            "object_type": "definition_activity"
+          }
+        ],
+        "categories": [
+          "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn"
+        ]
+      }
+    },
+    {
+      "workflow": {
+        "unique_name": "definition_workflow_01EY9968RWGQG5nZmvRdmX1gOkRZVtqjHxN",
+        "name": "SAVED Add Grafana Datasource",
+        "title": "SAVED Add Grafana Datasource",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "",
+              "scope": "input",
+              "name": "IP",
+              "type": "datatype.string",
+              "is_required": true
+            },
+            "unique_name": "variable_workflow_01EY9968JGIXP3a3qPJZaH8IsAmPdOS7pSS",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "",
+              "scope": "input",
+              "name": "Port",
+              "type": "datatype.string",
+              "is_required": true
+            },
+            "unique_name": "variable_workflow_01EY9968JGM827Mg2Ge87ZIYbj0ieUJWZgZ",
+            "object_type": "variable_workflow"
+          }
+        ],
+        "properties": {
+          "atomic": {
+            "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "display_name": "SAVED Add Grafana Datasource",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "specify_on_workflow_start": false,
+            "target_default": true
+          },
+          "target": {
+            "execute_on_target_group": false,
+            "execute_on_workflow_target": false,
+            "no_target": true,
+            "specify_on_workflow_start": false
+          }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01EY996LKYPOE4u54HHLknk4oOKzlJt1X6b",
+            "name": "HTTP Request",
+            "title": "POST to Create Datasource",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "body": "{\n\t\"name\": \"InfluxDB\",\n\t\"type\": \"influxdb\",\n\t\"access\": \"proxy\",\n\t\"isDefault\": false\n}",
+              "content_type": "application/json",
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "custom_headers": [
+                {
+                  "name": "Authorization",
+                  "value": "Basic YWRtaW46cGpJaUt1dGtmY3k3aU1zd2dpT0hzcXlGbGlaOGdCdEhBcEp0U2FVSQ=="
+                }
+              ],
+              "display_name": "POST to Create Datasource",
+              "method": "POST",
+              "relative_url": "/api/datasources",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": true,
+                "target_id": "definition_target_01EX6EBQG975K6oJ2Pso4yf6iQhbN2R6R1z"
+              }
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01EY996Q9RRTD0yrVNUEaFuSdPflQJt68KY",
+            "name": "JSONPath Query",
+            "title": "Get DatasourceID",
+            "type": "corejava.jsonpathquery",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "continue_on_failure": false,
+              "display_name": "Get DatasourceID",
+              "input_json": "$activity.definition_activity_01EY996LKYPOE4u54HHLknk4oOKzlJt1X6b.output.response_body$",
+              "jsonpath_queries": [
+                {
+                  "jsonpath_query": "$.datasource.id",
+                  "jsonpath_query_name": "id",
+                  "jsonpath_query_type": "string"
+                }
+              ],
+              "skip_execution": false
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01EY996V69KB36Y23wFUA7pXXPpA0SY0e16",
+            "name": "HTTP Request",
+            "title": "PUT To Update Datasource",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "body": "{\n  \"id\": $activity.definition_activity_01EY996Q9RRTD0yrVNUEaFuSdPflQJt68KY.output.jsonpath_queries.id$,\n\t\"name\": \"InfluxDB\",\n\t\"type\": \"influxdb\",\n\t\"access\": \"proxy\",\n\t\"url\": \"http://$workflow.definition_workflow_01EY9968RWGQG5nZmvRdmX1gOkRZVtqjHxN.input.variable_workflow_01EY9968JGIXP3a3qPJZaH8IsAmPdOS7pSS$:$workflow.definition_workflow_01EY9968RWGQG5nZmvRdmX1gOkRZVtqjHxN.input.variable_workflow_01EY9968JGM827Mg2Ge87ZIYbj0ieUJWZgZ$\",\n\t\"password\": \"\",\n\t\"user\": \"\",\n\t\"database\": \"pvt\",\n\t\"basicAuth\": false,\n\t\"basicAuthUser\": \"\",\n\t\"basicAuthPassword\": \"\",\n\t\"withCredentials\": false,\n\t\"isDefault\": false,\n\t\"secureJsonFields\": {},\n\t\"version\": 1,\n\t\"readOnly\": false\n}",
+              "content_type": "application/json",
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "custom_headers": [
+                {
+                  "name": "Authorization",
+                  "value": "Basic YWRtaW46cGpJaUt1dGtmY3k3aU1zd2dpT0hzcXlGbGlaOGdCdEhBcEp0U2FVSQ=="
+                }
+              ],
+              "display_name": "PUT To Update Datasource",
+              "method": "PUT",
+              "relative_url": "/api/datasources/$activity.definition_activity_01EY996Q9RRTD0yrVNUEaFuSdPflQJt68KY.output.jsonpath_queries.id$",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": true,
+                "target_id": "definition_target_01EX6EBQG975K6oJ2Pso4yf6iQhbN2R6R1z"
+              }
+            },
+            "object_type": "definition_activity"
+          }
+        ],
+        "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+      }
+    },
+    {
+      "workflow": {
+        "unique_name": "definition_workflow_01EY9969XQL667cwz1xKPXhHSnuws6pELA2",
+        "name": "Update Target IP",
+        "title": "Update Target IP",
+        "type": "generic.workflow",
+        "base_type": "workflow",
+        "variables": [
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "1.1.1.3",
+              "scope": "input",
+              "name": "IP Address",
+              "type": "datatype.string",
+              "is_required": true
+            },
+            "unique_name": "variable_workflow_01EY9969QCQDZ674q50L1MWXPnuhRnXel2X",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "InfluxDB Placeholder",
+              "scope": "input",
+              "name": "Target Name",
+              "type": "datatype.string",
+              "is_required": true
+            },
+            "unique_name": "variable_workflow_01EY9969QCTLU2E3gCmejgInj3aw12otfVf",
+            "object_type": "variable_workflow"
+          },
+          {
+            "schema_id": "datatype.string",
+            "properties": {
+              "value": "",
+              "scope": "local",
+              "name": "Target ID",
+              "type": "datatype.string",
+              "is_required": false
+            },
+            "unique_name": "variable_workflow_01EY9969QCV1P3Eh5jl6QSL6FDbxTaxlEPK",
+            "object_type": "variable_workflow"
+          }
+        ],
+        "properties": {
+          "atomic": {
+            "is_atomic": false
+          },
+          "delete_workflow_instance": false,
+          "display_name": "Update Target IP",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "specify_on_workflow_start": false,
+            "target_default": true
+          },
+          "target": {
+            "execute_on_target_group": false,
+            "execute_on_workflow_target": false,
+            "no_target": true,
+            "specify_on_workflow_start": false
+          }
+        },
+        "object_type": "definition_workflow",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01EY997GK11XY2R04HlmpcgUCIKe0pg6G24",
+            "name": "Get AO Target ID",
+            "title": "Get AO Target ID",
+            "type": "workflow.sub_workflow",
+            "base_type": "subworkflow",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Get AO Target ID",
+              "input": {
+                "variable_workflow_01EY996F1JQYG3LjUQWZQROfnXDxAEYKEgg": "$workflow.definition_workflow_01EY9969XQL667cwz1xKPXhHSnuws6pELA2.input.variable_workflow_01EY9969QCTLU2E3gCmejgInj3aw12otfVf$"
+              },
+              "runtime_user": {
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "no_target": true
+              },
+              "workflow_id": "definition_workflow_01EY996F7JV5J7F0DubXVLZF9edsq13DWlT"
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01EY997JV602M6275djgLKRlHn6nJAhJjcE",
+            "name": "Set Variables",
+            "title": "Set Variables",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Set Variables",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01EY9969XQL667cwz1xKPXhHSnuws6pELA2.local.variable_workflow_01EY9969QCV1P3Eh5jl6QSL6FDbxTaxlEPK$",
+                  "variable_value_new": "$activity.definition_activity_01EY997GK11XY2R04HlmpcgUCIKe0pg6G24.output.variable_workflow_01EY996F1JUFQ1cfouGwZGjm7nqKHqR3A7q$"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01EY997OST0D8041Z6DKgP0WZ8epioz59p0",
+            "name": "Generic CCS API Request",
+            "title": "Update Target IP",
+            "type": "ccs.api_request",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "api_body": "{\n  \"properties\": {\n\t\t\"disable_certificate_validation\": true,\n\t\t\"display_name\": \"InfluxDB Placeholder\",\n\t\t\"host\": \"$workflow.definition_workflow_01EY9969XQL667cwz1xKPXhHSnuws6pELA2.input.variable_workflow_01EY9969QCQDZ674q50L1MWXPnuhRnXel2X$\",\n\t\t\"no_runtime_user\": true,\n\t\t\"port\": 8086,\n\t\t\"protocol\": \"http\"\n\t}\n}",
+              "api_call_method": "PUT",
+              "continue_on_failure": false,
+              "display_name": "Update Target IP",
+              "relative_url": "/be-console/api/v1/targets/$activity.definition_activity_01EY997GK11XY2R04HlmpcgUCIKe0pg6G24.output.variable_workflow_01EY996F1JUFQ1cfouGwZGjm7nqKHqR3A7q$",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": true,
+                "target_id": "definition_target_01f9IQgvQRJv3tvlqwR145Bbrye0toH0Q"
+              }
+            },
+            "object_type": "definition_activity"
+          }
+        ],
+        "categories": [
+          "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+        ]
+      },
+      "subworkflows": [
+        {
+          "workflow": {
+            "unique_name": "definition_workflow_01EY996F7JV5J7F0DubXVLZF9edsq13DWlT",
+            "name": "Get AO Target ID",
+            "title": "Get AO Target ID",
+            "type": "generic.workflow",
+            "base_type": "workflow",
+            "variables": [
+              {
+                "schema_id": "datatype.string",
+                "properties": {
+                  "value": "InfluxDB Placeholder",
+                  "scope": "input",
+                  "name": "targetName",
+                  "type": "datatype.string",
+                  "is_required": true
+                },
+                "unique_name": "variable_workflow_01EY996F1JQYG3LjUQWZQROfnXDxAEYKEgg",
+                "object_type": "variable_workflow"
+              },
+              {
+                "schema_id": "datatype.string",
+                "properties": {
+                  "value": "",
+                  "scope": "output",
+                  "name": "targetID",
+                  "type": "datatype.string",
+                  "is_required": false
+                },
+                "unique_name": "variable_workflow_01EY996F1JUFQ1cfouGwZGjm7nqKHqR3A7q",
+                "object_type": "variable_workflow"
+              }
+            ],
+            "properties": {
+              "atomic": {
+                "is_atomic": false
+              },
+              "delete_workflow_instance": false,
+              "display_name": "Get AO Target ID",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "specify_on_workflow_start": false,
+                "target_default": true
+              },
+              "target": {
+                "execute_on_target_group": false,
+                "execute_on_workflow_target": false,
+                "no_target": true,
+                "specify_on_workflow_start": false
+              }
+            },
+            "object_type": "definition_workflow",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01EY996RJCNOB5giYyol7HeYjtyUK1diPoy",
+                "name": "Generic CCS API Request",
+                "title": "Generic CCS API Request",
+                "type": "ccs.api_request",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "api_call_method": "GET",
+                  "continue_on_failure": false,
+                  "display_name": "Generic CCS API Request",
+                  "relative_url": "/be-console/api/v1/targets",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target": true,
+                    "target_id": "definition_target_01f9IQgvQRJv3tvlqwR145Bbrye0toH0Q"
+                  }
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01EY996VJ4M2P4a1Mh3Nz811i1dmvhspzv8",
+                "name": "Convert Json to Xml",
+                "title": "Convert Json to Xml",
+                "type": "core.json2xml",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Convert Json to Xml",
+                  "input_json": "$activity.definition_activity_01EY996RJCNOB5giYyol7HeYjtyUK1diPoy.output.response_body$",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01EY9970PS6R37fZfgy9GLIIfX9pT10lewh",
+                "name": "XSL Transform",
+                "title": "XSL Transform",
+                "type": "core.xsl_transform",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "XSL Transform",
+                  "document": "$activity.definition_activity_01EY996VJ4M2P4a1Mh3Nz811i1dmvhspzv8.output.output_xml$",
+                  "skip_execution": false,
+                  "stylesheet": "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">\n\n\t<xsl:output method=\"html\" indent=\"yes\"/>\n  \n  <xsl:template match=\"/\">\n      <xsl:for-each select=\"root/object\" >\n         <xsl:if test=\"name='$workflow.definition_workflow_01EY996F7JV5J7F0DubXVLZF9edsq13DWlT.input.variable_workflow_01EY996F1JQYG3LjUQWZQROfnXDxAEYKEgg$'\">\n           <xsl:value-of select=\"id\"/>    \n         </xsl:if>    \n      </xsl:for-each>\n    \n\t</xsl:template>\n</xsl:stylesheet>"
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01EY9973WB6Z567NzmJ6DzYDbBTm8X4bVEN",
+                "name": "Set Variables",
+                "title": "Set Variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set Variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01EY996F7JV5J7F0DubXVLZF9edsq13DWlT.output.variable_workflow_01EY996F1JUFQ1cfouGwZGjm7nqKHqR3A7q$",
+                      "variable_value_new": "$activity.definition_activity_01EY9970PS6R37fZfgy9GLIIfX9pT10lewh.output.output_document$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ],
+            "categories": [
+              "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

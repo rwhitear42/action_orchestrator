@@ -1,0 +1,356 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01F6EIBH9BZEX0yRQNmqXvbg0rouM7nUDns",
+    "name": "ACI: Check if VLAN is Configured in Fabric",
+    "title": "ACI: Check if VLAN is Configured in Fabric",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "local",
+          "name": "Password",
+          "type": "datatype.secure_string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01F6EIBH52IAW5cBwdb6ydhmebpJMGFbff6",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "scope": "input",
+          "name": "VLAN ID",
+          "type": "datatype.integer",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01F6EIBH52LMC15hOx8XGE8Lt5R4cDOLydo",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "VLAN Interfaces",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01F6EIBH52NDM1Mo8J4lzcoAsmEy6jzL2Om",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "admin",
+          "scope": "local",
+          "name": "Username",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01F6EIBH52OZA2f3Bi5U6z0oJPUHAJmiK7j",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "ACI: Check if VLAN is Configured in Fabric",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01F6EIBUBJR041LVcw50UQhTGQJpxYdN2Aj",
+        "name": "HTTP Request",
+        "title": "ACI Login",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"aaaUser\":{\n    \"attributes\":{\n      \"name\":\"$workflow.definition_workflow_01F6EIBH9BZEX0yRQNmqXvbg0rouM7nUDns.local.variable_workflow_01F6EIBH52OZA2f3Bi5U6z0oJPUHAJmiK7j$\",\n      \"pwd\":\"$workflow.definition_workflow_01F6EIBH9BZEX0yRQNmqXvbg0rouM7nUDns.local.variable_workflow_01F6EIBH52IAW5cBwdb6ydhmebpJMGFbff6$\"\n    }\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "display_name": "ACI Login",
+          "method": "POST",
+          "relative_url": "/api/aaaLogin.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6EIBY11PTH6GyBz76gQ6TmFqdhSkLMvO",
+        "name": "JSONPath Query",
+        "title": "ACI Auth Token",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "ACI Auth Token",
+          "input_json": "$activity.definition_activity_01F6EIBUBJR041LVcw50UQhTGQJpxYdN2Aj.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.imdata[0].aaaLogin.attributes.token",
+              "jsonpath_query_name": "Auth Token",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6EIC2H3QHJ65o5bSLHoKXm3BSObFZJb9",
+        "name": "HTTP Request",
+        "title": "Check for VLAN",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            "",
+            "APIC-Cookie=$activity.definition_activity_01F6EIBY11PTH6GyBz76gQ6TmFqdhSkLMvO.output.jsonpath_queries.Auth Token$"
+          ],
+          "display_name": "Check for VLAN",
+          "method": "GET",
+          "relative_url": "/api/node/class/fvIfConn.json?query-target-filter=and(wcard(fvIfConn.dn,\"vlan-$workflow.definition_workflow_01F6EIBH9BZEX0yRQNmqXvbg0rouM7nUDns.input.variable_workflow_01F6EIBH52LMC15hOx8XGE8Lt5R4cDOLydo$\"))",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6EIC6PLQFD08ZBUQwCxZaYKjvbWr0XNE",
+        "name": "JSONPath Query",
+        "title": "Check VLAN Count",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Check VLAN Count",
+          "input_json": "$activity.definition_activity_01F6EIC2H3QHJ65o5bSLHoKXm3BSObFZJb9.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.totalCount",
+              "jsonpath_query_name": "VLAN Count",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6EIC9XK5JH5PJiNg71IkeUdwSUCbB3iw",
+        "name": "Condition Block",
+        "title": "Check VLAN Count",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Check VLAN Count",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01F6EICCIX07A053Of5hdcdhBzctBf1WCys",
+            "name": "Condition Branch",
+            "title": "VLAN Count > 0",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01F6EIC6PLQFD08ZBUQwCxZaYKjvbWr0XNE.output.jsonpath_queries.VLAN Count$",
+                "operator": "ne",
+                "right_operand": "0"
+              },
+              "continue_on_failure": false,
+              "display_name": "VLAN Count > 0",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01F6EICG9OFOP1cGTLwb4UN5ImPWt2h2x9n",
+                "name": "JSONPath Query",
+                "title": "Get VLAN Details",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Get VLAN Details",
+                  "input_json": "$activity.definition_activity_01F6EIC2H3QHJ65o5bSLHoKXm3BSObFZJb9.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$..dn",
+                      "jsonpath_query_name": "DNs",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01F6EICJED5UC3P0phfxhMm13BNuKwhgOQz",
+                "name": "Set Variables",
+                "title": "Set Variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set Variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01F6EIBH9BZEX0yRQNmqXvbg0rouM7nUDns.output.variable_workflow_01F6EIBH52NDM1Mo8J4lzcoAsmEy6jzL2Om$",
+                      "variable_value_new": "$activity.definition_activity_01F6EICG9OFOP1cGTLwb4UN5ImPWt2h2x9n.output.jsonpath_queries.DNs$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01F6EO1P5FVHF0VYjlU46sRfpWjHmwJabhj",
+                "name": "Succeeded",
+                "title": "Succeeded",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "display_name": "Succeeded",
+                  "result_message": "VLAN EXISTS in ACI Fabric"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_01F6EICMGNTZK6ViGXGaCRfdpjvEwFBJRCR",
+            "name": "Condition Branch",
+            "title": "VLAN Count == 0",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_01F6EIC6PLQFD08ZBUQwCxZaYKjvbWr0XNE.output.jsonpath_queries.VLAN Count$",
+                "operator": "eq",
+                "right_operand": "0"
+              },
+              "continue_on_failure": false,
+              "display_name": "VLAN Count == 0",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01F6EICPJI1HP3Ts8T0M0w0TeBOeTjRxGzf",
+                "name": "Set Variables",
+                "title": "Set Variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set Variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01F6EIBH9BZEX0yRQNmqXvbg0rouM7nUDns.output.variable_workflow_01F6EIBH52NDM1Mo8J4lzcoAsmEy6jzL2Om$",
+                      "variable_value_new": "VLAN $workflow.definition_workflow_01F6EIBH9BZEX0yRQNmqXvbg0rouM7nUDns.input.variable_workflow_01F6EIBH52LMC15hOx8XGE8Lt5R4cDOLydo$ Not Configured in ACI Fabric"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01F6EM4TOBRN83blaccMSXRbb0QmOA0PiLI",
+                "name": "Succeeded",
+                "title": "Succeeded",
+                "type": "logic.completed",
+                "base_type": "activity",
+                "properties": {
+                  "completion_type": "succeeded",
+                  "display_name": "Succeeded",
+                  "result_message": "VLAN is not configured in ACI Fabric"
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN"
+    ]
+  },
+  "categories": {
+    "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN": {
+      "unique_name": "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN",
+      "name": "ACI",
+      "title": "ACI",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ": {
+      "unique_name": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+      "name": "ACI-01",
+      "title": "ACI-01",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "ACI-01",
+        "host": "10.237.96.201",
+        "no_runtime_user": true,
+        "port": 443,
+        "protocol": "https"
+      }
+    }
+  }
+}

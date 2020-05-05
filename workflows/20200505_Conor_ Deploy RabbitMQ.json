@@ -1,0 +1,255 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EZ3IJP5ZCO26Pey6EKGF7aAAeeDzhGBj3",
+    "name": "Conor: Deploy RabbitMQ",
+    "title": "Conor: Deploy RabbitMQ",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{\n  \"apiVersion\": \"apps/v1\",\n  \"kind\": \"Deployment\",\n  \"metadata\": {\n    \"name\": \"rabbitmq-deploy\"\n  },\n  \"spec\": {\n    \"replicas\": 1,\n    \"selector\": {\n      \"matchLabels\": {\n        \"name\": \"rabbitmq-pod\"\n      }\n    },\n    \"template\": {\n      \"metadata\": {\n        \"labels\": {\n          \"name\": \"rabbitmq-pod\"\n        }\n      },\n      \"spec\": {\n        \"restartPolicy\": \"Always\",\n        \"containers\": [\n          {\n            \"name\": \"rabbitmq-container\",\n            \"image\": \"rabbitmq:3.7.8-management\"\n          }\n        ]\n      }\n    }\n  }\n}",
+          "scope": "input",
+          "name": "Deployment",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EZ3IJP0MJ5V55AVw438qgano6je2aXTKa",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "{\n  \"apiVersion\": \"v1\",\n  \"kind\": \"Service\",\n  \"metadata\": {\n    \"name\": \"rabbitmq\"\n  },\n  \"spec\": {\n    \"type\": \"LoadBalancer\",\n    \"selector\": {\n      \"name\": \"rabbitmq-pod\"\n    },\n    \"ports\": [\n      {\n        \"protocol\": \"TCP\",\n        \"port\": 15672,\n        \"name\": \"http\"\n      },\n      {\n        \"protocol\": \"TCP\",\n        \"port\": 5672,\n        \"name\": \"amqp\"\n      }\n    ]\n  }\n}",
+          "scope": "input",
+          "name": "Service",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EZ3IJP0MKIR4aoydpUa1CPvOPyK7OaZCX",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Service IP",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EZ4J8MBQZF17akYtVA94nR8P9fG5YoiqB",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "default",
+          "scope": "input",
+          "name": "Namespace",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EZ3IJP0ME4B7X6FWSNpyRGZNTjOzNXoXr",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "input",
+          "name": "K8s Token",
+          "type": "datatype.secure_string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EZ3IJP0MHP06JYj6O0er6iL49QGagKDlY",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Conor: Deploy RabbitMQ",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EZ3IKRJCK595ZKOooil7tZoJR3qYkS1Xl",
+        "name": "HTTP Request",
+        "title": "Create Deployment",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$workflow.definition_workflow_01EZ3IJP5ZCO26Pey6EKGF7aAAeeDzhGBj3.input.variable_workflow_01EZ3IJP0MJ5V55AVw438qgano6je2aXTKa$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EZ3IJP5ZCO26Pey6EKGF7aAAeeDzhGBj3.input.variable_workflow_01EZ3IJP0MHP06JYj6O0er6iL49QGagKDlY$"
+            }
+          ],
+          "display_name": "Create Deployment",
+          "method": "POST",
+          "relative_url": "/apis/apps/v1/namespaces/$workflow.definition_workflow_01EZ3IJP5ZCO26Pey6EKGF7aAAeeDzhGBj3.input.variable_workflow_01EZ3IJP0ME4B7X6FWSNpyRGZNTjOzNXoXr$/deployments",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EZ128HDRU567MgFInmadzXbJlmbSdW8DL"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZ3IKW4QN7K6Bh2nQXhY7dBRTupfnE7YY",
+        "name": "HTTP Request",
+        "title": "Create Service",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$workflow.definition_workflow_01EZ3IJP5ZCO26Pey6EKGF7aAAeeDzhGBj3.input.variable_workflow_01EZ3IJP0MKIR4aoydpUa1CPvOPyK7OaZCX$",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EZ3IJP5ZCO26Pey6EKGF7aAAeeDzhGBj3.input.variable_workflow_01EZ3IJP0MHP06JYj6O0er6iL49QGagKDlY$"
+            }
+          ],
+          "display_name": "Create Service",
+          "method": "POST",
+          "relative_url": "/api/v1/namespaces/$workflow.definition_workflow_01EZ3IJP5ZCO26Pey6EKGF7aAAeeDzhGBj3.input.variable_workflow_01EZ3IJP0ME4B7X6FWSNpyRGZNTjOzNXoXr$/services",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EZ128HDRU567MgFInmadzXbJlmbSdW8DL"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZ3IL0X2E4R1B5k2XS1E6AElVQybejIWa",
+        "name": "HTTP Request",
+        "title": "Get Service IP",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01EZ3IJP5ZCO26Pey6EKGF7aAAeeDzhGBj3.input.variable_workflow_01EZ3IJP0MHP06JYj6O0er6iL49QGagKDlY$"
+            }
+          ],
+          "display_name": "Get Service IP",
+          "method": "GET",
+          "relative_url": "/api/v1/namespaces/$workflow.definition_workflow_01EZ3IJP5ZCO26Pey6EKGF7aAAeeDzhGBj3.input.variable_workflow_01EZ3IJP0ME4B7X6FWSNpyRGZNTjOzNXoXr$/services/rabbitmq",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EZ128HDRU567MgFInmadzXbJlmbSdW8DL"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZ3IL5E6FEO4cCibYiaehhqeLkNeqOzJx",
+        "name": "JSONPath Query",
+        "title": "JSONPath Query",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "JSONPath Query",
+          "input_json": "$activity.definition_activity_01EZ3IL0X2E4R1B5k2XS1E6AElVQybejIWa.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.status.loadBalancer.ingress[0].ip",
+              "jsonpath_query_name": "ip",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZ4JBGSZ0T37iSEV5LCtb5blcggyKTZEC",
+        "name": "Set Variables",
+        "title": "Set Variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01EZ3IJP5ZCO26Pey6EKGF7aAAeeDzhGBj3.output.variable_workflow_01EZ4J8MBQZF17akYtVA94nR8P9fG5YoiqB$",
+              "variable_value_new": "$activity.definition_activity_01EZ3IL5E6FEO4cCibYiaehhqeLkNeqOzJx.output.jsonpath_queries.ip$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01EZ128HDRU567MgFInmadzXbJlmbSdW8DL": {
+      "unique_name": "definition_target_01EZ128HDRU567MgFInmadzXbJlmbSdW8DL",
+      "name": "influx-test-k8s",
+      "title": "influx-test-k8s",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "influx-test-k8s",
+        "host": "10.237.99.22",
+        "no_runtime_user": true,
+        "port": 6443,
+        "protocol": "https"
+      }
+    }
+  }
+}

@@ -1,0 +1,487 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR",
+    "name": "ACI:InfluxDB:  Get Fault Counts by Domain",
+    "title": "ACI:InfluxDB:  Get Fault Counts by Domain",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "tabletype_01EV9J38C3J7E4B9WrfpvlyC93KrxOX7Qil",
+        "properties": {
+          "scope": "local",
+          "name": "InfluxDB Commands",
+          "type": "datatype.table",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EYOJN1YUH9Z7PLxVQPsudoKzLiS7xPkLf",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "admin",
+          "scope": "local",
+          "name": "ACI Username",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EYP0PNDDLA46yNeWroG4ZiQkg1u0rMIbc",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "local",
+          "name": "ACI Password",
+          "type": "datatype.secure_string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EYP0Y0UJOBN6M8YLo02FFUU4AfWt9FpUu",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "aci_fabric_fault_counts_by_domain",
+          "scope": "local",
+          "name": "InfluxDB measurement",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EYOJN1YUKRU50zy2ZcA07t1OBoIUgiVAS",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "UKTME",
+          "scope": "local",
+          "name": "influxDB Table Name",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EYOJN1YUMDW2e3JDVO3wQXDdc7i3IyOn1",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": true,
+      "display_name": "ACI:InfluxDB:  Get Fault Counts by Domain",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EYOZKSUCUDH368oPesIOckbTJzQKa316V",
+        "name": "HTTP Request",
+        "title": "ACI Login",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"aaaUser\":{\n    \"attributes\":{\n      \"name\":\"$workflow.definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR.local.variable_workflow_01EYP0PNDDLA46yNeWroG4ZiQkg1u0rMIbc$\",\n      \"pwd\":\"$workflow.definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR.local.variable_workflow_01EYP0Y0UJOBN6M8YLo02FFUU4AfWt9FpUu$\"\n    }\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "display_name": "ACI Login",
+          "method": "POST",
+          "relative_url": "/api/aaaLogin.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EYP1QSRFLPJ3C6g6TPGLMQ3UPVfmUCPiG",
+        "name": "JSONPath Query",
+        "title": "ACI Auth Token",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "ACI Auth Token",
+          "input_json": "$activity.definition_activity_01EYOZKSUCUDH368oPesIOckbTJzQKa316V.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.imdata[0].aaaLogin.attributes.token",
+              "jsonpath_query_name": "ACI Auth Token",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EYOJO4P1Z2F5eqaOaFTkwfRIrHD41U2Tl",
+        "name": "HTTP Request",
+        "title": "Get ACI Fault Counts by Domain",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "cookie": [
+            "APIC-Cookie=$activity.definition_activity_01EYP1QSRFLPJ3C6g6TPGLMQ3UPVfmUCPiG.output.jsonpath_queries.ACI Auth Token$"
+          ],
+          "display_name": "Get ACI Fault Counts by Domain",
+          "method": "GET",
+          "relative_url": "/api/class/faultCountsWithDetails.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EYOM2BIGHD4244yLASJxpmTnUoNB4q43P",
+        "name": "JSONPath Query",
+        "title": "JSONPath Query",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "JSONPath Query",
+          "input_json": "$activity.definition_activity_01EYOJO4P1Z2F5eqaOaFTkwfRIrHD41U2Tl.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.imdata[0].faultCountsWithDetails.attributes.crit",
+              "jsonpath_query_name": "Critical Fault Count",
+              "jsonpath_query_type": "string"
+            },
+            {
+              "jsonpath_query": "$.imdata[0].faultCountsWithDetails.attributes.maj",
+              "jsonpath_query_name": "Major Fault Count",
+              "jsonpath_query_type": "string"
+            },
+            {
+              "jsonpath_query": "$.imdata[0].faultCountsWithDetails.attributes.minor",
+              "jsonpath_query_name": "Minor Fault Count",
+              "jsonpath_query_type": "string"
+            },
+            {
+              "jsonpath_query": "$.imdata[0].faultCountsWithDetails.attributes.warn",
+              "jsonpath_query_name": "Warning Fault Count",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EYOJOPCFIGZ1uifPScdNK51QBLGHDW16n",
+        "name": "HTTP Request",
+        "title": "Write CRITICAL Count to InfluxDB",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$workflow.definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR.local.variable_workflow_01EYOJN1YUKRU50zy2ZcA07t1OBoIUgiVAS$,severity=critical fault_count=$activity.definition_activity_01EYOM2BIGHD4244yLASJxpmTnUoNB4q43P.output.jsonpath_queries.Critical Fault Count$",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Write CRITICAL Count to InfluxDB",
+          "method": "POST",
+          "relative_url": "/write?db=$workflow.definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR.local.variable_workflow_01EYOJN1YUMDW2e3JDVO3wQXDdc7i3IyOn1$&precision=s",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EXAQEXOF5AV1u7LFzUlshsHkR16SQbtik"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EYOTGXXK9JA2X2rB5UyI0r8Iik3ADAZjs",
+        "name": "HTTP Request",
+        "title": "Write MAJOR Count to InfluxDB",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$workflow.definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR.local.variable_workflow_01EYOJN1YUKRU50zy2ZcA07t1OBoIUgiVAS$,severity=major fault_count=$activity.definition_activity_01EYOM2BIGHD4244yLASJxpmTnUoNB4q43P.output.jsonpath_queries.Major Fault Count$",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Write MAJOR Count to InfluxDB",
+          "method": "POST",
+          "relative_url": "/write?db=$workflow.definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR.local.variable_workflow_01EYOJN1YUMDW2e3JDVO3wQXDdc7i3IyOn1$&precision=s",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EXAQEXOF5AV1u7LFzUlshsHkR16SQbtik"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EYOU02OAJVK25RODCfE4VYnd9eIhMt6In",
+        "name": "HTTP Request",
+        "title": "Write MINOR Count to InfluxDB",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$workflow.definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR.local.variable_workflow_01EYOJN1YUKRU50zy2ZcA07t1OBoIUgiVAS$,severity=minor fault_count=$activity.definition_activity_01EYOM2BIGHD4244yLASJxpmTnUoNB4q43P.output.jsonpath_queries.Minor Fault Count$",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Write MINOR Count to InfluxDB",
+          "method": "POST",
+          "relative_url": "/write?db=$workflow.definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR.local.variable_workflow_01EYOJN1YUMDW2e3JDVO3wQXDdc7i3IyOn1$&precision=s",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EXAQEXOF5AV1u7LFzUlshsHkR16SQbtik"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EYOUE0QBFIY4PeP03N4vNStuBbJqGVPQ2",
+        "name": "HTTP Request",
+        "title": "Write WARNING Count to InfluxDB",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$workflow.definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR.local.variable_workflow_01EYOJN1YUKRU50zy2ZcA07t1OBoIUgiVAS$,severity=warning fault_count=$activity.definition_activity_01EYOM2BIGHD4244yLASJxpmTnUoNB4q43P.output.jsonpath_queries.Warning Fault Count$",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Write WARNING Count to InfluxDB",
+          "method": "POST",
+          "relative_url": "/write?db=$workflow.definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR.local.variable_workflow_01EYOJN1YUMDW2e3JDVO3wQXDdc7i3IyOn1$&precision=s",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EXAQEXOF5AV1u7LFzUlshsHkR16SQbtik"
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn",
+      "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN"
+    ]
+  },
+  "categories": {
+    "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn": {
+      "unique_name": "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn",
+      "name": "InfluxDB",
+      "title": "InfluxDB",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    },
+    "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN": {
+      "unique_name": "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN",
+      "name": "ACI",
+      "title": "ACI",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "triggers": {
+    "triggerschedule_01EYPE72TIM6J3EmDX9FOy1eZYzVGXLZwBz": {
+      "workflow_id": "definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR",
+      "name": "Run Every 6 Minutes",
+      "title": "",
+      "lowercase_name": "schedule.run_every_6_minutes",
+      "type": "schedule",
+      "base_type": "trigger",
+      "ref_id": "schedule_01EXWC2SOWZV04bQU2TMNZg8EsJAukntewA",
+      "version": "",
+      "disabled": true,
+      "unique_name": "triggerschedule_01EYPE72TIM6J3EmDX9FOy1eZYzVGXLZwBz",
+      "object_type": "triggerschedule"
+    },
+    "triggerschedule_01F0EV0B4XXU22qynuqFEiRIhjJwjlqCvRy": {
+      "workflow_id": "definition_workflow_01EYOJN246R2S4JHMVXgnuXqDP5ecvpTNpR",
+      "name": "Every 6 Mins 24 Hrs per Day",
+      "title": "",
+      "lowercase_name": "schedule.every_6_mins_24_hrs_per_day",
+      "type": "schedule",
+      "base_type": "trigger",
+      "ref_id": "schedule_01EZRWIU52GSU5qKDLQ8XNMF9v9qqEbjhjQ",
+      "version": "1.0.0",
+      "disabled": false,
+      "unique_name": "triggerschedule_01F0EV0B4XXU22qynuqFEiRIhjJwjlqCvRy",
+      "object_type": "triggerschedule"
+    }
+  },
+  "schedules": {
+    "schedule_01EXWC2SOWZV04bQU2TMNZg8EsJAukntewA": {
+      "unique_name": "schedule_01EXWC2SOWZV04bQU2TMNZg8EsJAukntewA",
+      "name": "ACI Fabric Health Score",
+      "type": "basic.schedule",
+      "base_type": "schedule",
+      "properties": {
+        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+        "timezone": "Etc/GMT+0",
+        "starttime": "08:10",
+        "interval_hours": 0,
+        "interval_minutes": 6,
+        "number_of_times": 155,
+        "display_name": "ACI Fabric Health Score",
+        "description": ""
+      },
+      "version": "1.0.0",
+      "object_type": "schedule"
+    },
+    "schedule_01EZRWIU52GSU5qKDLQ8XNMF9v9qqEbjhjQ": {
+      "unique_name": "schedule_01EZRWIU52GSU5qKDLQ8XNMF9v9qqEbjhjQ",
+      "name": "6 Minute Intervals 24 Hours per Day",
+      "type": "basic.schedule",
+      "base_type": "schedule",
+      "properties": {
+        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+        "timezone": "Etc/GMT+0",
+        "starttime": "00:00",
+        "interval_hours": 0,
+        "interval_minutes": 6,
+        "number_of_times": 240,
+        "display_name": "6 Minute Intervals 24 Hours per Day",
+        "description": ""
+      },
+      "version": "1.0.0",
+      "object_type": "schedule"
+    }
+  },
+  "targets": {
+    "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ": {
+      "unique_name": "definition_target_01ERYWMLBFV3U1MzO1KJfTIzlmJakZBMRcJ",
+      "name": "ACI-01",
+      "title": "ACI-01",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "ACI-01",
+        "host": "10.237.96.201",
+        "no_runtime_user": true,
+        "port": 443,
+        "protocol": "https"
+      }
+    },
+    "definition_target_01EXAQEXOF5AV1u7LFzUlshsHkR16SQbtik": {
+      "unique_name": "definition_target_01EXAQEXOF5AV1u7LFzUlshsHkR16SQbtik",
+      "name": "InfluxDB",
+      "title": "InfluxDB",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "InfluxDB",
+        "host": "10.237.97.143",
+        "no_runtime_user": true,
+        "port": 8086,
+        "protocol": "http"
+      }
+    }
+  },
+  "table_types": {
+    "tabletype_01EV9J38C3J7E4B9WrfpvlyC93KrxOX7Qil": {
+      "unique_name": "tabletype_01EV9J38C3J7E4B9WrfpvlyC93KrxOX7Qil",
+      "data_type": "datatype.tabletype",
+      "display_name": "InfluxDB Commands",
+      "columns": [
+        {
+          "is_required": true,
+          "name": "Command",
+          "title": "InfluxDB Command",
+          "type": "string"
+        }
+      ],
+      "base_type": "datatype",
+      "object_type": "tabletype"
+    }
+  }
+}

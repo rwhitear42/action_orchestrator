@@ -1,0 +1,102 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EY97WNM5Y3V5oiuI7WcLNhDkRfCXdE251",
+    "name": "Conor: Write to InfluxDB Database",
+    "title": "Conor: Write to InfluxDB Database",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Database Name",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EY97WNH83GH7FOCtUyzwr74QC3N722z9I",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "aci_fabric_health,name=Leaf-101 healthscore=78",
+          "scope": "input",
+          "name": "Insert Data (Line Protocol Format)",
+          "type": "datatype.string",
+          "description": "Format as measurement,tag=tag1 field=field1",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EY97WNH809I1Z0yzEB7tEtb9VGC2aWMIh",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Conor: Write to InfluxDB Database",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EY97WXKCBW63HNTXgUT0wyyNY3lDGR7j8",
+        "name": "HTTP Request",
+        "title": "Write Record to  Influx DB",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "$workflow.definition_workflow_01EY97WNM5Y3V5oiuI7WcLNhDkRfCXdE251.input.variable_workflow_01EY97WNH809I1Z0yzEB7tEtb9VGC2aWMIh$",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "display_name": "Write Record to  Influx DB",
+          "method": "POST",
+          "relative_url": "/write?db=$workflow.definition_workflow_01EY97WNM5Y3V5oiuI7WcLNhDkRfCXdE251.input.variable_workflow_01EY97WNH83GH7FOCtUyzwr74QC3N722z9I$&precision=s",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn"
+    ]
+  },
+  "categories": {
+    "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn": {
+      "unique_name": "category_01EXAR7CLK3B26zE3eEDXb64AQJmjbJkLjn",
+      "name": "InfluxDB",
+      "title": "InfluxDB",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}

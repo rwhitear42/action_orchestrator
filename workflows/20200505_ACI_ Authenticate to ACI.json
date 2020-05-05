@@ -1,0 +1,148 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr",
+    "name": "ACI: Authenticate to ACI",
+    "title": "ACI: Authenticate to ACI",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "password",
+          "type": "datatype.secure_string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ERYY5UI5E0X1pmyX21Yaotno4QsjZJOjN",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "access_token",
+          "type": "datatype.secure_string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "username",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01ERYXKVGLXS75rsMovzwMAalAE7XgvqPs5",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": true,
+      "display_name": "ACI: Authenticate to ACI",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01ERYYO3EYNZT5RjjInRPBi3QvWD1e3UjFA",
+        "name": "HTTP Request",
+        "title": "Authenticate",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"aaaUser\":{\n    \"attributes\":{ \n      \"name\":\"$workflow.definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr.input.variable_workflow_01ERYXKVGLXS75rsMovzwMAalAE7XgvqPs5$\",\n      \"pwd\":\"$workflow.definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr.input.variable_workflow_01ERYY5UI5E0X1pmyX21Yaotno4QsjZJOjN$\"\n    }\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "display_name": "Authenticate",
+          "method": "POST",
+          "relative_url": "/api/aaaLogin.json",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ERZ0WZWIBL33TFPAqad84UxrEKBnFnTzw",
+        "name": "JSONPath Query",
+        "title": "JSONPath Query",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "JSONPath Query",
+          "input_json": "$activity.definition_activity_01ERYYO3EYNZT5RjjInRPBi3QvWD1e3UjFA.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.imdata[0].aaaLogin.attributes.token",
+              "jsonpath_query_name": "access_token",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01ERZ2DKTU8QB04tNTka8ih9GH3NeUT5rEP",
+        "name": "Set Variables",
+        "title": "Set Variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01ERYSMZHUMNQ08ZDxWZQXQensvulnNsRWr.output.variable_workflow_01ERYVLCWQUMX1AlqAg3jKO5TjtpXiKa23p$",
+              "variable_value_new": "$activity.definition_activity_01ERZ0WZWIBL33TFPAqad84UxrEKBnFnTzw.output.jsonpath_queries.access_token$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN"
+    ]
+  },
+  "categories": {
+    "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN": {
+      "unique_name": "category_01EYOKSJQL4YX74QhCQIRsRzx6jWXK06HgN",
+      "name": "ACI",
+      "title": "ACI",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}

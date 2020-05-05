@@ -1,0 +1,125 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01FCHP1FH82827gLoMfaMZbUcfGr8AG7xSr",
+    "name": "Russ:Python: YAML to JSON",
+    "title": "Russ:Python: YAML to JSON",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "apiVersion: v1\nclusters:\n- cluster:\n    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN5RENDQWJDZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJd01EUXlOREV5TXpFeE4xb1hEVE13TURReU1qRXlNekV4TjFvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBT1V6Cmh6OUY0bTY3ZTN2RDZsVVo4QzdiZk5vUnBOcHhSVTNveU1URU9xdytDK0dPM2ZQeXJKU3hMR3pEU3JXeGJUSloKZnVsS0tPNW9JYW41YnZ5NmFnL1ZrckM3bFQ4WmU1SHRBeTV2K2V6VDBUb25XNEU3YW5VZ0hoOThvM2JYYS9yWQpvME1wUjRidlEyWUNZK1U1WU9vbm9TOWJHdW5lNkhoVGp6eFNBV0I4QUIyd0JMSEF4Q091Uk5OYzFkL3RLSXVvCnhYSk1uREVldkU4c3lsVWVxT3J3MUtVQm1KUVdEc2NiU3hFYVA0bW5FUkgyeDFhWHErT29Gd3E0WnRxcmE5QXAKRHBjTWkwYjd2d21wNmhYZjF6eU5jWms3cDlRYlZHd1huUlRwV01nekhuS3I4d3liYzV6Mmd0STFLK0VzNG10NgpSanAwb0EzcUdlY1hvY3VlTWswQ0F3RUFBYU1qTUNFd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFGRStPWkZOSUQyMEgzODY3bno2SkZpbHMzTWcKK2JGTTVPdGQyYWZrczNpVyt1bkE3QUpNRW1LY0RmdnkrNXUvaHpJVTJXZ1B5QWRqM0tMS29aZGIvRUI5T05hMgpabzNxNEQzRTVoOFZjMkV2eENJcmNacThXdlNBVk1RU2pZU2UxaUg0WUw4azRkZGtXbmlPWUhBdy81clB2cXRVCmlrTDNURW01elh6TCsxeXFBRGphNFZ4QW53NCsxdW9Qd2ZKWTNwWmMrbGVNMTdCSUxFTlRSdFJYYlZLb2tvbnkKODk0MDdiL2JOZjR6RjBWYzV5V2h1cU0vZHNOQm5FaEowM3lJZHVQdG4vK0tDZzdUY1ZON1FNM0JWV2ZSbU5xawpMMzFxc3RBY1FJcS95THcxMExTOEdnWVZpd2xKTCtKdlhOMUZYbDdHSXV6cEJacWM1N0lvV3AvZzRoZz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=\n    server: https://10.237.99.122:6443\n  name: noc-test\ncontexts:\n- context:\n    cluster: noc-test\n    user: admin\n  name: admin@noc-test\ncurrent-context: admin@noc-test\nkind: Config\npreferences: {}\nusers:\n- name: admin\n  user:\n    client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM4akNDQWRxZ0F3SUJBZ0lJV1VxeFprOS9Xdk13RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TURBME1qUXhNak14TVRkYUZ3MHlNVEEwTWpReE1qTXhNVGhhTURReApGekFWQmdOVkJBb1REbk41YzNSbGJUcHRZWE4wWlhKek1Sa3dGd1lEVlFRREV4QnJkV0psY201bGRHVnpMV0ZrCmJXbHVNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXRyby84ek01elhPS1ZaaUYKdFgvRFNyc01HU1p3U2puc0Y2cWlBU2FaeVdLNXNOd1J6dERoNUlTQlF4alFqRlptaDNtU0RtVjJMWWU4cy9HOAp2ODQydjRKR1hpcVlVUVZOUlNqd3BwQ3J5a3lKSWJCQ0FMRUlhWGJaS2xkVWh1SnVpMXNreFpPcjRLcVhiTE5zCkVybVdwY2ovSnFQZWorV2x6bnB6YktZb2p0ZXB5UDRTcXcycXR5bk5sZjFwdzJ0d0d2MUFJeWh5VWZMM3RsQXEKM1J4U01rQ0hOSnppcGptRnFheXpMUDVSMjh2L3pFNHN0VDBpaFB4UzNpWVZtK3dmRTA2V0hSSmdTUmdQZ3VCdgo4UFZmbWFYS2NET3NBVW9zcE1YTWlHZ0hmWlMrNzlUbWhHRkpBMFlZZWhObk1CL0FHS21OTURXdHpVU2pZTU1QCmp0dytUd0lEQVFBQm95Y3dKVEFPQmdOVkhROEJBZjhFQkFNQ0JhQXdFd1lEVlIwbEJBd3dDZ1lJS3dZQkJRVUgKQXdJd0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFMUUxBelRCalk5UFlHaWpZWXZQYVp1a2pJdTczbnZ4ODVmKwprbUFmYitOWnN2NTNpTFlYT2lQdVo1UHVRaXRkQldlU2luVU85UEZhK3NtN0k5anBpYTFKZXNZSWt4VGtJMDU4ClM0ZWNFR2pZZ3kyNmdvU2c0a2tYK2diT2lIRURUNEZlV09lK2JxOUlYL1NtMVlYbGR5Sm5xOWIzdDIwZ3NVVVUKMVQ2NWtiWUpMZnRTcnlyc1lpMWl5SFZ3VjczS0lMUS93OUdUZzZSek80VS9RQ3RzZEU4YmZaN2N3MVVYNnluUQpDell4bVl1c2FIYWlZcVcvelVDdWRFZjJDM2I3eG9tcm0xRkthNFVWejQrajJvemtGV3UwOUNJQVhkeTJFRmd4CjhSRzhQdTU4ZVN6Tk1DVnQyUGE1bXhSakI0NW9ibytBaDRyUEdXVEVqVGYxbUlLS3ZRQT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=\n    client-key-data: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBdHJvLzh6TTV6WE9LVlppRnRYL0RTcnNNR1Nad1NqbnNGNnFpQVNhWnlXSzVzTndSCnp0RGg1SVNCUXhqUWpGWm1oM21TRG1WMkxZZThzL0c4djg0MnY0SkdYaXFZVVFWTlJTandwcENyeWt5SkliQkMKQUxFSWFYYlpLbGRVaHVKdWkxc2t4Wk9yNEtxWGJMTnNFcm1XcGNqL0pxUGVqK1dsem5wemJLWW9qdGVweVA0UwpxdzJxdHluTmxmMXB3MnR3R3YxQUl5aHlVZkwzdGxBcTNSeFNNa0NITkp6aXBqbUZxYXl6TFA1UjI4di96RTRzCnRUMGloUHhTM2lZVm0rd2ZFMDZXSFJKZ1NSZ1BndUJ2OFBWZm1hWEtjRE9zQVVvc3BNWE1pR2dIZlpTKzc5VG0KaEdGSkEwWVllaE5uTUIvQUdLbU5NRFd0elVTallNTVBqdHcrVHdJREFRQUJBb0lCQUE1M3ZycDkwdFRPa2lSbQoyQ2RmdjFHNmI2SEtKbGZxTUNSTGtWb3YrVHMxd3VnYTlKb0FkZkpHLzRrVmZPV3ZyWnlLWnFNWEszMDlZeGFJClRGNlBjRXhIZjFUVFlJNEJzbldJWVUxKzVPczJsaUVCdUtnZlhFQWxkZHBoWWNMd1NMcGw5QXBrdjlZaEM2NUMKb29yMUFOV05qWTQ4cVZHUmFFaHA3NXVwcUVwdTdMVHVla0NvU2NOSEJQaEVnY2pYMG1TbThKeURzeW1qSzVKQgp6d0FvdmwxV0Ftc0FWelFoMGhlUUIrQTFxdEcwa0hWdUwzdE9aOEYwV01MU05JVHRrczNYRmlZMFJJMGJyOWMvClEzSUN0bWVYRVVBWVJjdmNBQUlFL21UN1k0Q09vcHlrejRuY1NrRkJwNjJrWW9RU1drQ09TTHE3bEVTOVZUVjkKWWVSQnFja0NnWUVBMnd2bUZFbU5QK212cVRSODBqVlNZdi94Sy8rY3c0V0pkWjQ0Y1FmTkZrSTN1Q1IrbVN0Zwp0VzZQU0JjK25NcjI5Qi9VQkdRVHdQQm1SZzlEMzd3b0g0U0VKckQrUGVvcDNFZ25SZUJWNWpsWTZISWVFYytCClVVelhscW10d1hWSDVBSU4zNVJON0hZKzg2b1FDNkFCc3pFQUFQMExYZ21BblRZajI2bkR3elVDZ1lFQTFZM1MKVXNsZjd4ZHc5QjN3WWdKWjBRcWFKcDM2NW02UGI4VUsvQmVIcGM2UkZhazNsZm12dE1nYjBXVG5xdFhDVnVqNgp4MHpHd2RjVnQvNGwrdWw2NVpaTGk3bm9ycHl2c2V6ZUNHZWtiNzJySHVuVXlBVXlHRjY5R2Y4emFyRHJ3VndGClIyOWVaUUp6TU9LUFhPdjhZMHVXdktWcEJEZUdqaGZ4ckJmVmgvTUNnWUJWcVNDUDNIZWxmK0NYSGhTV0xBNE0KOHlSQVhaVFRqWHhGQjl2d3IrbFBCQlJBS2Qxc1R0OWg5RnVLQ0xVT29melRXVU1UZUlPVkZ5NFh4YzU0UjErMQplNkFtZFY3bm5aUkROZUJOM2o0WmEySE9mUm92UXVQQ2hIZG16dkpKVG5FUHhKSGlWbC9tMGhNcVBONUxmWVpNCnFpUGpQeEhiODRGZGVaZXFSb2hzNVFLQmdRQ3dzTGJrYUZsSHFVMTdyWW5HamN0aWVqTXc0R1ZIWXhLcWw0MlAKSnFqRk56UXpoOTdGNStESTR3aWhKNnZHWFRaK1VpV3I0SXBTdDNMdzJRYnpvMXBidXc2bWZSdFgzYXhBdW9xNgp5WVgwTGluM1dlRUQzY2lsQVQzVTFLSG1GSnY3VC9mT013Y1c3QUFDNG5GYm9LVWlRdGhsSFRiV2xscHVGc0dPCmNlbnFvUUtCZ1FDN1k1MXd5YXBlQXREdG4zeHNGenJ2WVRaK1JlTlJrSWQwZnhrOGdML1pEVFZLMkE2d3VQS3oKVFo3WXBlL1hMTURoMGVsVFZCZXZPRjVUVW0yOVB5Y2t3aGMvY2dJNFNZSnpoTGV6M01qeGxua3VFcVVCTDlwTwprYk1DYnBZREdDNzJUdVBMcVJrTUQwNnBDV1crTnBjaVNScWxJeHBSZHhlVkhnWHVzS1A1SkE9PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=",
+          "scope": "local",
+          "name": "YAML",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FCHPO4N6KWZ1MeK908Kp0dTk3myF62r8b",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "JSON",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01FCHPUKHBRQL0NFPFbujlusciY5jOgQW9k",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Russ:Python: YAML to JSON",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01FCHPBH8SO2I6NbhxVJesMg6r7KE6aXgAU",
+        "name": "Execute Python Script",
+        "title": "Execute Python Script",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Execute Python Script",
+          "script": "import sys\nimport yaml\nimport json\n\nyaml_str = \"\"\"\n$workflow.definition_workflow_01FCHP1FH82827gLoMfaMZbUcfGr8AG7xSr.local.variable_workflow_01FCHPO4N6KWZ1MeK908Kp0dTk3myF62r8b$\n\"\"\"\n\ny = yaml.load(yaml_str)\n\njson_out = json.dumps(y)",
+          "script_queries": [
+            {
+              "script_query": "json_out",
+              "script_query_name": "JSON Output",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCIGTR55ISZ4haFitKFfxSJLnH2qglgZt",
+        "name": "JSONPath Query",
+        "title": "JSONPath Query",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "JSONPath Query",
+          "input_json": "$activity.definition_activity_01FCHPBH8SO2I6NbhxVJesMg6r7KE6aXgAU.output.script_queries.JSON Output$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.clusters[0].cluster.server",
+              "jsonpath_query_name": "Server",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01FCJ12V7AVSP5IO6lkp8Hb3IzRsGegFvkC",
+        "name": "Execute Python Script",
+        "title": "Execute Python Script",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Execute Python Script",
+          "script": "import re\n\nipaddr = re.sub('https://(.*):6443','\\\\1','$activity.definition_activity_01FCIGTR55ISZ4haFitKFfxSJLnH2qglgZt.output.jsonpath_queries.Server$')",
+          "script_queries": [
+            {
+              "script_query": "ipaddr",
+              "script_query_name": "Server IP Address",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EJDK040KH215kGS3FxqCOMx4frjVqx9qN",
+    "name": "AWS Test",
+    "title": "AWS Test",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": null,
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "AWS Test",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "aws.endpoint",
+        "target_id": "definition_target_01EJDIZWIQ1MS3UNtnH2IZmQLrx0IoGflQ4",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EJDK0E75I2K3kIYZqZ1Mhp1sDYTxPcYex",
+        "name": "Create VPC",
+        "title": "Create VPC",
+        "type": "aws.create_vpc",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "amazon_provided_ipv6_cidr_block": false,
+          "cidr_block": "10.0.1.0/24",
+          "continue_on_failure": false,
+          "display_name": "Create VPC",
+          "name_tag": "test_VPC",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01EJDIZWIQ1MS3UNtnH2IZmQLrx0IoGflQ4": {
+      "unique_name": "definition_target_01EJDIZWIQ1MS3UNtnH2IZmQLrx0IoGflQ4",
+      "name": "AWS eu-west-2 (London)",
+      "title": "AWS eu-west-2 (London)",
+      "type": "aws.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_01EJDHY84SSAI3YLQbGzxAQImezz76pEuFa",
+        "display_name": "AWS eu-west-2 (London)",
+        "region": "eu-west-2"
+      }
+    }
+  },
+  "runtime_users": {
+    "definition_runtime_user_01EJDHY84SSAI3YLQbGzxAQImezz76pEuFa": {
+      "unique_name": "definition_runtime_user_01EJDHY84SSAI3YLQbGzxAQImezz76pEuFa",
+      "name": "Russ Whitear AWS",
+      "title": "Russ Whitear AWS",
+      "type": "runtime_user.aws_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "access_key": "*****",
+        "description": "Russ' AWS account.",
+        "display_name": "Russ Whitear AWS",
+        "secret_key": "*****"
+      }
+    }
+  }
+}

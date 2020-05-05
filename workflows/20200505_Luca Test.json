@@ -1,0 +1,87 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01FBKDISP3UZ64jG7FTGhusfewkxMWzjIQj",
+    "name": "Luca Test",
+    "title": "Luca Test",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": null,
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Luca Test",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01FBKECFZY2S218OIytwvQVjZVjZJazIwSF",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01FBKDOSHZ3PO4ZbPa6Z9MCSXRBUCiXXL6x",
+        "name": "HTTP Request",
+        "title": "HTTP Request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": false,
+          "body": "--blarg\nContent-Disposition: form-data; name=\"Username\"\n\nCCS_LAB\\ccs.admin\n--blarg\nContent-Disposition: form-data; name=\"Password\"\n\nCCSl4bVCSP2020!\n--blarg--",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Content-Type",
+              "value": "multipart/form-data; boundary=blarg"
+            }
+          ],
+          "display_name": "HTTP Request",
+          "method": "POST",
+          "relative_url": "/api/v3/authentication/usernamepassword/",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01FBKECFZY2S218OIytwvQVjZVjZJazIwSF": {
+      "unique_name": "definition_target_01FBKECFZY2S218OIytwvQVjZVjZJazIwSF",
+      "name": "VeeamHost",
+      "title": "VeeamHost",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "VeeamHost",
+        "host": "vac.multicloudservices.it",
+        "no_runtime_user": true,
+        "port": 1280,
+        "protocol": "https"
+      }
+    }
+  }
+}

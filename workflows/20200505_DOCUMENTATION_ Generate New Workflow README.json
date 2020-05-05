@@ -1,0 +1,468 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz",
+    "name": "DOCUMENTATION: Generate New Workflow README",
+    "title": "DOCUMENTATION: Generate New Workflow README",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Formatted - Workflow Outputs",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01F6JGUIC252B7CglZ06OGRBn7pthG59IXp",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Testing description",
+          "scope": "input",
+          "name": "Workflow Description",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01F6IUP5PFO9O4JgS3RTfvk3W6tlFGi8uv7",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "5.1, 5.2",
+          "scope": "input",
+          "name": "Action Orchestrator Compatibility",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01F6IUXECDZOV4fUPwMGFo1HNaTMjZQgKBI",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "conmurph@cisco.com",
+          "scope": "input",
+          "name": "Workflow Author",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01F6IU5GDYIA97aYAK7b4bOJldl1pvZvTWi",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "ACI Username, ACI Password",
+          "scope": "input",
+          "name": "Workflow Inputs",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01F6IW293VFYV0nbIwfatO4JXTDz9radleM",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "ACI APIC URL",
+          "scope": "input",
+          "name": "Target Requirements",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01F6IV9CK4FSS5NcIm30hCoBAZvD0MklSTm",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Formatted - Workflow Inputs",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01F6JGMZKY2OA1rY3VuMbIVA1ovB6F9mjWV",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Formatted - Version Compatibility",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01F6J3RBBVGA21yZJRLlpOYJEN3ki8A6QBw",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Title of my workflow",
+          "scope": "input",
+          "name": "Workflow Title",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01F6IUJ6Z7GBD5m8CLco0xSQTQ06SAjyKBr",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Formatted - Targets",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01F6JGZUWLHUS1JpoRp1vCUMkduoD3M5psG",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Confirmation or failure message\n",
+          "scope": "input",
+          "name": "Workflow Outputs",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01F6IWA75XKY44IkWwlIJ8Pj9uvXV2mnfjE",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "# ###TITLE###\n\n###DESCRIPTION###\n\n## Author\n\n###AUTHOR###\n\n## Action Orchestrator Compatibility\n\n###COMPATIBILITY###\n\n## Target Requirements\n\n###TARGET_REQUIREMENTS###\n\n## Workflow Inputs\n\n###INPUTS###\n\n## Workflow Outputs\n\n###OUTPUTS###\n\n### License\n\nThis project is licensed to you under the terms of the [Cisco Sample Code License](https://github.com/conmurphy/cleur-devnet-1069/blob/master/LICENSE).",
+          "scope": "local",
+          "name": "README Template",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01F6IXILC15WM0kzclJInJedUAVW3aoWaRM",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "This outputs a README document for a workflow based on some user input. ",
+      "display_name": "DOCUMENTATION: Generate New Workflow README",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01F6J08ELO5KG5g4rX4E9YgJ7e3n6fBVW1I",
+        "name": "Split String",
+        "title": "Split Version Compatibility",
+        "type": "core.splitstring",
+        "base_type": "activity",
+        "properties": {
+          "boundaries": [
+            {
+              "boundary": ","
+            }
+          ],
+          "continue_on_failure": false,
+          "display_name": "Split Version Compatibility",
+          "input_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.input.variable_workflow_01F6IUXECDZOV4fUPwMGFo1HNaTMjZQgKBI$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6J1SMYFPBS3eo0NkyEdWFc4aKZDkzxmU",
+        "name": "For Each",
+        "title": "For Each",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For Each",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01F6J08ELO5KG5g4rX4E9YgJ7e3n6fBVW1I.output.parts$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01F6JMJYOD36009VCsmghuKPU9v0BGd3jmb",
+            "name": "Trim String",
+            "title": "Trim String",
+            "type": "core.trim_string",
+            "base_type": "activity",
+            "properties": {
+              "characters_to_trim": " ",
+              "continue_on_failure": false,
+              "display_name": "Trim String",
+              "skip_execution": false,
+              "source": "$activity.definition_activity_01F6J1SMYFPBS3eo0NkyEdWFc4aKZDkzxmU.input.source_array[@]$",
+              "trim_leading": true,
+              "trim_trailing": true
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_01F6J26MWPZNG6CJpoVmHEvFfVDRqZzaCXs",
+            "name": "Set Variables",
+            "title": "Concatenate compatibility string",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Concatenate compatibility string",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6J3RBBVGA21yZJRLlpOYJEN3ki8A6QBw$",
+                  "variable_value_new": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6J3RBBVGA21yZJRLlpOYJEN3ki8A6QBw$ * $activity.definition_activity_01F6JMJYOD36009VCsmghuKPU9v0BGd3jmb.output.trimmed$  \n"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01F6J14FS0NOP4Jp3S0MUo3cKzaDNLyIAP2",
+        "name": "Split String",
+        "title": "Split Inputs",
+        "type": "core.splitstring",
+        "base_type": "activity",
+        "properties": {
+          "boundaries": [
+            {
+              "boundary": ","
+            }
+          ],
+          "continue_on_failure": false,
+          "display_name": "Split Inputs",
+          "input_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.input.variable_workflow_01F6IW293VFYV0nbIwfatO4JXTDz9radleM$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6JG4319YC411xYNa97Nu8HGoiKj6AjYy",
+        "name": "For Each",
+        "title": "For Each",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For Each",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01F6J14FS0NOP4Jp3S0MUo3cKzaDNLyIAP2.output.parts$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01F6JG44L9YJC0ogrO5C88paCFePsGhq8Lf",
+            "name": "Set Variables",
+            "title": "Concatenate workflow inputs  string",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Concatenate workflow inputs  string",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6JGMZKY2OA1rY3VuMbIVA1ovB6F9mjWV$",
+                  "variable_value_new": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6JGMZKY2OA1rY3VuMbIVA1ovB6F9mjWV$ * $activity.definition_activity_01F6JG4319YC411xYNa97Nu8HGoiKj6AjYy.input.source_array[@]$\n"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01F6J1AIJPCCV10HYKSDwO3LXdf0BS4CP5y",
+        "name": "Split String",
+        "title": "Split Outputs",
+        "type": "core.splitstring",
+        "base_type": "activity",
+        "properties": {
+          "boundaries": [
+            {
+              "boundary": ","
+            }
+          ],
+          "continue_on_failure": false,
+          "display_name": "Split Outputs",
+          "input_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.input.variable_workflow_01F6IWA75XKY44IkWwlIJ8Pj9uvXV2mnfjE$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6JIO7TLADR3zqGV4Peia5h8IT7pxurJF",
+        "name": "For Each",
+        "title": "For Each",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For Each",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01F6J1AIJPCCV10HYKSDwO3LXdf0BS4CP5y.output.parts$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01F6JIO9IK3E71PBDGJONhFMH0h6IylEHzD",
+            "name": "Set Variables",
+            "title": "Concatenate workflow outputs  string",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Concatenate workflow outputs  string",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6JGUIC252B7CglZ06OGRBn7pthG59IXp$",
+                  "variable_value_new": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6JGUIC252B7CglZ06OGRBn7pthG59IXp$ * $activity.definition_activity_01F6JIO7TLADR3zqGV4Peia5h8IT7pxurJF.input.source_array[@]$  \n"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01F6J1I82FNW85ShSnlkg4cxe7ATvcJkbfC",
+        "name": "Split String",
+        "title": "Split Targets",
+        "type": "core.splitstring",
+        "base_type": "activity",
+        "properties": {
+          "boundaries": [
+            {
+              "boundary": ","
+            }
+          ],
+          "continue_on_failure": false,
+          "display_name": "Split Targets",
+          "input_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.input.variable_workflow_01F6IV9CK4FSS5NcIm30hCoBAZvD0MklSTm$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F6JJ9MARQU16xcTSbRSBdCx7JIG06yCxa",
+        "name": "For Each",
+        "title": "For Each",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For Each",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01F6J1I82FNW85ShSnlkg4cxe7ATvcJkbfC.output.parts$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01F6JJ9NS60PN5DzX2n5AK1dFKd05bZabkg",
+            "name": "Set Variables",
+            "title": "Concatenate workflow targets  string",
+            "type": "core.set_multiple_variables",
+            "base_type": "activity",
+            "properties": {
+              "continue_on_failure": false,
+              "display_name": "Concatenate workflow targets  string",
+              "skip_execution": false,
+              "variables_to_update": [
+                {
+                  "variable_to_update": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6JGZUWLHUS1JpoRp1vCUMkduoD3M5psG$",
+                  "variable_value_new": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6JGZUWLHUS1JpoRp1vCUMkduoD3M5psG$ * $activity.definition_activity_01F6JJ9MARQU16xcTSbRSBdCx7JIG06yCxa.input.source_array[@]$  \n"
+                }
+              ]
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_01F6IY2PBRV8G1fr1DVazfXAL2AwLUOT5tr",
+        "name": "Replace String",
+        "title": "Replace String",
+        "type": "core.replacestring",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Replace String",
+          "input_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6IXILC15WM0kzclJInJedUAVW3aoWaRM$",
+          "replace_list": [
+            {
+              "replaced_string": "###TITLE###",
+              "replacement_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.input.variable_workflow_01F6IUJ6Z7GBD5m8CLco0xSQTQ06SAjyKBr$"
+            },
+            {
+              "replaced_string": "###AUTHOR###",
+              "replacement_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.input.variable_workflow_01F6IU5GDYIA97aYAK7b4bOJldl1pvZvTWi$"
+            },
+            {
+              "replaced_string": "###DESCRIPTION###",
+              "replacement_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.input.variable_workflow_01F6IUP5PFO9O4JgS3RTfvk3W6tlFGi8uv7$"
+            },
+            {
+              "replaced_string": "###TARGET_REQUIREMENTS###",
+              "replacement_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6JGZUWLHUS1JpoRp1vCUMkduoD3M5psG$"
+            },
+            {
+              "replaced_string": "###COMPATIBILITY###",
+              "replacement_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6J3RBBVGA21yZJRLlpOYJEN3ki8A6QBw$"
+            },
+            {
+              "replaced_string": "###INPUTS###",
+              "replacement_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6JGMZKY2OA1rY3VuMbIVA1ovB6F9mjWV$"
+            },
+            {
+              "replaced_string": "###OUTPUTS###",
+              "replacement_string": "$workflow.definition_workflow_01F6IT8EV7L771yTYlnugzMZLrLbyQbiPXz.local.variable_workflow_01F6JGUIC252B7CglZ06OGRBn7pthG59IXp$"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01F8HFAVJ2LCX3xYakKPdndwaI2PI2UtOEe"
+    ]
+  },
+  "categories": {
+    "category_01F8HFAVJ2LCX3xYakKPdndwaI2PI2UtOEe": {
+      "unique_name": "category_01F8HFAVJ2LCX3xYakKPdndwaI2PI2UtOEe",
+      "name": "Documentation",
+      "title": "Documentation",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}

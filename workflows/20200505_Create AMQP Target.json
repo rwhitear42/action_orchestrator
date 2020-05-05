@@ -1,0 +1,149 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EZQ95O8AUIN36CbXw7QfpRQwYP5H9y58w",
+    "name": "Create AMQP Target",
+    "title": "Create AMQP Target",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "RabbitMQ",
+          "scope": "input",
+          "name": "Target Name",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EZQ95O35RWF4W1zjyMCmRkOX2MNy5VgnY",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 5672,
+          "scope": "input",
+          "name": "Target Port",
+          "type": "datatype.integer",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EZQKMEH15SH4Ff6Z8rJm0biRAe4L3O6RA",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Target IP Address",
+          "type": "datatype.string",
+          "is_required": true
+        },
+        "unique_name": "variable_workflow_01EZQMI3D19BK7jgCR5x0O1y3iGMEsSWh7T",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Target Id",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01EZQRIT09KXF6UKonrqVTgwIwYB1UgzBTN",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Create AMQP Target",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EZQ96SB5OBH5lwHkKZyeVumAsv79m1oDB",
+        "name": "Generic CCS API Request",
+        "title": "Update Target IP",
+        "type": "ccs.api_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "api_body": "{\n\t\"name\": \"$workflow.definition_workflow_01EZQ95O8AUIN36CbXw7QfpRQwYP5H9y58w.input.variable_workflow_01EZQ95O35RWF4W1zjyMCmRkOX2MNy5VgnY$\",\n\t\"title\": \"$workflow.definition_workflow_01EZQ95O8AUIN36CbXw7QfpRQwYP5H9y58w.input.variable_workflow_01EZQ95O35RWF4W1zjyMCmRkOX2MNy5VgnY$\",\n\t\"properties\": {\n\t\t\"ignore_certificate_errors\": true,\n\t\t\"port\": $workflow.definition_workflow_01EZQ95O8AUIN36CbXw7QfpRQwYP5H9y58w.input.variable_workflow_01EZQKMEH15SH4Ff6Z8rJm0biRAe4L3O6RA$,\n\t\t\"ssl_enabled\": false,\n\t\t\"vhost\": \"/\",\n\t\t\"display_name\": \"$workflow.definition_workflow_01EZQ95O8AUIN36CbXw7QfpRQwYP5H9y58w.input.variable_workflow_01EZQ95O35RWF4W1zjyMCmRkOX2MNy5VgnY$\",\n\t\t\"default_runtime_user_id\": \"01EZ3Y14LUTDY22EK522tYLfRx5SK94uu9H\",\n\t\t\"host\": \"$workflow.definition_workflow_01EZQ95O8AUIN36CbXw7QfpRQwYP5H9y58w.input.variable_workflow_01EZQMI3D19BK7jgCR5x0O1y3iGMEsSWh7T$\"\n\t},\n\t\"schema_id\": \"01EIZLB43XBR65gnznvUPE0wFIp3EaivLKE\"\n}",
+          "api_call_method": "POST",
+          "continue_on_failure": false,
+          "display_name": "Update Target IP",
+          "relative_url": "/be-console/api/v1/targets",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01f9IQgvQRJv3tvlqwR145Bbrye0toH0Q"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZQRO1VVC415s1L5y7yBy2WAjSuTZpKyc",
+        "name": "JSONPath Query",
+        "title": "JSONPath Query",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "JSONPath Query",
+          "input_json": "$activity.definition_activity_01EZQ96SB5OBH5lwHkKZyeVumAsv79m1oDB.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.id",
+              "jsonpath_query_name": "id",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01EZQRLXK7U5V4AwipzlooIFnGqr0YfT43Q",
+        "name": "Set Variables",
+        "title": "Set Variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01EZQ95O8AUIN36CbXw7QfpRQwYP5H9y58w.output.variable_workflow_01EZQRIT09KXF6UKonrqVTgwIwYB1UgzBTN$",
+              "variable_value_new": "$activity.definition_activity_01EZQRO1VVC415s1L5y7yBy2WAjSuTZpKyc.output.jsonpath_queries.id$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

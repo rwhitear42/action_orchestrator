@@ -1,0 +1,94 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01EZQYQNMR2ER4usHpNnDFG2tsxXed2jgD3",
+    "name": "Conor: AMQP: AMQP Publish Message",
+    "title": "Conor: AMQP: AMQP Publish Message",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": null,
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Conor: AMQP: AMQP Publish Message",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01EZQZ05RGVTH5HBtSDqFgxPpPmn7jlKA7T",
+        "name": "Publish AMQP Message",
+        "title": "Publish AMQP Message",
+        "type": "amqp.publish_message",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "body": "sent by AO",
+          "continue_on_failure": false,
+          "delivery_mode": 1,
+          "display_name": "Publish AMQP Message",
+          "exchange_name": "pvt",
+          "routing_key": "pvt",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01EZQU6Z18LTY30vNacc4gEPoWMjnvkLiYn"
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01EZQU6Z18LTY30vNacc4gEPoWMjnvkLiYn": {
+      "unique_name": "definition_target_01EZQU6Z18LTY30vNacc4gEPoWMjnvkLiYn",
+      "name": "RabbitMQ",
+      "title": "RabbitMQ",
+      "type": "amqp.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_01EZ3Y14YS2LX68z10jRN622U7CyuhCfgFt",
+        "display_name": "RabbitMQ",
+        "host": "10.237.99.27",
+        "ignore_certificate_errors": true,
+        "port": 5672,
+        "ssl_enabled": false,
+        "vhost": "/"
+      }
+    }
+  },
+  "runtime_users": {
+    "definition_runtime_user_01EZ3Y14YS2LX68z10jRN622U7CyuhCfgFt": {
+      "unique_name": "definition_runtime_user_01EZ3Y14YS2LX68z10jRN622U7CyuhCfgFt",
+      "name": "RabbitMQ",
+      "title": "RabbitMQ",
+      "type": "runtime_user.amqp_password_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "display_name": "RabbitMQ",
+        "password": "*****",
+        "username": "*****"
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01FGV094COHIR3uojHMa7Lk9mokRU0liXVx",
+    "name": "PDNS: Get Zones",
+    "title": "PDNS: Get Zones",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": null,
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "PDNS: Get Zones",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01FGV05VH3LYB0fUkwXw8Cfg5Zz5Hgqqb6s",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01FGV0GJCJK7O041PxqjGeU2KzvO9lmhDc8",
+        "name": "HTTP Request",
+        "title": "Get DNS Zone Info",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "X-API-Key",
+              "value": "cisco123"
+            }
+          ],
+          "display_name": "Get DNS Zone Info",
+          "method": "GET",
+          "relative_url": "/api/v1/servers/localhost/zones/uktme.cisco.com.",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01FGV05VH3LYB0fUkwXw8Cfg5Zz5Hgqqb6s": {
+      "unique_name": "definition_target_01FGV05VH3LYB0fUkwXw8Cfg5Zz5Hgqqb6s",
+      "name": "ns1.uktme.cisco.com",
+      "title": "ns1.uktme.cisco.com",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "ns1.uktme.cisco.com",
+        "host": "10.237.97.134",
+        "no_runtime_user": true,
+        "port": 8081,
+        "protocol": "http"
+      }
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01ER895C969LL4SQC0S8H0Fz2zrgQP7Rtms",
+    "name": "MULTIPLY (a,b)",
+    "title": "MULTIPLY (a,b)",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "input",
+          "name": "a",
+          "type": "datatype.integer",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ER8AA0OLW3912NfI4Y59O6roxPmzkzQB7",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "input",
+          "name": "b",
+          "type": "datatype.integer",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ER8AHHG9C0B0Eo9plrTcsunGiNKfai8Ku",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.integer",
+        "properties": {
+          "value": 0,
+          "scope": "output",
+          "name": "Result",
+          "type": "datatype.integer",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01ER8EK74HQ034gqUHDHiPyONXnzZ32N8Mv",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "MULTIPLY (a,b)",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01ER897CCTH7N389wT56dvSEbi0x9zf7M16",
+        "name": "Execute Python Script",
+        "title": "Execute Python Script",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Execute Python Script",
+          "script": "import sys\n\nresult =  int(sys.argv[1])  * int(sys.argv[2])",
+          "script_arguments": [
+            "$workflow.definition_workflow_01ER895C969LL4SQC0S8H0Fz2zrgQP7Rtms.input.variable_workflow_01ER8AA0OLW3912NfI4Y59O6roxPmzkzQB7$",
+            "$workflow.definition_workflow_01ER895C969LL4SQC0S8H0Fz2zrgQP7Rtms.input.variable_workflow_01ER8AHHG9C0B0Eo9plrTcsunGiNKfai8Ku$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "result",
+              "script_query_name": "result",
+              "script_query_type": "integer"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  }
+}

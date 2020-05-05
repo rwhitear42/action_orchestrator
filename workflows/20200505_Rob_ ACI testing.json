@@ -1,0 +1,131 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01F8FHS1VMP5K29hPmGrV3MRT1Z43HRsa6b",
+    "name": "Rob: ACI testing",
+    "title": "Rob: ACI testing",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "local",
+          "name": "apic-amslab-admin-pw",
+          "type": "datatype.secure_string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01F8FK8TSMWRX67Pqe4U1FvefvEMV42L5mz",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "admin",
+          "scope": "local",
+          "name": "apic-amslab-admin-user",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_01F8IK9CDNL0J3E756AVg55HJ3GPJZzTZ2m",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Rob: ACI testing",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01F8FM9MZ0TV654U0Od1gRZdx2GmieMBq4w",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01F8FI2URRCPB5ci5Rep39Z3LIl9Nqk0foc",
+        "name": "Get Access Token",
+        "title": "Get Access Token",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Get Access Token",
+          "input": {
+            "variable_workflow_01gRbBzC6y65ilW690WbXhKOxVVEFAWak": "$workflow.definition_workflow_01F8FHS1VMP5K29hPmGrV3MRT1Z43HRsa6b.local.variable_workflow_01F8IK9CDNL0J3E756AVg55HJ3GPJZzTZ2m$",
+            "variable_workflow_01gRbcbVNXvwNc0xy6oSxfLv1IMlF4e8W": "$workflow.definition_workflow_01F8FHS1VMP5K29hPmGrV3MRT1Z43HRsa6b.local.variable_workflow_01F8FK8TSMWRX67Pqe4U1FvefvEMV42L5mz$"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "target_type": "01F6AZZCZQMYV5YD2s1AXuuoc1fiP4LLJEu",
+            "use_workflow_target": true
+          },
+          "workflow_id": "definition_workflow_01gRBIJ4lT0J8qCi0CcrG0bvgGO8oehuN"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01F8IGK2RDY182oeo6NE5QndoPKBdTvjHZ7",
+        "name": "Create Tenant",
+        "title": "Create Tenant",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Create Tenant",
+          "input": {
+            "variable_workflow_01gT1eyO4nbqZgpue94dU70UcFBp7AyZW": "CCS",
+            "variable_workflow_01gsnF9Reqp3eXbZHWnp4iGqNuaeAP2Gd": "$activity.definition_activity_01F8FI2URRCPB5ci5Rep39Z3LIl9Nqk0foc.output.variable_workflow_01gRbEjEFEdeUwHe8H3oRrxdlHMSlQvFD$",
+            "variable_workflow_01gsnt2Y71XcG6yui8wJQbvu0uOfUad8y": "$activity.definition_activity_01F8FI2URRCPB5ci5Rep39Z3LIl9Nqk0foc.output.variable_workflow_01gRCX1ylwvVGzqIKjoLIg04d3smgS7fS$"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "target_type": "01F6AZZCZQMYV5YD2s1AXuuoc1fiP4LLJEu",
+            "use_workflow_target": true
+          },
+          "workflow_id": "definition_workflow_01gSZhunoTp5AEnITcXSV7ryRFS6i2pCG"
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01F8FM9MZ0TV654U0Od1gRZdx2GmieMBq4w": {
+      "unique_name": "definition_target_01F8FM9MZ0TV654U0Od1gRZdx2GmieMBq4w",
+      "name": "APIC-AMSLAB",
+      "title": "APIC-AMSLAB",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": true,
+        "display_name": "APIC-AMSLAB",
+        "host": "10.61.124.32",
+        "no_runtime_user": true,
+        "port": 443,
+        "protocol": "https"
+      }
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_01gRBIJ4lT0J8qCi0CcrG0bvgGO8oehuN",
+    "definition_workflow_01gSZhunoTp5AEnITcXSV7ryRFS6i2pCG"
+  ]
+}
